@@ -222,7 +222,7 @@ function zpravaChyby(e, vlastni) {
     case "ESOCKET":
     case "ETLS":
       return vlastni
-        ? "Nepodařilo se spojit se serverem SMTP. Zkontrolujte adresu a port."
+        ? `Nepodařilo se spojit se serverem SMTP (${e.code}). Zkontrolujte adresu a port.`
         : "Poštovní server služby není dostupný. Zkuste to později.";
   }
   return `Poštovní server zprávu nepřijal${e?.responseCode ? ` (kód ${e.responseCode})` : ""}. Zkuste to později.`;
