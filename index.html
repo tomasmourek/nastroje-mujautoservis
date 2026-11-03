@@ -37,6 +37,90 @@
         max-inline-size: var(--at-layout-text-max);
         margin: 0 0 var(--at-space-3);
       }
+
+      /* Přepínač motivu převzatý z archiv.mujautoservis.eu. Výplň drážky má vlastní barvu
+         (modrá tmavý, zelená světlý), protože ukazuje režim, ne paletu lišty. */
+      .prepinac-motivu {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--at-on-bar);
+      }
+      .prepinac-popis {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        text-transform: uppercase;
+        white-space: nowrap;
+        opacity: 0.55;
+        transition: opacity 0.18s;
+      }
+      .prepinac-motivu[data-motiv-platny="tmavy"]
+        .prepinac-popis[data-strana="vlevo"],
+      .prepinac-motivu[data-motiv-platny="svetly"]
+        .prepinac-popis[data-strana="vpravo"] {
+        opacity: 1;
+      }
+      .prepinac-drazka {
+        position: relative;
+        display: block;
+        flex: none;
+        width: 58px;
+        height: 30px;
+        background: var(
+          --prepinac-vypln,
+          color-mix(in srgb, currentColor 12%, transparent)
+        );
+        border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+        border-radius: 999px;
+        transition: background-color 0.18s;
+      }
+      .prepinac-motivu[data-motiv-platny="tmavy"] .prepinac-drazka {
+        --prepinac-vypln: #2b4a72;
+      }
+      .prepinac-motivu[data-motiv-platny="svetly"] .prepinac-drazka {
+        --prepinac-vypln: #9fd8a8;
+      }
+      .prepinac-jezdec {
+        position: absolute;
+        top: 50%;
+        left: 3px;
+        width: 24px;
+        height: 24px;
+        background: #ffffff;
+        border-radius: 50%;
+        /* Vnitřní obrys drží jezdec viditelný i na světlé zelené. */
+        box-shadow:
+          0 1px 3px rgba(0, 0, 0, 0.35),
+          0 0 0 1px rgba(0, 0, 0, 0.14);
+        transform: translateY(-50%);
+        transition: left 0.18s ease-out;
+        pointer-events: none;
+      }
+      .prepinac-motivu[data-motiv-platny="svetly"] .prepinac-jezdec {
+        left: calc(100% - 27px);
+      }
+      /* Klikací plocha leží přes celou drážku a dosahuje výšky dotykového cíle. */
+      .prepinac-poloha {
+        position: absolute;
+        inset: calc((30px - var(--at-touch-target)) / 2) -4px;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .prepinac-motivu:hover .prepinac-drazka {
+        border-color: currentColor;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .prepinac-jezdec,
+        .prepinac-popis,
+        .prepinac-drazka {
+          transition: none;
+        }
+      }
     </style>
   </head>
   <body class="at-web">
@@ -68,17 +152,31 @@
             </ul>
           </nav>
           <div class="at-web-hlavicka__volby">
-            <label class="at-web-hlavicka__motiv">
-              <span class="at-sr-only">Barevný motiv</span>
-              <select id="motiv">
-                <option value="system">Motiv systému</option>
-                <option value="light">Světlý motiv</option>
-                <option value="dark">Tmavý motiv</option>
-              </select>
-              <svg class="at-icon" aria-hidden="true">
-                <use href="atomys/ikony/ikony.svg#i-rozbalit"></use>
-              </svg>
-            </label>
+            <div class="prepinac-motivu" id="prepinac-motivu">
+              <span
+                class="prepinac-popis"
+                data-strana="vlevo"
+                aria-hidden="true"
+                >Tmavý</span
+              >
+              <span class="prepinac-drazka">
+                <button
+                  type="button"
+                  role="switch"
+                  class="prepinac-poloha"
+                  aria-checked="false"
+                >
+                  <span class="at-sr-only">Tmavý režim</span>
+                </button>
+                <span class="prepinac-jezdec" aria-hidden="true"></span>
+              </span>
+              <span
+                class="prepinac-popis"
+                data-strana="vpravo"
+                aria-hidden="true"
+                >Světlý</span
+              >
+            </div>
             <a class="at-web-hlavicka__akce" href="sestavy/#nacteni"
               >Otevřít sestavy</a
             >
@@ -86,14 +184,14 @@
         </div>
       </div>
     </header>
-    <p class="at-sr-only" role="status" id="motiv-stav"></p>
 
     <main id="obsah" tabindex="-1">
       <section class="at-uvod" aria-labelledby="uvod-nazev">
         <div class="at-uvod__hlava">
           <h1 class="at-uvod__nadpis" id="uvod-nazev">
-            Z&nbsp;exportů IC&nbsp;Office připravíte denní i měsíční sestavy pro účetní
-            a&nbsp;soubory pro POHODU, Money&nbsp;S3 a&nbsp;kontrolní hlášení
+            Z&nbsp;exportů IC&nbsp;Office připravíte denní i měsíční sestavy pro
+            účetní a&nbsp;soubory pro POHODU, Money&nbsp;S3 a&nbsp;kontrolní
+            hlášení
           </h1>
           <p class="at-uvod__perex">
             Tržby a&nbsp;DPH po dnech, inventura skladů, výkon pracovníků,
@@ -272,8 +370,8 @@
                     >Účetní sestavy</a
                   >
                   <span class="at-rejstrik__popis"
-                    >Denní a&nbsp;měsíční sestavy pro účetní a&nbsp;podklady pro DPH
-                    z&nbsp;exportů IC&nbsp;Office.</span
+                    >Denní a&nbsp;měsíční sestavy pro účetní a&nbsp;podklady pro
+                    DPH z&nbsp;exportů IC&nbsp;Office.</span
                   >
                 </th>
                 <td data-popisek="Vstup">Exporty IC&nbsp;Office v&nbsp;XLSX</td>
@@ -502,17 +600,33 @@
     </footer>
 
     <script>
-      /* Volba motivu napojená na vzhled.js. Nabídku hlavičky pod 64 rem ovládá ovladani.js. */
-      var motiv = document.getElementById("motiv");
-      motiv.value = atomysVzhled.stav().motiv;
-      motiv.addEventListener("change", function () {
-        atomysVzhled.nastavit({ motiv: motiv.value });
-        document.getElementById("motiv-stav").textContent =
-          motiv.options[motiv.selectedIndex].text + " je zapnutý.";
+      /* Přepínač motivu jako v archiv.mujautoservis.eu: vlevo tmavý, vpravo světlý. Ukazuje motiv,
+         který právě platí; dokud si návštěvník nevybere, řídí se systémem a prvním přepnutím se
+         volba uloží. Nabídku hlavičky pod 64 rem ovládá ovladani.js. */
+      var prepinac = document.getElementById("prepinac-motivu");
+      var poloha = prepinac.querySelector(".prepinac-poloha");
+      function vykresliPrepinac() {
+        var tmavy = atomysVzhled.stav().efektivniMotiv === "dark";
+        prepinac.dataset.motivPlatny = tmavy ? "tmavy" : "svetly";
+        poloha.setAttribute("aria-checked", String(tmavy));
+        poloha.title = tmavy
+          ? "Přepnout na světlý režim"
+          : "Přepnout na tmavý režim";
+      }
+      poloha.addEventListener("click", function () {
+        var tmavy = atomysVzhled.stav().efektivniMotiv === "dark";
+        atomysVzhled.nastavit({ motiv: tmavy ? "light" : "dark" });
       });
-      document.addEventListener("atomys:vzhled", function (e) {
-        motiv.value = e.detail.motiv;
+      // Šipky míří na polohu, ne na pořadí: vlevo je tmavý, vpravo světlý.
+      poloha.addEventListener("keydown", function (u) {
+        if (u.key !== "ArrowLeft" && u.key !== "ArrowRight") return;
+        u.preventDefault();
+        atomysVzhled.nastavit({
+          motiv: u.key === "ArrowLeft" ? "dark" : "light",
+        });
       });
+      document.addEventListener("atomys:vzhled", vykresliPrepinac);
+      vykresliPrepinac();
     </script>
   </body>
 </html>
