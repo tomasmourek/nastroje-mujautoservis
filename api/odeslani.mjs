@@ -72,7 +72,8 @@ export async function verejnaAdresa(server, lookup) {
     )
   )
     throw chyba("EBLOKOVANO");
-  return adresy[0].address;
+  // Kontejner obvykle nemá IPv6, proto přednost IPv4.
+  return (adresy.find((a) => a.family === 4) ?? adresy[0]).address;
 }
 
 /** Zkontroluje tělo požadavku; vrací { chyba } nebo zprávu připravenou k odeslání. */
