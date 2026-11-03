@@ -1,0 +1,12 @@
+{
+  "name": "ucetni-sestavy-odesilani",
+  "private": true,
+  "type": "module",
+  "description": "Odeslání podkladů účetní e-mailem (běží v obrazu rozcestníku nastroje.mujautoservis.eu).",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^10.3.1"
+  }
+}
