@@ -1,10 +1,11 @@
 // Spuštění odesílací služby. Naslouchá jen na 127.0.0.1, zvenku je dostupná přes nginx (/sestavy/api/).
-// Údaje ke společné adrese jsou jen v proměnných prostředí kontejneru (Coolify), nikdy v
-// repozitáři; údaje ke schránce uživatele přicházejí s požadavkem a po odeslání se zahodí.
+// Údaje ke společné adrese a otisky přístupových kódů jsou jen v proměnných prostředí
+// kontejneru (Coolify), nikdy v repozitáři; údaje ke schránce uživatele přicházejí
+// s požadavkem a po odeslání se zahodí.
 import { lookup } from "node:dns/promises";
 import { createServer } from "node:http";
 import nodemailer from "nodemailer";
-import { verejnaAdresa, vytvoritObsluhu } from "./odeslani.mjs";
+import { nacistKody, verejnaAdresa, vytvoritObsluhu } from "./odeslani.mjs";
 
 const {
   SMTP_HOST,
@@ -12,8 +13,10 @@ const {
   SMTP_USER,
   SMTP_PASSWORD,
   MAIL_FROM,
-  ODESILACI_KLIC,
+  PRISTUPOVE_KODY,
 } = process.env;
+
+const kody = nacistKody(PRISTUPOVE_KODY);
 
 const posta =
   SMTP_HOST && MAIL_FROM
@@ -26,7 +29,7 @@ const posta =
     : null;
 
 const obsluha = vytvoritObsluhu({
-  klic: ODESILACI_KLIC,
+  kody,
   odeslat: posta ? (z) => posta.sendMail({ from: MAIL_FROM, ...z }) : null,
   odeslatVlastni: async (s, z) => {
     const posta = nodemailer.createTransport({
@@ -58,7 +61,7 @@ createServer((req, res) => {
     JSON.stringify({
       udalost: "start",
       smtp: !!posta,
-      klic: (ODESILACI_KLIC ?? "").length >= 16,
+      kody: kody.size,
     }),
   ),
 );
