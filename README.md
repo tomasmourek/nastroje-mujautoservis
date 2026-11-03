@@ -8,12 +8,15 @@ Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) na Ato
 - `sestavy/`: sestavená aplikace [ic-office-ucetni-sestavy](https://github.com/tomasmourek/ic-office-ucetni-sestavy) (`npm run build`, obsah `dist/`). Je verzovaná, protože se z ní staví obraz; po změně sestav ji nahraďte novým `dist/` a staré soubory v `sestavy/assets/` smažte.
 - `Dockerfile`, `deploy/nginx.conf`: obraz pro Coolify (nginx, port 80; HTTPS a doménu řeší Traefik).
 
+## Nasazení
+
+Coolify na Netcupu stahuje tento veřejný repozitář z větve `prvni-verze` a staví `Dockerfile`. Po pushi se nasazuje ručně tlačítkem Deploy v aplikaci `nastroje-mujautoservis`; pak ověřte `https://nastroje.mujautoservis.eu/` a `/sestavy/`.
+
 ## Náhled
 
 ```bash
 python -m http.server 5180 --bind 127.0.0.1
 ```
-
 
 ## Pravidla obsahu
 
