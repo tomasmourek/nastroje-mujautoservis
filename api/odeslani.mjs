@@ -1,7 +1,10 @@
 // Odeslání podkladů účetní e-mailem. Obsluha požadavků bez závislostí, aby šla testovat;
-// SMTP a naslouchání řeší server.mjs. Nic se neukládá: přílohy jsou v paměti jen do odeslání
-// a do logu jde jen výsledek, počet příloh a velikost, nikdy adresy ani obsah.
+// SMTP a naslouchání řeší server.mjs. Posílá se buď ze schránky uživatele (údaje přijdou
+// s požadavkem), nebo ze společné adresy služby, k níž je potřeba klíč. Nic se neukládá:
+// přílohy ani přihlašovací údaje nepřežijí odeslání a do logu jde jen výsledek, počet příloh
+// a velikost, nikdy adresy, servery ani obsah.
 import { createHash, timingSafeEqual } from "node:crypto";
+import { BlockList } from "node:net";
 
 const MAX_TELO = 28 * 1024 * 1024;
 const MAX_PRILOHY = 20 * 1024 * 1024;
@@ -9,12 +12,17 @@ const MAX_PRIJEMCU = 5;
 const HODINA = 3600_000;
 const LIMIT_ODESLANI = 30;
 const LIMIT_CHYB_KLICE = 10;
+const LIMIT_VLASTNI = 300;
+const LIMIT_VLASTNI_IP = 20;
+const LIMIT_PRIHLASENI_IP = 5;
 const PAMET_ID = 24 * HODINA;
 
 const EMAIL =
   /^[^\s@<>()[\],;:"\\]{1,64}@[^\s@<>()[\],;:"\\]+\.[^\s@<>()[\],;:"\\]{2,}$/;
 const NAZEV_PRILOHY = /^[\w.-]{1,120}$/;
 const ID = /^[\w:.-]{1,120}$/;
+const SERVER = /^(?=.{1,253}$)[a-z0-9-]+(\.[a-z0-9-]+)+$/i;
+const PORTY = new Set([465, 587, 2525]);
 const TYPY = {
   pdf: "application/pdf",
   xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -23,10 +31,54 @@ const TYPY = {
   zip: "application/zip",
 };
 
+// Vnitřní sítě, smyčka a podobné adresy: přes schránku uživatele se nesmí dostat do sítě serveru.
+const NEVEREJNE = new BlockList();
+for (const [a, p] of [
+  ["0.0.0.0", 8],
+  ["10.0.0.0", 8],
+  ["100.64.0.0", 10],
+  ["127.0.0.0", 8],
+  ["169.254.0.0", 16],
+  ["172.16.0.0", 12],
+  ["192.0.0.0", 24],
+  ["192.168.0.0", 16],
+  ["198.18.0.0", 15],
+  ["224.0.0.0", 3],
+])
+  NEVEREJNE.addSubnet(a, p, "ipv4");
+for (const [a, p] of [
+  ["::", 127],
+  ["64:ff9b::", 96],
+  ["fc00::", 7],
+  ["fe80::", 10],
+  ["ff00::", 8],
+])
+  NEVEREJNE.addSubnet(a, p, "ipv6");
+
+const chyba = (code) => Object.assign(new Error(code), { code });
+
+/**
+ * Přeloží server SMTP uživatele na veřejnou adresu; s ní se pak služba spojí přímo, aby
+ * DNS nemohlo mezi kontrolou a spojením ukázat jinam. Neveřejné adresy odmítne.
+ */
+export async function verejnaAdresa(server, lookup) {
+  const adresy = await lookup(server, { all: true }).catch(() => {
+    throw chyba("EDNS");
+  });
+  if (
+    !adresy.length ||
+    adresy.some((a) =>
+      NEVEREJNE.check(a.address, a.family === 6 ? "ipv6" : "ipv4"),
+    )
+  )
+    throw chyba("EBLOKOVANO");
+  return adresy[0].address;
+}
+
 /** Zkontroluje tělo požadavku; vrací { chyba } nebo zprávu připravenou k odeslání. */
 export function zkontrolovat(t) {
   if (!t || typeof t !== "object") return { chyba: "Neplatný požadavek." };
-  const { komu, odpovedetNa, predmet, text, prilohy, id } = t;
+  const { komu, odpovedetNa, predmet, text, prilohy, id, smtp, od } = t;
   if (typeof id !== "string" || !ID.test(id))
     return { chyba: "Chybí označení odeslání." };
   if (
@@ -78,10 +130,42 @@ export function zkontrolovat(t) {
       contentType: TYPY[pripona],
     });
   }
+  let schranka;
+  if (smtp != null) {
+    if (
+      typeof smtp !== "object" ||
+      typeof smtp.server !== "string" ||
+      !SERVER.test(smtp.server) ||
+      !PORTY.has(smtp.port)
+    )
+      return { chyba: "Zkontrolujte server a port poštovní schránky." };
+    if (
+      typeof smtp.uzivatel !== "string" ||
+      !smtp.uzivatel ||
+      smtp.uzivatel.length > 254 ||
+      typeof smtp.heslo !== "string" ||
+      !smtp.heslo ||
+      smtp.heslo.length > 512
+    )
+      return { chyba: "Vyplňte přihlašovací jméno a heslo schránky." };
+    if (typeof od !== "string" || od.length > 254 || !EMAIL.test(od))
+      return { chyba: "Adresa odesílatele nemá platný tvar." };
+    schranka = {
+      server: smtp.server.toLowerCase(),
+      port: smtp.port,
+      uzivatel: smtp.uzivatel,
+      heslo: smtp.heslo,
+    };
+  }
   return {
-    id,
+    // Stejné označení od různých odesílatelů nebo pro jiné adresáty je jiné odeslání.
+    klic: createHash("sha256")
+      .update(JSON.stringify([id, komu, schranka ? od : ""]))
+      .digest("hex"),
     velikost,
+    schranka,
     zprava: {
+      ...(schranka ? { from: od } : {}),
       to: komu,
       replyTo: odpovedetNa || undefined,
       subject: predmet.trim(),
@@ -121,19 +205,50 @@ function cist(req) {
   });
 }
 
+/** Srozumitelná zpráva pro uživatele podle chyby SMTP. */
+function zpravaChyby(e, vlastni) {
+  switch (e?.code) {
+    case "EBLOKOVANO":
+      return "Tento poštovní server nelze použít. Zadejte veřejný server SMTP svého poskytovatele.";
+    case "EDNS":
+      return "Server SMTP se nepodařilo najít. Zkontrolujte jeho adresu.";
+    case "EAUTH":
+      return vlastni
+        ? "Schránka odmítla přihlášení. Zkontrolujte jméno a heslo; Gmail a Seznam mohou vyžadovat heslo pro aplikace."
+        : "Poštovní server služby odmítl přihlášení.";
+    case "ECONNECTION":
+    case "ETIMEDOUT":
+    case "ESOCKET":
+    case "ETLS":
+      return vlastni
+        ? "Nepodařilo se spojit se serverem SMTP. Zkontrolujte adresu a port."
+        : "Poštovní server služby není dostupný. Zkuste to později.";
+  }
+  return `Poštovní server zprávu nepřijal${e?.responseCode ? ` (kód ${e.responseCode})` : ""}. Zkuste to později.`;
+}
+
+/** Časy za poslední hodinu z mapy podle klíče (adresy klienta). */
+const zaHodinu = (mapa, k, nyni) =>
+  (mapa.get(k) ?? []).filter((t) => nyni - t < HODINA);
+
 /**
- * Vytvoří obsluhu požadavků. `odeslat(zprava)` doručí zprávu přes SMTP; když chybí klíč
- * nebo SMTP, služba odpoví, že odesílání není nastavené.
+ * Vytvoří obsluhu požadavků. `odeslatVlastni(schranka, zprava)` pošle zprávu ze schránky
+ * uživatele, `odeslat(zprava)` ze společné adresy služby; ta vyžaduje klíč, a když klíč
+ * nebo SMTP chybí, služba odpoví, že společné odesílání není nastavené.
  */
 export function vytvoritObsluhu({
   klic,
   odeslat,
+  odeslatVlastni,
   ted = Date.now,
   log = console.log,
 }) {
   const pripraveno = !!odeslat && typeof klic === "string" && klic.length >= 16;
   const odeslani = [];
+  const vlastniOdeslani = [];
   const chybyKlice = new Map();
+  const odeslaniIp = new Map();
+  const chybyPrihlaseni = new Map();
   const zpracovana = new Map();
 
   const json = (res, kod, telo) => {
@@ -151,34 +266,54 @@ export function vytvoritObsluhu({
   return async (req, res) => {
     const cesta = (req.url ?? "").split("?")[0];
     if (req.method === "GET" && cesta === "/sestavy/api/stav")
-      return json(res, 200, { pripraveno });
+      return json(res, 200, { pripraveno, vlastni: !!odeslatVlastni });
     if (cesta !== "/sestavy/api/odeslat")
       return json(res, 404, { ok: false, chyba: "Nenalezeno." });
     if (req.method !== "POST")
       return json(res, 405, { ok: false, chyba: "Nepovolená metoda." });
-    if (!pripraveno)
-      return json(res, 503, {
-        ok: false,
-        chyba: "Odesílání e-mailem není na serveru nastavené.",
-      });
-
     const nyni = ted();
     const ip = adresaKlienta(req);
-    const chyby = (chybyKlice.get(ip) ?? []).filter((t) => nyni - t < HODINA);
-    if (chyby.length >= LIMIT_CHYB_KLICE)
-      return json(res, 429, {
-        ok: false,
-        chyba: "Příliš mnoho pokusů s neplatným klíčem. Zkuste to za hodinu.",
-      });
     const zadany =
       /^Bearer (.+)$/.exec(String(req.headers.authorization ?? ""))?.[1] ?? "";
-    if (!shodnyKlic(zadany, klic)) {
-      chybyKlice.set(ip, [...chyby, nyni]);
-      zaznam("neplatny-klic");
-      return json(res, 401, {
-        ok: false,
-        chyba: "Klíč pro odesílání nesouhlasí s nastavením serveru.",
-      });
+    // Bez klíče se posílá ze schránky uživatele; limity se kontrolují ještě před čtením těla.
+    const vlastni = !zadany;
+    if (vlastni) {
+      if (!odeslatVlastni)
+        return json(res, 503, {
+          ok: false,
+          chyba: "Odesílání z vlastní schránky není na serveru zapnuté.",
+        });
+      if (zaHodinu(chybyPrihlaseni, ip, nyni).length >= LIMIT_PRIHLASENI_IP)
+        return json(res, 429, {
+          ok: false,
+          chyba:
+            "Příliš mnoho neúspěšných přihlášení ke schránce. Zkuste to za hodinu.",
+        });
+      if (zaHodinu(odeslaniIp, ip, nyni).length >= LIMIT_VLASTNI_IP)
+        return json(res, 429, {
+          ok: false,
+          chyba: "Překročen limit odeslání za hodinu. Zkuste to později.",
+        });
+    } else {
+      if (!pripraveno)
+        return json(res, 503, {
+          ok: false,
+          chyba: "Odesílání ze společné adresy není na serveru nastavené.",
+        });
+      const chyby = zaHodinu(chybyKlice, ip, nyni);
+      if (chyby.length >= LIMIT_CHYB_KLICE)
+        return json(res, 429, {
+          ok: false,
+          chyba: "Příliš mnoho pokusů s neplatným klíčem. Zkuste to za hodinu.",
+        });
+      if (!shodnyKlic(zadany, klic)) {
+        chybyKlice.set(ip, [...chyby, nyni]);
+        zaznam("neplatny-klic");
+        return json(res, 401, {
+          ok: false,
+          chyba: "Klíč pro odesílání nesouhlasí s nastavením serveru.",
+        });
+      }
     }
 
     let telo;
@@ -192,11 +327,18 @@ export function vytvoritObsluhu({
     }
     const z = zkontrolovat(telo);
     if (z.chyba) return json(res, 400, { ok: false, chyba: z.chyba });
+    if (vlastni !== !!z.schranka)
+      return json(res, 400, {
+        ok: false,
+        chyba: vlastni
+          ? "V Nastavení vyplňte svou poštovní schránku, nebo klíč pro odesílání ze společné adresy."
+          : "Neplatný požadavek.",
+      });
 
     // Opakované odeslání téhož (dvě karty, nový pokus po výpadku spojení) se neodešle podruhé.
     for (const [id, t] of zpracovana)
       if (nyni - t.cas > PAMET_ID) zpracovana.delete(id);
-    const predtim = zpracovana.get(z.id);
+    const predtim = zpracovana.get(z.klic);
     if (predtim?.stav === "odeslano")
       return json(res, 200, { ok: true, duplicitni: true });
     if (predtim?.stav === "probiha")
@@ -205,32 +347,40 @@ export function vytvoritObsluhu({
         chyba: "Stejné odeslání právě probíhá.",
       });
 
-    while (odeslani.length && nyni - odeslani[0] > HODINA) odeslani.shift();
-    if (odeslani.length >= LIMIT_ODESLANI)
+    const celkem = vlastni ? vlastniOdeslani : odeslani;
+    while (celkem.length && nyni - celkem[0] > HODINA) celkem.shift();
+    if (celkem.length >= (vlastni ? LIMIT_VLASTNI : LIMIT_ODESLANI))
       return json(res, 429, {
         ok: false,
         chyba: "Překročen limit odeslání za hodinu. Zkuste to později.",
       });
 
-    zpracovana.set(z.id, { stav: "probiha", cas: nyni });
-    odeslani.push(nyni);
+    zpracovana.set(z.klic, { stav: "probiha", cas: nyni });
+    celkem.push(nyni);
+    if (vlastni) odeslaniIp.set(ip, [...zaHodinu(odeslaniIp, ip, nyni), nyni]);
+    const rezim = vlastni ? "vlastni" : "spolecna";
     try {
-      await odeslat(z.zprava);
-      zpracovana.set(z.id, { stav: "odeslano", cas: nyni });
+      if (vlastni) await odeslatVlastni(z.schranka, z.zprava);
+      else await odeslat(z.zprava);
+      zpracovana.set(z.klic, { stav: "odeslano", cas: nyni });
       zaznam("odeslano", {
+        rezim,
         priloh: z.zprava.attachments.length,
         kB: Math.round(z.velikost / 1024),
       });
       return json(res, 200, { ok: true });
     } catch (e) {
-      zpracovana.delete(z.id);
+      zpracovana.delete(z.klic);
+      if (vlastni && e?.code === "EAUTH")
+        chybyPrihlaseni.set(ip, [...zaHodinu(chybyPrihlaseni, ip, nyni), nyni]);
       zaznam("chyba-smtp", {
+        rezim,
         kod: e?.code ?? null,
         odpoved: e?.responseCode ?? null,
       });
-      return json(res, 502, {
+      return json(res, e?.code === "EBLOKOVANO" ? 400 : 502, {
         ok: false,
-        chyba: "Poštovní server zprávu nepřijal. Zkuste to později.",
+        chyba: zpravaChyby(e, vlastni),
       });
     }
   };
