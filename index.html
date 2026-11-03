@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="cs" data-area="finance" data-vzhled="tiskopis" data-vzhled-pevny>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nástroje pro autoservisy – účetní sestavy z exportů IC Office</title>
+    <meta
+      name="description"
+      content="Z exportů IC Office připravíte měsíční sestavy pro účetní, soubory pro POHODU a Money S3, faktury ISDOC a kontrolní hlášení DPH. Zpracování probíhá jen v prohlížeči, bez registrace."
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <script src="atomys/vzhled.js"></script>
+    <script src="atomys/ovladani.js"></script>
+    <link rel="stylesheet" href="atomys/atomys.css" />
+    <style>
+      /* Doplněk k Atomys: odrážkové a číslované seznamy v sekcích webu. */
+      .web-seznam {
+        display: grid;
+        gap: var(--at-space-3);
+        max-inline-size: var(--at-layout-text-max);
+        margin: 0;
+        padding-inline-start: var(--at-space-6);
+      }
+      .web-seznam strong {
+        font-weight: var(--at-font-weight-semibold);
+      }
+      .web-sloupce {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+        gap: var(--at-space-6) var(--at-space-10);
+      }
+      .web-sloupce h3 {
+        margin: 0 0 var(--at-space-3);
+        font-size: var(--at-font-size-h4);
+      }
+      .web-text {
+        max-inline-size: var(--at-layout-text-max);
+        margin: 0 0 var(--at-space-3);
+      }
+    </style>
+  </head>
+  <body class="at-web">
+    <a class="at-skip-link" href="#obsah">Přeskočit na obsah</a>
+
+    <header class="at-web-hlavicka">
+      <div class="at-web-hlavicka__vnitrek">
+        <a class="at-web-hlavicka__produkt" href="./"
+          >nastroje<span class="at-web-hlavicka__domena"
+            >.mujautoservis.eu</span
+          ></a
+        >
+        <button
+          class="at-web-hlavicka__menu"
+          type="button"
+          aria-expanded="false"
+          aria-controls="nabidka"
+        >
+          <svg class="at-icon" aria-hidden="true">
+            <use href="atomys/ikony/ikony.svg#i-menu"></use></svg
+          >Nabídka
+        </button>
+        <div class="at-web-hlavicka__panel" id="nabidka">
+          <nav class="at-web-hlavicka__nav" aria-label="Hlavní navigace">
+            <ul>
+              <li><a href="#nastroje">Nástroje</a></li>
+              <li><a href="#sluzby">Služby pro servis</a></li>
+              <li><a href="#soukromi">Soukromí</a></li>
+            </ul>
+          </nav>
+          <div class="at-web-hlavicka__volby">
+            <label class="at-web-hlavicka__motiv">
+              <span class="at-sr-only">Barevný motiv</span>
+              <select id="motiv">
+                <option value="system">Motiv systému</option>
+                <option value="light">Světlý motiv</option>
+                <option value="dark">Tmavý motiv</option>
+              </select>
+              <svg class="at-icon" aria-hidden="true">
+                <use href="atomys/ikony/ikony.svg#i-rozbalit"></use>
+              </svg>
+            </label>
+            <a class="at-web-hlavicka__akce" href="sestavy/#nacteni"
+              >Otevřít sestavy</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <p class="at-sr-only" role="status" id="motiv-stav"></p>
+
+    <main id="obsah" tabindex="-1">
+      <section class="at-uvod" aria-labelledby="uvod-nazev">
+        <div class="at-uvod__hlava">
+          <h1 class="at-uvod__nadpis" id="uvod-nazev">
+            Z&nbsp;exportů IC&nbsp;Office připravíte měsíční sestavy pro účetní
+            a&nbsp;soubory pro POHODU, Money&nbsp;S3 a&nbsp;kontrolní hlášení
+          </h1>
+          <p class="at-uvod__perex">
+            Tržby a&nbsp;DPH po dnech, inventura skladů, výkon pracovníků,
+            pokladní kniha a&nbsp;kniha faktur. Soubory se zpracují jen ve vašem
+            prohlížeči a&nbsp;nikam se neodesílají. Registrace není potřeba.
+          </p>
+        </div>
+
+        <figure class="at-dukaz" aria-labelledby="dukaz">
+          <div class="at-dukaz__hlava">
+            <h2 class="at-dukaz__nadpis" id="dukaz">
+              Faktura 2026102 z&nbsp;exportu a&nbsp;její řádek v&nbsp;sestavě
+              tržeb
+            </h2>
+            <span class="at-ukazka-data">Ukázková data</span>
+          </div>
+          <div class="at-dukaz__kroky">
+            <div class="at-dukaz__krok">
+              <p class="at-dukaz__popisek">
+                <span class="at-dukaz__role">Vstup</span>
+                Vystavene_faktury_polozky_2026-10-01_2026-10-31.xlsx
+                z&nbsp;IC&nbsp;Office
+              </p>
+              <div
+                class="at-dukaz__obsah"
+                role="region"
+                aria-label="Položky faktury 2026102 v exportu"
+                tabindex="0"
+              >
+                <table class="at-table at-table--skladana">
+                  <thead>
+                    <tr>
+                      <th scope="col">Kód</th>
+                      <th scope="col">Název</th>
+                      <th scope="col" class="at-num">Množství</th>
+                      <th scope="col" class="at-num">Bez DPH</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="at-nowrap" data-popisek="Kód">OL-5W30</td>
+                      <td class="at-table__cela" data-popisek="Název">
+                        Motorový olej 5W-30 1&nbsp;l
+                      </td>
+                      <td class="at-num" data-popisek="Množství">5&nbsp;ks</td>
+                      <td class="at-num" data-popisek="Bez DPH">
+                        1&nbsp;450,00
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="at-nowrap" data-popisek="Kód">OF-200</td>
+                      <td class="at-table__cela" data-popisek="Název">
+                        Olejový filtr
+                      </td>
+                      <td class="at-num" data-popisek="Množství">1&nbsp;ks</td>
+                      <td class="at-num" data-popisek="Bez DPH">220,00</td>
+                    </tr>
+                    <tr>
+                      <td class="at-nowrap" data-popisek="Kód">BD-100</td>
+                      <td class="at-table__cela" data-popisek="Název">
+                        Brzdové destičky přední
+                      </td>
+                      <td class="at-num" data-popisek="Množství">4&nbsp;ks</td>
+                      <td class="at-num" data-popisek="Bez DPH">
+                        4&nbsp;400,00
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="at-nowrap" data-popisek="Kód">–</td>
+                      <td class="at-table__cela" data-popisek="Název">
+                        Práce mechanika
+                      </td>
+                      <td class="at-num" data-popisek="Množství">6&nbsp;hod</td>
+                      <td class="at-num" data-popisek="Bez DPH">
+                        5&nbsp;400,00
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="at-dukaz__krok">
+              <p class="at-dukaz__popisek">
+                <span class="at-dukaz__role">Výstup</span> Sestava Tržby, DPH za
+                říjen 2026, řádek dokladu 2026102
+              </p>
+              <div
+                class="at-dukaz__obsah"
+                role="region"
+                aria-label="Řádek faktury 2026102 v sestavě tržeb"
+                tabindex="0"
+              >
+                <table class="at-table at-table--skladana">
+                  <thead>
+                    <tr>
+                      <th scope="col">Údaj sestavy</th>
+                      <th scope="col" class="at-num">Kč</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td data-popisek="Údaj">Materiál náklady</td>
+                      <td class="at-num" data-popisek="Kč">3&nbsp;620,00</td>
+                    </tr>
+                    <tr>
+                      <td data-popisek="Údaj">Materiál PC</td>
+                      <td class="at-num" data-popisek="Kč">6&nbsp;070,00</td>
+                    </tr>
+                    <tr>
+                      <td data-popisek="Údaj">Výkony</td>
+                      <td class="at-num" data-popisek="Kč">5&nbsp;400,00</td>
+                    </tr>
+                    <tr>
+                      <td data-popisek="Údaj">DPH</td>
+                      <td class="at-num" data-popisek="Kč">2&nbsp;408,70</td>
+                    </tr>
+                    <tr>
+                      <td data-popisek="Údaj">Placeno, forma F</td>
+                      <td class="at-num" data-popisek="Kč">13&nbsp;878,70</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <p class="at-dukaz__kontrola at-dukaz__kontrola--uspech">
+            <svg class="at-icon" aria-hidden="true">
+              <use href="atomys/ikony/ikony.svg#i-hotovo-kruh"></use>
+            </svg>
+            <span>
+              Skladová cena materiálu je dohledaná z&nbsp;výdejek skladu, marže
+              materiálu 2&nbsp;450,00&nbsp;Kč. Odběratel je plátce DPH
+              a&nbsp;plnění přesahuje 10&nbsp;000&nbsp;Kč, faktura proto jde do
+              oddílu A.4 kontrolního hlášení.
+            </span>
+          </p>
+        </figure>
+
+        <div class="at-uvod__akce">
+          <a class="at-btn at-btn--primary" href="sestavy/#nacteni">
+            <svg class="at-icon" aria-hidden="true">
+              <use href="atomys/ikony/ikony.svg#i-prehrat"></use></svg
+            >Vyzkoušet na ukázkových datech
+          </a>
+          <a class="at-link" href="#exporty"
+            >Které exporty z&nbsp;IC&nbsp;Office budete potřebovat</a
+          >
+        </div>
+        <p class="at-uvod__poznamka">
+          Ukázková data jsou vymyšlený měsíc autoservisu. Vlastní exporty
+          načtete na stejné stránce.
+        </p>
+      </section>
+
+      <section class="at-web-sekce" id="nastroje" aria-labelledby="rejstrik">
+        <div class="at-web-sekce__hlava">
+          <h2 id="rejstrik">Nástroje</h2>
+          <p>Běží přímo v&nbsp;prohlížeči, bez účtu a&nbsp;bez instalace.</p>
+        </div>
+        <div class="at-rejstrik">
+          <table class="at-table">
+            <caption class="at-sr-only">
+              Nástroje se vstupy a výstupy
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Nástroj</th>
+                <th scope="col">Vstup</th>
+                <th scope="col">Výstup</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <a class="at-rejstrik__nazev" href="sestavy/#nacteni"
+                    >Účetní sestavy</a
+                  >
+                  <span class="at-rejstrik__popis"
+                    >Měsíční sestavy pro účetní a&nbsp;podklady pro DPH
+                    z&nbsp;exportů IC&nbsp;Office.</span
+                  >
+                </th>
+                <td data-popisek="Vstup">Exporty IC&nbsp;Office v&nbsp;XLSX</td>
+                <td data-popisek="Výstup">
+                  Tisk, PDF, Excel, POHODA XML, Money S3 XML, ISDOC, XML
+                  kontrolního hlášení
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="at-web-sekce" aria-labelledby="obsah-sestav">
+        <div class="at-web-sekce__hlava">
+          <h2 id="obsah-sestav">Co účetní sestavy připraví</h2>
+          <p>Za zvolený měsíc, vlastní rozsah nebo celé načtené období.</p>
+        </div>
+        <div class="web-sloupce">
+          <div>
+            <h3>Sestavy k&nbsp;tisku a&nbsp;do Excelu</h3>
+            <ul class="web-seznam">
+              <li>
+                <strong>Tržby a&nbsp;DPH po dnech</strong> s&nbsp;materiálem ve
+                skladových i&nbsp;prodejních cenách, výkony, drobným materiálem
+                a&nbsp;formou úhrady.
+              </li>
+              <li>
+                <strong>Inventura skladů</strong> v&nbsp;cenách bez DPH,
+                seskupená podle účtů.
+              </li>
+              <li><strong>Výkon pracovníků</strong> podle zakázek.</li>
+              <li><strong>Pokladní kniha</strong> se zůstatkem.</li>
+              <li>
+                <strong>Kniha vydaných faktur</strong> s&nbsp;neuhrazenými
+                fakturami.
+              </li>
+              <li>
+                <strong>Podklad pro DPH</strong>: řádky přiznání na výstupu
+                a&nbsp;oddíly A.4 a&nbsp;A.5 kontrolního hlášení.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3>Soubory pro účetní programy a&nbsp;úřad</h3>
+            <ul class="web-seznam">
+              <li>
+                <strong>POHODA XML</strong>: vydané faktury a&nbsp;pokladní
+                doklady.
+              </li>
+              <li>
+                <strong>Money S3 XML</strong>: faktury vydané a&nbsp;pokladní
+                doklady.
+              </li>
+              <li>
+                <strong>ISDOC 6.0.2</strong>: elektronické faktury, víc faktur
+                v&nbsp;jednom ZIPu.
+              </li>
+              <li>
+                <strong>Kontrolní hlášení DPH</strong> pro daňový portál. Oddíly
+                B s&nbsp;přijatými fakturami export IC&nbsp;Office neobsahuje,
+                doplní je účetní.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="at-web-sekce"
+        id="exporty"
+        aria-labelledby="exporty-nadpis"
+      >
+        <div class="at-web-sekce__hlava">
+          <h2 id="exporty-nadpis">Exporty z&nbsp;IC&nbsp;Office</h2>
+          <p>Druh souboru se pozná podle záhlaví, název může být libovolný.</p>
+        </div>
+        <ol class="web-seznam">
+          <li>
+            <strong>Vystavené faktury a&nbsp;jejich položky</strong> pro tržby,
+            knihu faktur, DPH a&nbsp;kontrolní hlášení.
+          </li>
+          <li>
+            <strong>Pokladna</strong> pro pokladní knihu a&nbsp;prodej za
+            hotové.
+          </li>
+          <li>
+            <strong>Naskladněné a&nbsp;vydané zboží</strong> pro inventuru
+            a&nbsp;skladové ceny materiálu.
+          </li>
+          <li>
+            <strong>Mechanici a&nbsp;zakázky</strong> pro výkon pracovníků.
+          </li>
+        </ol>
+      </section>
+
+      <section class="at-web-sekce" id="sluzby" aria-labelledby="sluzby-nadpis">
+        <div class="at-web-sekce__hlava">
+          <h2 id="sluzby-nadpis">Další služby pro autoservisy</h2>
+          <p>
+            Samostatné aplikace s&nbsp;vlastním účtem a&nbsp;vlastními
+            informacemi o&nbsp;zpracování dat.
+          </p>
+        </div>
+        <div class="at-rejstrik">
+          <table class="at-table">
+            <caption class="at-sr-only">
+              Další služby pro autoservisy
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Služba</th>
+                <th scope="col">K&nbsp;čemu slouží</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <a
+                    class="at-rejstrik__nazev"
+                    href="https://archiv.mujautoservis.eu/"
+                    >archiv.mujautoservis.eu</a
+                  >
+                </th>
+                <td data-popisek="K čemu slouží">
+                  Archiv servisních zakázek: vyhledávání podle VIN, SPZ
+                  a&nbsp;zákazníka, historie oprav, doklady a&nbsp;exporty do
+                  PDF a&nbsp;Excelu.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a class="at-rejstrik__nazev" href="https://mujkalendar.eu/"
+                    >mujkalendar.eu</a
+                  >
+                </th>
+                <td data-popisek="K čemu slouží">
+                  Rezervační kalendář pro provozovny služeb. Termíny podle
+                  volných míst a&nbsp;vybavení, telefonické objednávky ve
+                  stejném kalendáři.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a class="at-rejstrik__nazev" href="https://mojerezervace.eu/"
+                    >mojerezervace.eu</a
+                  >
+                </th>
+                <td data-popisek="K čemu slouží">
+                  Pro zákazníky: výběr služby a&nbsp;volného termínu bez účtu,
+                  přihlášení až před potvrzením rezervace.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a class="at-rejstrik__nazev" href="https://mojefaktura.eu/"
+                    >mojefaktura.eu</a
+                  >
+                </th>
+                <td data-popisek="K čemu slouží">
+                  Faktury s&nbsp;QR Platbou, odběratelé načtení z&nbsp;ARES
+                  a&nbsp;evidence úhrad.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section
+        class="at-web-sekce"
+        id="soukromi"
+        aria-labelledby="soukromi-nadpis"
+      >
+        <div class="at-web-sekce__hlava">
+          <h2 id="soukromi-nadpis">
+            Soukromí a&nbsp;úložiště v&nbsp;prohlížeči
+          </h2>
+        </div>
+        <div class="web-sloupce">
+          <div>
+            <h3>Tato stránka</h3>
+            <p class="web-text">
+              Nepoužívá cookies ani analytiku a&nbsp;nenačítá nic z&nbsp;cizích
+              serverů. Pokud změníte barevný motiv, uloží se volba do úložiště
+              vašeho prohlížeče (localStorage), aby platila i&nbsp;při další
+              návštěvě.
+            </p>
+          </div>
+          <div>
+            <h3>Účetní sestavy</h3>
+            <p class="web-text">
+              Exporty z&nbsp;IC&nbsp;Office se načtou a&nbsp;zpracují jen
+              v&nbsp;paměti prohlížeče, na server se neodesílají a&nbsp;po
+              zavření stránky zmizí. Údaje firmy a&nbsp;nastavení skladů
+              z&nbsp;Nastavení se ukládají do localStorage tohoto prohlížeče.
+              Smažete je tlačítkem Obnovit výchozí v&nbsp;Nastavení nebo
+              vymazáním dat webu v&nbsp;prohlížeči.
+            </p>
+          </div>
+        </div>
+        <p class="web-text">
+          Služby z&nbsp;předchozí sekce mají vlastní informace o&nbsp;zpracování
+          dat na svých doménách.
+        </p>
+      </section>
+    </main>
+
+    <footer class="at-paticka">
+      <div class="at-paticka__tiraz">
+        <p class="at-paticka__produkt">nastroje.mujautoservis.eu</p>
+        <p>
+          Provozovatel: Tomáš Mourek, IČO 74753282, se sídlem Palackého 583,
+          Teplá.
+        </p>
+      </div>
+      <nav class="at-paticka__odkazy" aria-label="Odkazy v patičce">
+        <ul>
+          <li><a href="#soukromi">Soukromí a úložiště</a></li>
+          <li><a href="https://atomys.eu/">Atomys</a></li>
+        </ul>
+      </nav>
+    </footer>
+
+    <script>
+      /* Volba motivu napojená na vzhled.js. Nabídku hlavičky pod 64 rem ovládá ovladani.js. */
+      var motiv = document.getElementById("motiv");
+      motiv.value = atomysVzhled.stav().motiv;
+      motiv.addEventListener("change", function () {
+        atomysVzhled.nastavit({ motiv: motiv.value });
+        document.getElementById("motiv-stav").textContent =
+          motiv.options[motiv.selectedIndex].text + " je zapnutý.";
+      });
+      document.addEventListener("atomys:vzhled", function (e) {
+        motiv.value = e.detail.motiv;
+      });
+    </script>
+  </body>
+</html>
