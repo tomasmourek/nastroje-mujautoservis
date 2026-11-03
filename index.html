@@ -73,7 +73,8 @@
           <p class="perex">
             Denní i měsíční sestavy pro účetní a soubory pro POHODU,
             Money&nbsp;S3 a kontrolní hlášení. Exporty se zpracují jen ve vašem
-            prohlížeči a nikam se neodesílají. Registrace není potřeba.
+            prohlížeči; ven odchází jen e-mail, který sami pošlete účetní.
+            Registrace není potřeba.
           </p>
           <div class="tlacitka">
             <a class="btn" href="sestavy/#nacteni"
@@ -333,9 +334,7 @@
           <li>
             <b>Den nebo měsíc</b><span>výchozí období podle Nastavení</span>
           </li>
-          <li>
-            <b>Jen v prohlížeči</b><span>exporty se nikam neodesílají</span>
-          </li>
+          <li><b>Jen v prohlížeči</b><span>ven jde jen e-mail účetní</span></li>
           <li>
             <b>Šest sestav</b
             ><span>tržby, sklad, pracovníci, pokladna, faktury, DPH</span>
@@ -832,7 +831,7 @@
       <section class="sekce obal" id="soukromi">
         <div class="sekce-hlava">
           <span class="nadtitul">Soukromí</span>
-          <h2>Soukromí a úložiště v&nbsp;prohlížeči.</h2>
+          <h2>Soukromí, úložiště a&nbsp;odeslání účetní.</h2>
         </div>
         <div class="dalsi-funkce dva-sloupce">
           <article>
@@ -872,11 +871,63 @@
             ></span>
             <h3>Účetní sestavy</h3>
             <p>
-              Exporty z IC Office se načtou a zpracují jen v paměti prohlížeče,
-              na server se neodesílají a po zavření stránky zmizí. Údaje firmy a
-              nastavení skladů z Nastavení se ukládají do localStorage tohoto
-              prohlížeče. Smažete je tlačítkem Obnovit výchozí v Nastavení nebo
-              vymazáním dat webu v prohlížeči.
+              Exporty z IC Office se načtou a zpracují jen v paměti prohlížeče a
+              po zavření stránky zmizí. Do localStorage tohoto prohlížeče se
+              ukládá Nastavení: údaje firmy, sklady, e-mail účetní, přístupový
+              kód a údaje k vaší poštovní schránce včetně hesla, pokud je
+              vyplníte, a k tomu záznam o odeslaných obdobích. Nastavení smažete
+              tlačítkem Obnovit výchozí, vše vymazáním dat webu v prohlížeči. Na
+              sdíleném počítači heslo schránky nevyplňujte.
+            </p>
+          </article>
+          <article>
+            <span class="ikona"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m3 7 9 6 9-6" /></svg
+            ></span>
+            <h3>Odeslání účetní</h3>
+            <p>
+              Když podklady odešlete účetní, ručně nebo podle plánu v doplňku,
+              převezme je služba na našem serveru a pošle e-mailem přes vaši
+              schránku, nebo přes společnou adresu služby. Přílohy mohou
+              obsahovat jména a adresy vašich zákazníků. Služba je neukládá: do
+              provozního záznamu jde jen označení firmy, výsledek, počet a
+              velikost příloh a proti dvojímu odeslání si 24 hodin pamatuje
+              otisk označení odeslání.
+            </p>
+          </article>
+          <article>
+            <span class="ikona"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"
+                /></svg
+            ></span>
+            <h3>Zpracování pro váš servis</h3>
+            <p>
+              Při odeslání zpracováváme údaje vašich zákazníků jako zpracovatel
+              pro váš autoservis (čl. 28 GDPR), jen k doručení e-mailu na
+              adresy, které zadáte, a jen po dobu odeslání. Server provozuje
+              netcup GmbH v Norimberku. Spojení je šifrované (TLS), odeslání
+              vyžaduje přístupový kód firmy a má limity. Smlouvu o zpracování s
+              vaší účetní uzavírá autoservis.
             </p>
           </article>
         </div>
@@ -914,7 +965,7 @@
             ><span>nastroje.mujautoservis.eu</span></a
           >
           <p>
-            Účetní sestavy z exportů IC Office.<br />Zpracování jen ve vašem
+            Účetní sestavy z exportů IC Office.<br />Zpracování ve vašem
             prohlížeči.
           </p>
         </div>
