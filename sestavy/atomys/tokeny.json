@@ -1,0 +1,687 @@
+{
+  "verze": "2.1.0",
+  "vychozi": {
+    "vzhled": "tiskopis",
+    "oblast": "atomys",
+    "hustota": "kancelar"
+  },
+  "vzhledy": {
+    "tiskopis": {
+      "nazev": "Tiskopis",
+      "svetly": {
+        "canvas": "#F4F6F8",
+        "surface1": "#FFFFFF",
+        "surface2": "#E8EBEF",
+        "ink": "#15191E",
+        "inkSoft": "#39414B",
+        "muted": "#58616C",
+        "rule": "#D5DAE0",
+        "ruleStrong": "#A3ABB5",
+        "fieldBorder": "#737C87",
+        "focus": "#15191E",
+        "focusHalo": "#FFD43B",
+        "success": "#1B6B3A",
+        "successSoft": "#E2F1E6",
+        "warning": "#7C5400",
+        "warningSoft": "#FBF0D2",
+        "danger": "#B3261E",
+        "dangerSoft": "#FBE8E6",
+        "info": "#545659",
+        "infoSoft": "#E6EAEE",
+        "bar": "#FFFFFF",
+        "onBar": "#15191E",
+        "barMuted": "#58616C",
+        "barRule": "#D5DAE0",
+        "barField": "#FFFFFF",
+        "barFieldBorder": "#737C87",
+        "tableHead": "#E8EBEF",
+        "onTableHead": "#2B323B",
+        "overlay": "rgba(21, 25, 30, 0.48)"
+      },
+      "tmavy": {
+        "canvas": "#13171C",
+        "surface1": "#1E232A",
+        "surface2": "#282E36",
+        "ink": "#ECEEF1",
+        "inkSoft": "#C6CBD2",
+        "muted": "#9CA5AF",
+        "rule": "#343B45",
+        "ruleStrong": "#58616D",
+        "fieldBorder": "#808995",
+        "focus": "#FFD43B",
+        "focusHalo": "#FFD43B",
+        "success": "#6CCB8C",
+        "successSoft": "#173222",
+        "warning": "#F2B45A",
+        "warningSoft": "#36290F",
+        "danger": "#FF8F85",
+        "dangerSoft": "#3D1D1B",
+        "info": "#A9B1BC",
+        "infoSoft": "#29303A",
+        "bar": "#1E232A",
+        "onBar": "#ECEEF1",
+        "barMuted": "#9CA5AF",
+        "barRule": "#343B45",
+        "barField": "#13171C",
+        "barFieldBorder": "#808995",
+        "tableHead": "#282E36",
+        "onTableHead": "#D5D9DF",
+        "overlay": "rgba(0, 0, 0, 0.62)"
+      },
+      "oblasti": {
+        "dokumenty": {
+          "svetly": {
+            "accent": "#2B4199",
+            "accentHover": "#213380",
+            "accentBorder": "#213380",
+            "onAccent": "#FFFFFF",
+            "accentText": "#2B4199",
+            "accentSoft": "#E7ECF8",
+            "onBarAccent": "#2B4199"
+          },
+          "tmavy": {
+            "accent": "#3F5DB5",
+            "accentHover": "#4C6AC2",
+            "accentBorder": "#5579C6",
+            "onAccent": "#FFFFFF",
+            "accentText": "#86B0E6",
+            "accentSoft": "#1A2A40",
+            "onBarAccent": "#86B0E6"
+          }
+        },
+        "provoz": {
+          "svetly": {
+            "accent": "#7E3317",
+            "accentHover": "#662913",
+            "accentBorder": "#662913",
+            "onAccent": "#FFFFFF",
+            "accentText": "#7E3317",
+            "accentSoft": "#F5E8E1",
+            "onBarAccent": "#7E3317"
+          },
+          "tmavy": {
+            "accent": "#A8471F",
+            "accentHover": "#B8552B",
+            "accentBorder": "#C15E30",
+            "onAccent": "#FFFFFF",
+            "accentText": "#E07B45",
+            "accentSoft": "#372218",
+            "onBarAccent": "#E07B45"
+          }
+        },
+        "finance": {
+          "svetly": {
+            "accent": "#006670",
+            "accentHover": "#00535B",
+            "accentBorder": "#00535B",
+            "onAccent": "#FFFFFF",
+            "accentText": "#006670",
+            "accentSoft": "#DFEEEF",
+            "onBarAccent": "#006670"
+          },
+          "tmavy": {
+            "accent": "#0C6E75",
+            "accentHover": "#10808A",
+            "accentBorder": "#2C878E",
+            "onAccent": "#FFFFFF",
+            "accentText": "#62C0C8",
+            "accentSoft": "#142E31",
+            "onBarAccent": "#62C0C8"
+          }
+        },
+        "crm": {
+          "svetly": {
+            "accent": "#8A1F4A",
+            "accentHover": "#711A3D",
+            "accentBorder": "#711A3D",
+            "onAccent": "#FFFFFF",
+            "accentText": "#8A1F4A",
+            "accentSoft": "#F7E7EE",
+            "onBarAccent": "#8A1F4A"
+          },
+          "tmavy": {
+            "accent": "#8F2A54",
+            "accentHover": "#A0345F",
+            "accentBorder": "#B95D7E",
+            "onAccent": "#FFFFFF",
+            "accentText": "#EE9DB8",
+            "accentSoft": "#3A1D29",
+            "onBarAccent": "#EE9DB8"
+          }
+        },
+        "atomys": {
+          "svetly": {
+            "accent": "#1B1F24",
+            "accentHover": "#353B43",
+            "accentBorder": "#1B1F24",
+            "onAccent": "#FFFFFF",
+            "accentText": "#1B1F24",
+            "accentSoft": "#E6E9ED",
+            "onBarAccent": "#1B1F24"
+          },
+          "tmavy": {
+            "accent": "#EEF0F3",
+            "accentHover": "#FFFFFF",
+            "accentBorder": "#EEF0F3",
+            "onAccent": "#15191E",
+            "accentText": "#EEF0F3",
+            "accentSoft": "#2A2F36",
+            "onBarAccent": "#EEF0F3"
+          }
+        }
+      },
+      "tvar": {
+        "radiusControl": 2,
+        "radiusSurface": 0,
+        "radiusDialog": 2,
+        "borderRule": 1,
+        "barEdge": 3,
+        "shadowLayer": "0 1px 0 rgb(21 25 30 / 0.06), 0 6px 16px rgb(21 25 30 / 0.14)",
+        "panelBorder": 0,
+        "panelPadding": 0,
+        "panelGap": 24
+      },
+      "typo": {
+        "stretchLabel": "87%",
+        "stretchControl": "100%",
+        "stretchHeading": "100%",
+        "stretchNumber": "93%",
+        "labelCase": "none",
+        "labelTracking": "0",
+        "headingWeight": 600
+      }
+    },
+    "dilna": {
+      "nazev": "Dílna",
+      "svetly": {
+        "canvas": "#d3d3cf",
+        "surface1": "#f6f7f8",
+        "surface2": "#e6e8e8",
+        "ink": "#1b1a17",
+        "inkSoft": "#3a3934",
+        "muted": "#55544e",
+        "rule": "#c3c3be",
+        "ruleStrong": "#6d6c65",
+        "fieldBorder": "#66655e",
+        "focus": "#1b1a17",
+        "focusHalo": "#FFD43B",
+        "success": "#2a6120",
+        "successSoft": "#dbe9d3",
+        "warning": "#654d00",
+        "warningSoft": "#f2e5b5",
+        "danger": "#a8182b",
+        "dangerSoft": "#f6dadc",
+        "info": "#4E5157",
+        "infoSoft": "#E3E4E3",
+        "bar": "#1f1e1b",
+        "onBar": "#edece8",
+        "barMuted": "#aeaca5",
+        "barRule": "#57554f",
+        "barField": "#2c2b28",
+        "barFieldBorder": "#8a8881",
+        "tableHead": "#2a2925",
+        "onTableHead": "#edece8",
+        "overlay": "rgb(27 26 23 / 0.55)"
+      },
+      "tmavy": {
+        "canvas": "#2A2D31",
+        "surface1": "#1B1D20",
+        "surface2": "#33373C",
+        "ink": "#EDEEF0",
+        "inkSoft": "#CFD2D7",
+        "muted": "#A6ACB4",
+        "rule": "#3A3E44",
+        "ruleStrong": "#6B727C",
+        "fieldBorder": "#878E98",
+        "focus": "#FFD43B",
+        "focusHalo": "#FFD43B",
+        "success": "#82c26c",
+        "successSoft": "#1f3219",
+        "warning": "#E8B456",
+        "warningSoft": "#372A12",
+        "danger": "#f47f7c",
+        "dangerSoft": "#3e1d1a",
+        "info": "#A0A6AE",
+        "infoSoft": "#2C3035",
+        "bar": "#0D0E10",
+        "onBar": "#EDECE8",
+        "barMuted": "#AEACA5",
+        "barRule": "#3E434A",
+        "barField": "#1B1D20",
+        "barFieldBorder": "#7F858E",
+        "tableHead": "#101215",
+        "onTableHead": "#DCDAD4",
+        "overlay": "rgb(0 0 0 / 0.68)"
+      },
+      "oblasti": {
+        "dokumenty": {
+          "svetly": {
+            "accent": "#3647a6",
+            "accentHover": "#293887",
+            "accentBorder": "#293887",
+            "onAccent": "#ffffff",
+            "accentText": "#3647a6",
+            "accentSoft": "#e2e5f3",
+            "onBarAccent": "#8a98e0"
+          },
+          "tmavy": {
+            "accent": "#3A55A8",
+            "accentHover": "#4763B8",
+            "accentBorder": "#6084C7",
+            "onAccent": "#FFFFFF",
+            "accentText": "#82ABE0",
+            "accentSoft": "#1B2840",
+            "onBarAccent": "#82ABE0"
+          }
+        },
+        "provoz": {
+          "svetly": {
+            "accent": "#87472c",
+            "accentHover": "#6b3722",
+            "accentBorder": "#6b3722",
+            "onAccent": "#ffffff",
+            "accentText": "#87472c",
+            "accentSoft": "#f2e2d6",
+            "onBarAccent": "#e9894e"
+          },
+          "tmavy": {
+            "accent": "#A34A24",
+            "accentHover": "#B45A30",
+            "accentBorder": "#C86B3A",
+            "onAccent": "#FFFFFF",
+            "accentText": "#e9894e",
+            "accentSoft": "#3b2417",
+            "onBarAccent": "#e9894e"
+          }
+        },
+        "finance": {
+          "svetly": {
+            "accent": "#0F636B",
+            "accentHover": "#0A4D54",
+            "accentBorder": "#0A4D54",
+            "onAccent": "#ffffff",
+            "accentText": "#0F636B",
+            "accentSoft": "#d9e9ea",
+            "onBarAccent": "#5cb9c1"
+          },
+          "tmavy": {
+            "accent": "#0F6B72",
+            "accentHover": "#137C84",
+            "accentBorder": "#389098",
+            "onAccent": "#FFFFFF",
+            "accentText": "#5cb9c1",
+            "accentSoft": "#13302f",
+            "onBarAccent": "#5cb9c1"
+          }
+        },
+        "crm": {
+          "svetly": {
+            "accent": "#72223b",
+            "accentHover": "#58192d",
+            "accentBorder": "#58192d",
+            "onAccent": "#ffffff",
+            "accentText": "#72223b",
+            "accentSoft": "#f1dfe5",
+            "onBarAccent": "#de9cb2"
+          },
+          "tmavy": {
+            "accent": "#93325A",
+            "accentHover": "#A63F69",
+            "accentBorder": "#BC6C88",
+            "onAccent": "#FFFFFF",
+            "accentText": "#de9cb2",
+            "accentSoft": "#3b1f29",
+            "onBarAccent": "#de9cb2"
+          }
+        },
+        "atomys": {
+          "svetly": {
+            "accent": "#1D1C19",
+            "accentHover": "#3A3833",
+            "accentBorder": "#1D1C19",
+            "onAccent": "#ffffff",
+            "accentText": "#1D1C19",
+            "accentSoft": "#e4e3e0",
+            "onBarAccent": "#e4e2dd"
+          },
+          "tmavy": {
+            "accent": "#e4e2dd",
+            "accentHover": "#f4f3ef",
+            "accentBorder": "#e4e2dd",
+            "onAccent": "#1a1917",
+            "accentText": "#e4e2dd",
+            "accentSoft": "#302f2d",
+            "onBarAccent": "#e4e2dd"
+          }
+        }
+      },
+      "tvar": {
+        "radiusControl": 0,
+        "radiusSurface": 0,
+        "radiusDialog": 0,
+        "borderRule": 1,
+        "barEdge": 3,
+        "shadowLayer": "3px 3px 0 rgb(0 0 0 / 0.28)",
+        "panelBorder": 1,
+        "panelPadding": 16,
+        "panelGap": 12
+      },
+      "typo": {
+        "stretchLabel": "82%",
+        "stretchControl": "88%",
+        "stretchHeading": "92%",
+        "stretchNumber": "100%",
+        "labelCase": "uppercase",
+        "labelTracking": "0.05em",
+        "headingWeight": 600
+      }
+    },
+    "atomys": {
+      "nazev": "Atomys",
+      "svetly": {
+        "canvas": "#DEE4EB",
+        "surface1": "#FFFFFF",
+        "surface2": "#D5DCE5",
+        "ink": "#0B0D10",
+        "inkSoft": "#34373D",
+        "muted": "#585D65",
+        "rule": "#CCD4DD",
+        "ruleStrong": "#76808C",
+        "fieldBorder": "#717B87",
+        "focus": "#0B0D10",
+        "focusHalo": "#FFD43B",
+        "success": "#1A6E35",
+        "successSoft": "#E2F0E5",
+        "warning": "#7C5700",
+        "warningSoft": "#F8ECCB",
+        "danger": "#B42318",
+        "dangerSoft": "#FBE5E2",
+        "info": "#464B53",
+        "infoSoft": "#E4E7EB",
+        "bar": "#DEE4EB",
+        "onBar": "#0B0D10",
+        "barMuted": "#585D65",
+        "barRule": "#C3CCD6",
+        "barField": "#FFFFFF",
+        "barFieldBorder": "#717B87",
+        "tableHead": "#FFFFFF",
+        "onTableHead": "#34373D",
+        "overlay": "#0B0D108C"
+      },
+      "tmavy": {
+        "canvas": "#0E1520",
+        "surface1": "#1C2533",
+        "surface2": "#263142",
+        "ink": "#ECEEF0",
+        "inkSoft": "#C5CBD3",
+        "muted": "#9AA4B1",
+        "rule": "#2E3A4B",
+        "ruleStrong": "#5F6C7D",
+        "fieldBorder": "#7B8797",
+        "focus": "#FFD43B",
+        "focusHalo": "#FFD43B",
+        "success": "#5CC98A",
+        "successSoft": "#12301E",
+        "warning": "#EBB04F",
+        "warningSoft": "#33270F",
+        "danger": "#FF7B66",
+        "dangerSoft": "#3B1713",
+        "info": "#A6ADB6",
+        "infoSoft": "#253041",
+        "bar": "#0E1520",
+        "onBar": "#ECEEF0",
+        "barMuted": "#9AA4B1",
+        "barRule": "#2E3A4B",
+        "barField": "#1C2533",
+        "barFieldBorder": "#6F7B8C",
+        "tableHead": "#1C2533",
+        "onTableHead": "#C5CBD3",
+        "overlay": "#000000B3"
+      },
+      "oblasti": {
+        "dokumenty": {
+          "svetly": {
+            "accent": "#324995",
+            "accentHover": "#273A78",
+            "accentBorder": "#273A78",
+            "onAccent": "#FFFFFF",
+            "accentText": "#324995",
+            "accentSoft": "#E3E8F5",
+            "onBarAccent": "#324995"
+          },
+          "tmavy": {
+            "accent": "#3D5FC2",
+            "accentHover": "#4B6DCC",
+            "accentBorder": "#567BD0",
+            "onAccent": "#FFFFFF",
+            "accentText": "#8BB1E8",
+            "accentSoft": "#1A2742",
+            "onBarAccent": "#8BB1E8"
+          }
+        },
+        "provoz": {
+          "svetly": {
+            "accent": "#914327",
+            "accentHover": "#76361F",
+            "accentBorder": "#76361F",
+            "onAccent": "#FFFFFF",
+            "accentText": "#914327",
+            "accentSoft": "#F5E6DF",
+            "onBarAccent": "#914327"
+          },
+          "tmavy": {
+            "accent": "#A84E28",
+            "accentHover": "#B55A32",
+            "accentBorder": "#BB673F",
+            "onAccent": "#FFFFFF",
+            "accentText": "#E7A074",
+            "accentSoft": "#36241A",
+            "onBarAccent": "#E7A074"
+          }
+        },
+        "finance": {
+          "svetly": {
+            "accent": "#0A6870",
+            "accentHover": "#075158",
+            "accentBorder": "#075158",
+            "onAccent": "#FFFFFF",
+            "accentText": "#0A6870",
+            "accentSoft": "#DCEDEE",
+            "onBarAccent": "#0A6870"
+          },
+          "tmavy": {
+            "accent": "#0D7078",
+            "accentHover": "#118089",
+            "accentBorder": "#278A91",
+            "onAccent": "#FFFFFF",
+            "accentText": "#54C3C9",
+            "accentSoft": "#0F2D2F",
+            "onBarAccent": "#54C3C9"
+          }
+        },
+        "crm": {
+          "svetly": {
+            "accent": "#8F1E4B",
+            "accentHover": "#74183D",
+            "accentBorder": "#74183D",
+            "onAccent": "#FFFFFF",
+            "accentText": "#8F1E4B",
+            "accentSoft": "#F6E3EA",
+            "onBarAccent": "#8F1E4B"
+          },
+          "tmavy": {
+            "accent": "#932C57",
+            "accentHover": "#A53864",
+            "accentBorder": "#BD5F82",
+            "onAccent": "#FFFFFF",
+            "accentText": "#ED97B5",
+            "accentSoft": "#3A1A26",
+            "onBarAccent": "#ED97B5"
+          }
+        },
+        "atomys": {
+          "svetly": {
+            "accent": "#16181B",
+            "accentHover": "#34383F",
+            "accentBorder": "#16181B",
+            "onAccent": "#FFFFFF",
+            "accentText": "#16181B",
+            "accentSoft": "#E3E5E8",
+            "onBarAccent": "#16181B"
+          },
+          "tmavy": {
+            "accent": "#ECEEF0",
+            "accentHover": "#FFFFFF",
+            "accentBorder": "#ECEEF0",
+            "onAccent": "#0B0D10",
+            "accentText": "#ECEEF0",
+            "accentSoft": "#262A30",
+            "onBarAccent": "#ECEEF0"
+          }
+        }
+      },
+      "tvar": {
+        "radiusControl": 4,
+        "radiusSurface": 6,
+        "radiusDialog": 8,
+        "borderRule": 1,
+        "barEdge": 3,
+        "shadowLayer": "0 12px 32px rgb(11 13 16 / 0.18)",
+        "panelBorder": 1,
+        "panelPadding": 24,
+        "panelGap": 32
+      },
+      "typo": {
+        "stretchLabel": "87%",
+        "stretchControl": "100%",
+        "stretchHeading": "100%",
+        "stretchNumber": "94%",
+        "labelCase": "none",
+        "labelTracking": "0",
+        "headingWeight": 600
+      }
+    }
+  },
+  "oblasti": {
+    "dokumenty": {
+      "nazev": "Dokumenty",
+      "odstin": "modrý inkoust",
+      "produkty": [
+        "upravpdf.eu",
+        "upravcsv.eu",
+        "upravisdoc.eu",
+        "upravubl.eu",
+        "upravdokument.eu",
+        "upravsklad.eu"
+      ]
+    },
+    "provoz": {
+      "nazev": "Provoz",
+      "odstin": "rez",
+      "produkty": [
+        "mujautoservis.eu",
+        "mujkalendar.eu",
+        "mojerezervace.eu",
+        "mujvozovypark.eu",
+        "mujautobazar.eu",
+        "dpf-vision",
+        "archiv zakázek",
+        "Servis Manager"
+      ]
+    },
+    "finance": {
+      "nazev": "Finance",
+      "odstin": "petrolej",
+      "produkty": [
+        "mojefaktura.eu",
+        "mojeucetnictvi.eu",
+        "platební modul"
+      ]
+    },
+    "crm": {
+      "nazev": "CRM",
+      "odstin": "víno",
+      "produkty": [
+        "IC Office CRM",
+        "IC Office Tutoriál"
+      ]
+    },
+    "atomys": {
+      "nazev": "Atomys",
+      "odstin": "neutrální inkoust",
+      "produkty": [
+        "atomys.cz",
+        "atomys.eu",
+        "Hlasový analyzátor",
+        "interní nástroje"
+      ]
+    }
+  },
+  "hustoty": {
+    "kancelar": {
+      "nazev": "Kancelář",
+      "fontSizeText": 15,
+      "fontSizeSmall": 13,
+      "fontSizeTable": 14,
+      "rowHeight": 36,
+      "controlHeight": 36,
+      "touchTarget": 44
+    },
+    "dilna": {
+      "nazev": "Dílna",
+      "fontSizeText": 17,
+      "fontSizeSmall": 15,
+      "fontSizeTable": 16,
+      "rowHeight": 44,
+      "controlHeight": 44,
+      "touchTarget": 52
+    },
+    "dotyk": {
+      "nazev": "Dotyk",
+      "fontSizeText": 16,
+      "fontSizeSmall": 14,
+      "fontSizeTable": 15,
+      "rowHeight": 48,
+      "controlHeight": 52,
+      "touchTarget": 52
+    }
+  },
+  "pismo": {
+    "ui": [
+      "IBM Plex Sans Variable",
+      "IBM Plex Sans Variable Fallback",
+      "IBM Plex Sans",
+      "Segoe UI",
+      "Arial",
+      "sans-serif"
+    ],
+    "data": [
+      "IBM Plex Mono",
+      "IBM Plex Mono Fallback",
+      "Cascadia Mono",
+      "Consolas",
+      "monospace"
+    ]
+  },
+  "velikostPisma": {
+    "micro": 12,
+    "h4": 16,
+    "h3": 18,
+    "h2": 22,
+    "h1": 28,
+    "display": "clamp(2rem, 1.4rem + 2.2vw, 3rem)"
+  },
+  "mezera": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 20,
+    "6": 24,
+    "8": 32,
+    "10": 40,
+    "12": 48,
+    "16": 64,
+    "20": 80
+  }
+}

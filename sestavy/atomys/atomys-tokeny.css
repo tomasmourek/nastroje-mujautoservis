@@ -1,0 +1,561 @@
+/* Atomys Design Language 2.1.0 — CSS tokeny. Generováno z tokens/design-tokens.json, needitovat ručně.
+ *
+ * <html data-vzhled="tiskopis|dilna|atomys" data-theme="light|dark" data-hustota="kancelar|dilna|dotyk" data-area="dokumenty|provoz|finance|crm|atomys">
+ * Bez data-theme platí motiv systému. Vzhled i motiv lze nastavit i na vnořeném prvku
+ * (například náhled vzhledu v nastavení).
+ * Podpora prohlížečů: Chrome a Edge 123+, Firefox 120+, Safari 17.5+ (CSS light-dark() a color-mix()).
+ */
+
+/* Motiv: přepíná jen color-scheme, barvy vzhledů jsou v light-dark(). */
+:root {
+  color-scheme: light dark;
+}
+[data-theme="light"] {
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Vzhled Tiskopis (výchozí) */
+:root,
+[data-vzhled="tiskopis"] {
+  --at-canvas: light-dark(#F4F6F8, #13171C);
+  --at-surface-1: light-dark(#FFFFFF, #1E232A);
+  --at-surface-2: light-dark(#E8EBEF, #282E36);
+  --at-ink: light-dark(#15191E, #ECEEF1);
+  --at-ink-soft: light-dark(#39414B, #C6CBD2);
+  --at-muted: light-dark(#58616C, #9CA5AF);
+  --at-rule: light-dark(#D5DAE0, #343B45);
+  --at-rule-strong: light-dark(#A3ABB5, #58616D);
+  --at-field-border: light-dark(#737C87, #808995);
+  --at-focus: light-dark(#15191E, #FFD43B);
+  --at-focus-halo: light-dark(#FFD43B, #FFD43B);
+  --at-success: light-dark(#1B6B3A, #6CCB8C);
+  --at-success-soft: light-dark(#E2F1E6, #173222);
+  --at-warning: light-dark(#7C5400, #F2B45A);
+  --at-warning-soft: light-dark(#FBF0D2, #36290F);
+  --at-danger: light-dark(#B3261E, #FF8F85);
+  --at-danger-soft: light-dark(#FBE8E6, #3D1D1B);
+  --at-info: light-dark(#545659, #A9B1BC);
+  --at-info-soft: light-dark(#E6EAEE, #29303A);
+  --at-bar: light-dark(#FFFFFF, #1E232A);
+  --at-on-bar: light-dark(#15191E, #ECEEF1);
+  --at-bar-muted: light-dark(#58616C, #9CA5AF);
+  --at-bar-rule: light-dark(#D5DAE0, #343B45);
+  --at-bar-field: light-dark(#FFFFFF, #13171C);
+  --at-bar-field-border: light-dark(#737C87, #808995);
+  --at-table-head: light-dark(#E8EBEF, #282E36);
+  --at-on-table-head: light-dark(#2B323B, #D5D9DF);
+  --at-overlay: light-dark(rgba(21, 25, 30, 0.48), rgba(0, 0, 0, 0.62));
+  --at-dokumenty-accent: light-dark(#2B4199, #3F5DB5);
+  --at-dokumenty-accent-hover: light-dark(#213380, #4C6AC2);
+  --at-dokumenty-accent-border: light-dark(#213380, #5579C6);
+  --at-dokumenty-on-accent: light-dark(#FFFFFF, #FFFFFF);
+  --at-dokumenty-accent-text: light-dark(#2B4199, #86B0E6);
+  --at-dokumenty-accent-soft: light-dark(#E7ECF8, #1A2A40);
+  --at-dokumenty-on-bar-accent: light-dark(#2B4199, #86B0E6);
+  --at-provoz-accent: light-dark(#7E3317, #A8471F);
+  --at-provoz-accent-hover: light-dark(#662913, #B8552B);
+  --at-provoz-accent-border: light-dark(#662913, #C15E30);
+  --at-provoz-on-accent: light-dark(#FFFFFF, #FFFFFF);
+  --at-provoz-accent-text: light-dark(#7E3317, #E07B45);
+  --at-provoz-accent-soft: light-dark(#F5E8E1, #372218);
+  --at-provoz-on-bar-accent: light-dark(#7E3317, #E07B45);
+  --at-finance-accent: light-dark(#006670, #0C6E75);
+  --at-finance-accent-hover: light-dark(#00535B, #10808A);
+  --at-finance-accent-border: light-dark(#00535B, #2C878E);
+  --at-finance-on-accent: light-dark(#FFFFFF, #FFFFFF);
+  --at-finance-accent-text: light-dark(#006670, #62C0C8);
+  --at-finance-accent-soft: light-dark(#DFEEEF, #142E31);
+  --at-finance-on-bar-accent: light-dark(#006670, #62C0C8);
+  --at-crm-accent: light-dark(#8A1F4A, #8F2A54);
+  --at-crm-accent-hover: light-dark(#711A3D, #A0345F);
+  --at-crm-accent-border: light-dark(#711A3D, #B95D7E);
+  --at-crm-on-accent: light-dark(#FFFFFF, #FFFFFF);
+  --at-crm-accent-text: light-dark(#8A1F4A, #EE9DB8);
+  --at-crm-accent-soft: light-dark(#F7E7EE, #3A1D29);
+  --at-crm-on-bar-accent: light-dark(#8A1F4A, #EE9DB8);
+  --at-atomys-accent: light-dark(#1B1F24, #EEF0F3);
+  --at-atomys-accent-hover: light-dark(#353B43, #FFFFFF);
+  --at-atomys-accent-border: light-dark(#1B1F24, #EEF0F3);
+  --at-atomys-on-accent: light-dark(#FFFFFF, #15191E);
+  --at-atomys-accent-text: light-dark(#1B1F24, #EEF0F3);
+  --at-atomys-accent-soft: light-dark(#E6E9ED, #2A2F36);
+  --at-atomys-on-bar-accent: light-dark(#1B1F24, #EEF0F3);
+  --at-radius-control: 2px;
+  --at-radius-surface: 0px;
+  --at-radius-dialog: 2px;
+  --at-border-rule: 1px;
+  --at-bar-edge: 3px;
+  --at-shadow-layer: 0 1px 0 rgb(21 25 30 / 0.06), 0 6px 16px rgb(21 25 30 / 0.14);
+  --at-panel-border: 0px;
+  --at-panel-padding: 0px;
+  --at-panel-gap: 1.5rem;
+  --at-content-surface: var(--at-surface-1);
+  --at-nav-surface: var(--at-canvas);
+  --at-nav-rule: var(--at-rule);
+  --at-nav-padding-inline: var(--at-space-2);
+  --at-nav-gap: var(--at-space-3);
+  --at-nav-group-rule: 0px;
+  --at-nav-group-padding: 0px;
+  --at-nav-icon-display: none;
+  --at-nav-current-fill: 100%;
+  --at-nav-current-mark: 0px;
+  --at-panel-border-color: var(--at-rule);
+  --at-panel-head-rule: var(--at-ink);
+  --at-panel-head-rule-width: 1px;
+  --at-nested-frame: 1px;
+  --at-dialog-head-rule: var(--at-ink);
+  --at-dialog-foot-surface: transparent;
+  --at-table-head-rule: var(--at-ink);
+  --at-table-head-rule-width: 1.5px;
+  --at-table-head-divider: 0px;
+  --at-table-foot-rule: var(--at-ink);
+  --at-table-foot-rule-width: 1px;
+  --at-total-line: underline;
+  --at-total-rule-width: 3px;
+  --at-grid-rule: var(--at-rule-strong);
+  --at-grid-frame: var(--at-ink);
+  --at-radius-chip: 999px;
+  --at-stav-border-width: 0px;
+  --at-stav-padding-inline: 0px;
+  --at-stav-weight: 500;
+  --at-stretch-label: 87%;
+  --at-stretch-control: 100%;
+  --at-stretch-heading: 100%;
+  --at-stretch-number: 93%;
+  --at-label-case: none;
+  --at-label-tracking: 0;
+  --at-heading-weight: 600;
+}
+
+/* Vzhled Dílna */
+[data-vzhled="dilna"] {
+  --at-canvas: light-dark(#d3d3cf, #2A2D31);
+  --at-surface-1: light-dark(#f6f7f8, #1B1D20);
+  --at-surface-2: light-dark(#e6e8e8, #33373C);
+  --at-ink: light-dark(#1b1a17, #EDEEF0);
+  --at-ink-soft: light-dark(#3a3934, #CFD2D7);
+  --at-muted: light-dark(#55544e, #A6ACB4);
+  --at-rule: light-dark(#c3c3be, #3A3E44);
+  --at-rule-strong: light-dark(#6d6c65, #6B727C);
+  --at-field-border: light-dark(#66655e, #878E98);
+  --at-focus: light-dark(#1b1a17, #FFD43B);
+  --at-focus-halo: light-dark(#FFD43B, #FFD43B);
+  --at-success: light-dark(#2a6120, #82c26c);
+  --at-success-soft: light-dark(#dbe9d3, #1f3219);
+  --at-warning: light-dark(#654d00, #E8B456);
+  --at-warning-soft: light-dark(#f2e5b5, #372A12);
+  --at-danger: light-dark(#a8182b, #f47f7c);
+  --at-danger-soft: light-dark(#f6dadc, #3e1d1a);
+  --at-info: light-dark(#4E5157, #A0A6AE);
+  --at-info-soft: light-dark(#E3E4E3, #2C3035);
+  --at-bar: light-dark(#1f1e1b, #0D0E10);
+  --at-on-bar: light-dark(#edece8, #EDECE8);
+  --at-bar-muted: light-dark(#aeaca5, #AEACA5);
+  --at-bar-rule: light-dark(#57554f, #3E434A);
+  --at-bar-field: light-dark(#2c2b28, #1B1D20);
+  --at-bar-field-border: light-dark(#8a8881, #7F858E);
+  --at-table-head: light-dark(#2a2925, #101215);
+  --at-on-table-head: light-dark(#edece8, #DCDAD4);
+  --at-overlay: light-dark(rgb(27 26 23 / 0.55), rgb(0 0 0 / 0.68));
+  --at-dokumenty-accent: light-dark(#3647a6, #3A55A8);
+  --at-dokumenty-accent-hover: light-dark(#293887, #4763B8);
+  --at-dokumenty-accent-border: light-dark(#293887, #6084C7);
+  --at-dokumenty-on-accent: light-dark(#ffffff, #FFFFFF);
+  --at-dokumenty-accent-text: light-dark(#3647a6, #82ABE0);
+  --at-dokumenty-accent-soft: light-dark(#e2e5f3, #1B2840);
+  --at-dokumenty-on-bar-accent: light-dark(#8a98e0, #82ABE0);
+  --at-provoz-accent: light-dark(#87472c, #A34A24);
+  --at-provoz-accent-hover: light-dark(#6b3722, #B45A30);
+  --at-provoz-accent-border: light-dark(#6b3722, #C86B3A);
+  --at-provoz-on-accent: light-dark(#ffffff, #FFFFFF);
+  --at-provoz-accent-text: light-dark(#87472c, #e9894e);
+  --at-provoz-accent-soft: light-dark(#f2e2d6, #3b2417);
+  --at-provoz-on-bar-accent: light-dark(#e9894e, #e9894e);
+  --at-finance-accent: light-dark(#0F636B, #0F6B72);
+  --at-finance-accent-hover: light-dark(#0A4D54, #137C84);
+  --at-finance-accent-border: light-dark(#0A4D54, #389098);
+  --at-finance-on-accent: light-dark(#ffffff, #FFFFFF);
+  --at-finance-accent-text: light-dark(#0F636B, #5cb9c1);
+  --at-finance-accent-soft: light-dark(#d9e9ea, #13302f);
+  --at-finance-on-bar-accent: light-dark(#5cb9c1, #5cb9c1);
+  --at-crm-accent: light-dark(#72223b, #93325A);
+  --at-crm-accent-hover: light-dark(#58192d, #A63F69);
+  --at-crm-accent-border: light-dark(#58192d, #BC6C88);
+  --at-crm-on-accent: light-dark(#ffffff, #FFFFFF);
+  --at-crm-accent-text: light-dark(#72223b, #de9cb2);
+  --at-crm-accent-soft: light-dark(#f1dfe5, #3b1f29);
+  --at-crm-on-bar-accent: light-dark(#de9cb2, #de9cb2);
+  --at-atomys-accent: light-dark(#1D1C19, #e4e2dd);
+  --at-atomys-accent-hover: light-dark(#3A3833, #f4f3ef);
+  --at-atomys-accent-border: light-dark(#1D1C19, #e4e2dd);
+  --at-atomys-on-accent: light-dark(#ffffff, #1a1917);
+  --at-atomys-accent-text: light-dark(#1D1C19, #e4e2dd);
+  --at-atomys-accent-soft: light-dark(#e4e3e0, #302f2d);
+  --at-atomys-on-bar-accent: light-dark(#e4e2dd, #e4e2dd);
+  --at-radius-control: 0px;
+  --at-radius-surface: 0px;
+  --at-radius-dialog: 0px;
+  --at-border-rule: 1px;
+  --at-bar-edge: 3px;
+  --at-shadow-layer: 3px 3px 0 rgb(0 0 0 / 0.28);
+  --at-panel-border: 1px;
+  --at-panel-padding: 1rem;
+  --at-panel-gap: 0.75rem;
+  --at-content-surface: var(--at-canvas);
+  --at-nav-surface: var(--at-surface-2);
+  --at-nav-rule: var(--at-rule-strong);
+  --at-nav-padding-inline: 0px;
+  --at-nav-gap: var(--at-space-3);
+  --at-nav-group-rule: 1px;
+  --at-nav-group-padding: var(--at-space-2);
+  --at-nav-icon-display: inline-block;
+  --at-nav-current-fill: 100%;
+  --at-nav-current-mark: 0px;
+  --at-panel-border-color: var(--at-rule-strong);
+  --at-panel-head-rule: var(--at-rule-strong);
+  --at-panel-head-rule-width: 2px;
+  --at-nested-frame: 0px;
+  --at-dialog-head-rule: var(--at-rule);
+  --at-dialog-foot-surface: var(--at-surface-2);
+  --at-table-head-rule: var(--at-table-head);
+  --at-table-head-rule-width: 1px;
+  --at-table-head-divider: 1px;
+  --at-table-foot-rule: var(--at-rule-strong);
+  --at-table-foot-rule-width: 2px;
+  --at-total-line: none;
+  --at-total-rule-width: 0px;
+  --at-grid-rule: var(--at-rule);
+  --at-grid-frame: var(--at-rule-strong);
+  --at-radius-chip: 0px;
+  --at-stav-border-width: 1px;
+  --at-stav-padding-inline: 0.375rem;
+  --at-stav-weight: 600;
+  --at-stretch-label: 82%;
+  --at-stretch-control: 88%;
+  --at-stretch-heading: 92%;
+  --at-stretch-number: 100%;
+  --at-label-case: uppercase;
+  --at-label-tracking: 0.05em;
+  --at-heading-weight: 600;
+}
+
+/* Vzhled Atomys */
+[data-vzhled="atomys"] {
+  --at-canvas: light-dark(#DEE4EB, #0E1520);
+  --at-surface-1: light-dark(#FFFFFF, #1C2533);
+  --at-surface-2: light-dark(#D5DCE5, #263142);
+  --at-ink: light-dark(#0B0D10, #ECEEF0);
+  --at-ink-soft: light-dark(#34373D, #C5CBD3);
+  --at-muted: light-dark(#585D65, #9AA4B1);
+  --at-rule: light-dark(#CCD4DD, #2E3A4B);
+  --at-rule-strong: light-dark(#76808C, #5F6C7D);
+  --at-field-border: light-dark(#717B87, #7B8797);
+  --at-focus: light-dark(#0B0D10, #FFD43B);
+  --at-focus-halo: light-dark(#FFD43B, #FFD43B);
+  --at-success: light-dark(#1A6E35, #5CC98A);
+  --at-success-soft: light-dark(#E2F0E5, #12301E);
+  --at-warning: light-dark(#7C5700, #EBB04F);
+  --at-warning-soft: light-dark(#F8ECCB, #33270F);
+  --at-danger: light-dark(#B42318, #FF7B66);
+  --at-danger-soft: light-dark(#FBE5E2, #3B1713);
+  --at-info: light-dark(#464B53, #A6ADB6);
+  --at-info-soft: light-dark(#E4E7EB, #253041);
+  --at-bar: light-dark(#DEE4EB, #0E1520);
+  --at-on-bar: light-dark(#0B0D10, #ECEEF0);
+  --at-bar-muted: light-dark(#585D65, #9AA4B1);
+  --at-bar-rule: light-dark(#C3CCD6, #2E3A4B);
+  --at-bar-field: light-dark(#FFFFFF, #1C2533);
+  --at-bar-field-border: light-dark(#717B87, #6F7B8C);
+  --at-table-head: light-dark(#FFFFFF, #1C2533);
+  --at-on-table-head: light-dark(#34373D, #C5CBD3);
+  --at-overlay: light-dark(#0B0D108C, #000000B3);
+  --at-dokumenty-accent: light-dark(#324995, #3D5FC2);
+  --at-dokumenty-accent-hover: light-dark(#273A78, #4B6DCC);
+  --at-dokumenty-accent-border: light-dark(#273A78, #567BD0);
+  --at-dokumenty-on-accent: light-dark(#FFFFFF, #FFFFFF);
+  --at-dokumenty-accent-text: light-dark(#324995, #8BB1E8);
+  --at-dokumenty-accent-soft: light-dark(#E3E8F5, #1A2742);
+  --at-dokumenty-on-bar-accent: light-dark(#324995, #8BB1E8);
+  --at-provoz-accent: light-dark(#914327, #A84E28);
+  --at-provoz-accent-hover: light-dark(#76361F, #B55A32);
+  --at-provoz-accent-border: light-dark(#76361F, #BB673F);
+  --at-provoz-on-accent: light-dark(#FFFFFF, #FFFFFF);
+  --at-provoz-accent-text: light-dark(#914327, #E7A074);
+  --at-provoz-accent-soft: light-dark(#F5E6DF, #36241A);
+  --at-provoz-on-bar-accent: light-dark(#914327, #E7A074);
+  --at-finance-accent: light-dark(#0A6870, #0D7078);
+  --at-finance-accent-hover: light-dark(#075158, #118089);
+  --at-finance-accent-border: light-dark(#075158, #278A91);
+  --at-finance-on-accent: light-dark(#FFFFFF, #FFFFFF);
+  --at-finance-accent-text: light-dark(#0A6870, #54C3C9);
+  --at-finance-accent-soft: light-dark(#DCEDEE, #0F2D2F);
+  --at-finance-on-bar-accent: light-dark(#0A6870, #54C3C9);
+  --at-crm-accent: light-dark(#8F1E4B, #932C57);
+  --at-crm-accent-hover: light-dark(#74183D, #A53864);
+  --at-crm-accent-border: light-dark(#74183D, #BD5F82);
+  --at-crm-on-accent: light-dark(#FFFFFF, #FFFFFF);
+  --at-crm-accent-text: light-dark(#8F1E4B, #ED97B5);
+  --at-crm-accent-soft: light-dark(#F6E3EA, #3A1A26);
+  --at-crm-on-bar-accent: light-dark(#8F1E4B, #ED97B5);
+  --at-atomys-accent: light-dark(#16181B, #ECEEF0);
+  --at-atomys-accent-hover: light-dark(#34383F, #FFFFFF);
+  --at-atomys-accent-border: light-dark(#16181B, #ECEEF0);
+  --at-atomys-on-accent: light-dark(#FFFFFF, #0B0D10);
+  --at-atomys-accent-text: light-dark(#16181B, #ECEEF0);
+  --at-atomys-accent-soft: light-dark(#E3E5E8, #262A30);
+  --at-atomys-on-bar-accent: light-dark(#16181B, #ECEEF0);
+  --at-radius-control: 4px;
+  --at-radius-surface: 6px;
+  --at-radius-dialog: 8px;
+  --at-border-rule: 1px;
+  --at-bar-edge: 3px;
+  --at-shadow-layer: 0 12px 32px rgb(11 13 16 / 0.18);
+  --at-panel-border: 1px;
+  --at-panel-padding: 1.5rem;
+  --at-panel-gap: 2rem;
+  --at-content-surface: var(--at-canvas);
+  --at-nav-surface: var(--at-canvas);
+  --at-nav-rule: var(--at-rule);
+  --at-nav-padding-inline: var(--at-space-2);
+  --at-nav-gap: 1.5rem;
+  --at-nav-group-rule: 0px;
+  --at-nav-group-padding: 0px;
+  --at-nav-icon-display: none;
+  --at-nav-current-fill: 0%;
+  --at-nav-current-mark: 1.5rem;
+  --at-panel-border-color: var(--at-rule);
+  --at-panel-head-rule: var(--at-rule);
+  --at-panel-head-rule-width: 1px;
+  --at-nested-frame: 0px;
+  --at-dialog-head-rule: var(--at-rule);
+  --at-dialog-foot-surface: transparent;
+  --at-table-head-rule: var(--at-rule-strong);
+  --at-table-head-rule-width: 1px;
+  --at-table-head-divider: 0px;
+  --at-table-foot-rule: var(--at-rule-strong);
+  --at-table-foot-rule-width: 2px;
+  --at-total-line: none;
+  --at-total-rule-width: 0px;
+  --at-grid-rule: var(--at-rule);
+  --at-grid-frame: var(--at-rule-strong);
+  --at-radius-chip: 999px;
+  --at-stav-border-width: 0px;
+  --at-stav-padding-inline: 0px;
+  --at-stav-weight: 500;
+  --at-stretch-label: 87%;
+  --at-stretch-control: 100%;
+  --at-stretch-heading: 100%;
+  --at-stretch-number: 94%;
+  --at-label-case: none;
+  --at-label-tracking: 0;
+  --at-heading-weight: 600;
+}
+
+/* Oblast určuje jediný značkový akcent. Přepočítá se i tam, kde vnořený prvek mění vzhled. */
+:root,
+[data-vzhled],
+[data-area="atomys"],
+[data-area="atomys"] [data-vzhled] {
+  --at-accent: var(--at-atomys-accent);
+  --at-accent-hover: var(--at-atomys-accent-hover);
+  --at-accent-border: var(--at-atomys-accent-border);
+  --at-on-accent: var(--at-atomys-on-accent);
+  --at-accent-text: var(--at-atomys-accent-text);
+  --at-accent-soft: var(--at-atomys-accent-soft);
+  --at-on-bar-accent: var(--at-atomys-on-bar-accent);
+}
+
+[data-area="dokumenty"],
+[data-area="dokumenty"] [data-vzhled] {
+  --at-accent: var(--at-dokumenty-accent);
+  --at-accent-hover: var(--at-dokumenty-accent-hover);
+  --at-accent-border: var(--at-dokumenty-accent-border);
+  --at-on-accent: var(--at-dokumenty-on-accent);
+  --at-accent-text: var(--at-dokumenty-accent-text);
+  --at-accent-soft: var(--at-dokumenty-accent-soft);
+  --at-on-bar-accent: var(--at-dokumenty-on-bar-accent);
+}
+
+[data-area="provoz"],
+[data-area="provoz"] [data-vzhled] {
+  --at-accent: var(--at-provoz-accent);
+  --at-accent-hover: var(--at-provoz-accent-hover);
+  --at-accent-border: var(--at-provoz-accent-border);
+  --at-on-accent: var(--at-provoz-on-accent);
+  --at-accent-text: var(--at-provoz-accent-text);
+  --at-accent-soft: var(--at-provoz-accent-soft);
+  --at-on-bar-accent: var(--at-provoz-on-bar-accent);
+}
+
+[data-area="finance"],
+[data-area="finance"] [data-vzhled] {
+  --at-accent: var(--at-finance-accent);
+  --at-accent-hover: var(--at-finance-accent-hover);
+  --at-accent-border: var(--at-finance-accent-border);
+  --at-on-accent: var(--at-finance-on-accent);
+  --at-accent-text: var(--at-finance-accent-text);
+  --at-accent-soft: var(--at-finance-accent-soft);
+  --at-on-bar-accent: var(--at-finance-on-bar-accent);
+}
+
+[data-area="crm"],
+[data-area="crm"] [data-vzhled] {
+  --at-accent: var(--at-crm-accent);
+  --at-accent-hover: var(--at-crm-accent-hover);
+  --at-accent-border: var(--at-crm-accent-border);
+  --at-on-accent: var(--at-crm-on-accent);
+  --at-accent-text: var(--at-crm-accent-text);
+  --at-accent-soft: var(--at-crm-accent-soft);
+  --at-on-bar-accent: var(--at-crm-on-bar-accent);
+}
+
+/* Vnořená oblast má přednost před vzdálenější: náhled vzhledu uvnitř prvku s jinou oblastí
+   (například stránka crm, oddíl dokumenty, náhled atomys) dostane akcent nejbližší oblasti.
+   Prvek, který nese oblast i vzhled zároveň, má přednost před oblastí předka. */
+
+[data-area] [data-area="dokumenty"] [data-vzhled],
+[data-area="dokumenty"][data-area][data-vzhled] {
+  --at-accent: var(--at-dokumenty-accent);
+  --at-accent-hover: var(--at-dokumenty-accent-hover);
+  --at-accent-border: var(--at-dokumenty-accent-border);
+  --at-on-accent: var(--at-dokumenty-on-accent);
+  --at-accent-text: var(--at-dokumenty-accent-text);
+  --at-accent-soft: var(--at-dokumenty-accent-soft);
+  --at-on-bar-accent: var(--at-dokumenty-on-bar-accent);
+}
+
+[data-area] [data-area="provoz"] [data-vzhled],
+[data-area="provoz"][data-area][data-vzhled] {
+  --at-accent: var(--at-provoz-accent);
+  --at-accent-hover: var(--at-provoz-accent-hover);
+  --at-accent-border: var(--at-provoz-accent-border);
+  --at-on-accent: var(--at-provoz-on-accent);
+  --at-accent-text: var(--at-provoz-accent-text);
+  --at-accent-soft: var(--at-provoz-accent-soft);
+  --at-on-bar-accent: var(--at-provoz-on-bar-accent);
+}
+
+[data-area] [data-area="finance"] [data-vzhled],
+[data-area="finance"][data-area][data-vzhled] {
+  --at-accent: var(--at-finance-accent);
+  --at-accent-hover: var(--at-finance-accent-hover);
+  --at-accent-border: var(--at-finance-accent-border);
+  --at-on-accent: var(--at-finance-on-accent);
+  --at-accent-text: var(--at-finance-accent-text);
+  --at-accent-soft: var(--at-finance-accent-soft);
+  --at-on-bar-accent: var(--at-finance-on-bar-accent);
+}
+
+[data-area] [data-area="crm"] [data-vzhled],
+[data-area="crm"][data-area][data-vzhled] {
+  --at-accent: var(--at-crm-accent);
+  --at-accent-hover: var(--at-crm-accent-hover);
+  --at-accent-border: var(--at-crm-accent-border);
+  --at-on-accent: var(--at-crm-on-accent);
+  --at-accent-text: var(--at-crm-accent-text);
+  --at-accent-soft: var(--at-crm-accent-soft);
+  --at-on-bar-accent: var(--at-crm-on-bar-accent);
+}
+
+[data-area] [data-area="atomys"] [data-vzhled],
+[data-area="atomys"][data-area][data-vzhled] {
+  --at-accent: var(--at-atomys-accent);
+  --at-accent-hover: var(--at-atomys-accent-hover);
+  --at-accent-border: var(--at-atomys-accent-border);
+  --at-on-accent: var(--at-atomys-on-accent);
+  --at-accent-text: var(--at-atomys-accent-text);
+  --at-accent-soft: var(--at-atomys-accent-soft);
+  --at-on-bar-accent: var(--at-atomys-on-bar-accent);
+}
+
+/* Hustota: Kancelář, Dílna, Dotyk */
+:root,
+[data-hustota="kancelar"] {
+  --at-font-size-text: 0.9375rem;
+  --at-font-size-small: 0.8125rem;
+  --at-font-size-table: 0.875rem;
+  --at-row-height: 2.25rem;
+  --at-control-height: 2.25rem;
+  --at-touch-target: 2.75rem;
+}
+
+[data-hustota="dilna"] {
+  --at-font-size-text: 1.0625rem;
+  --at-font-size-small: 0.9375rem;
+  --at-font-size-table: 1rem;
+  --at-row-height: 2.75rem;
+  --at-control-height: 2.75rem;
+  --at-touch-target: 3.25rem;
+}
+
+[data-hustota="dotyk"] {
+  --at-font-size-text: 1rem;
+  --at-font-size-small: 0.875rem;
+  --at-font-size-table: 0.9375rem;
+  --at-row-height: 3rem;
+  --at-control-height: 3.25rem;
+  --at-touch-target: 3.25rem;
+}
+
+
+/* Společné pro všechny vzhledy */
+:root {
+  --at-font-ui: "IBM Plex Sans Variable", "IBM Plex Sans Variable Fallback", "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --at-font-data: "IBM Plex Mono", "IBM Plex Mono Fallback", "Cascadia Mono", Consolas, monospace;
+  --at-font-size-micro: 0.75rem;
+  --at-font-size-h4: 1rem;
+  --at-font-size-h3: 1.125rem;
+  --at-font-size-h2: 1.375rem;
+  --at-font-size-h1: 1.75rem;
+  --at-font-size-display: clamp(2rem, 1.4rem + 2.2vw, 3rem);
+  --at-font-weight-regular: 400;
+  --at-font-weight-medium: 500;
+  --at-font-weight-semibold: 600;
+  --at-line-height-tight: 1.15;
+  --at-line-height-heading: 1.2;
+  --at-line-height-table: 1.35;
+  --at-line-height-label: 1.45;
+  --at-line-height-body: 1.5;
+  --at-tracking-heading: -0.005em;
+  --at-space-1: 0.25rem;
+  --at-space-2: 0.5rem;
+  --at-space-3: 0.75rem;
+  --at-space-4: 1rem;
+  --at-space-5: 1.25rem;
+  --at-space-6: 1.5rem;
+  --at-space-8: 2rem;
+  --at-space-10: 2.5rem;
+  --at-space-12: 3rem;
+  --at-space-16: 4rem;
+  --at-space-20: 5rem;
+  --at-radius-pill: 999px;
+  --at-border-focus: 2px;
+  --at-layout-page-max: 90rem;
+  --at-layout-text-max: 42rem;
+  --at-layout-gutter: clamp(1rem, 3vw, 2.5rem);
+  --at-layout-section-space: clamp(2rem, 3vw, 3rem);
+  --at-layout-sidebar: 15rem;
+  --at-layout-inspector: 22rem;
+  --at-z-bar: 100;
+  --at-z-dropdown: 200;
+  --at-z-dialog: 300;
+  --at-z-toast: 400;
+  --at-z-skip: 1000;
+  --at-motion-fast: 120ms;
+  --at-motion-base: 180ms;
+  --at-motion-slow: 320ms;
+  --at-motion-spin: 840ms;
+  --at-motion-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --at-motion-fast: 1ms;
+    --at-motion-base: 1ms;
+    --at-motion-slow: 1ms;
+    --at-motion-spin: 1ms;
+  }
+}

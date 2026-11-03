@@ -5,7 +5,8 @@ Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) na Ato
 ## Struktura
 
 - `index.html`: rozcestník. Obsahuje ukázku vstupu a výstupu, seznam nástrojů a služeb a informace o úložišti v prohlížeči.
-- `sestavy/`: sestavená aplikace [ic-office-ucetni-sestavy](https://github.com/tomasmourek/ic-office-ucetni-sestavy) (`npm run build`, obsah `dist/`). Do repozitáře nepatří (`.gitignore`), kopíruje se při nasazení.
+- `sestavy/`: sestavená aplikace [ic-office-ucetni-sestavy](https://github.com/tomasmourek/ic-office-ucetni-sestavy) (`npm run build`, obsah `dist/`). Je verzovaná, protože se z ní staví obraz; po změně sestav ji nahraďte novým `dist/` a staré soubory v `sestavy/assets/` smažte.
+- `Dockerfile`, `deploy/nginx.conf`: obraz pro Coolify (nginx, port 80; HTTPS a doménu řeší Traefik).
 
 ## Náhled
 
@@ -13,7 +14,6 @@ Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) na Ato
 python -m http.server 5180 --bind 127.0.0.1
 ```
 
-Před náhledem odkazu na sestavy zkopírujte `dist/` z repozitáře sestav do `sestavy/`.
 
 ## Pravidla obsahu
 
