@@ -1,11 +1,9 @@
 // Spuštění odesílací služby. Naslouchá jen na 127.0.0.1, zvenku je dostupná přes nginx (/sestavy/api/).
 // Údaje ke společné adrese a otisky přístupových kódů jsou jen v proměnných prostředí
-// kontejneru (Coolify), nikdy v repozitáři; údaje ke schránce uživatele přicházejí
-// s požadavkem a po odeslání se zahodí.
-import { lookup } from "node:dns/promises";
+// kontejneru (Coolify), nikdy v repozitáři.
 import { createServer } from "node:http";
 import nodemailer from "nodemailer";
-import { nacistKody, verejnaAdresa, vytvoritObsluhu } from "./odeslani.mjs";
+import { nacistKody, vytvoritObsluhu } from "./odeslani.mjs";
 
 const {
   SMTP_HOST,
@@ -31,24 +29,6 @@ const posta =
 const obsluha = vytvoritObsluhu({
   kody,
   odeslat: posta ? (z) => posta.sendMail({ from: MAIL_FROM, ...z }) : null,
-  odeslatVlastni: async (s, z) => {
-    const posta = nodemailer.createTransport({
-      host: await verejnaAdresa(s.server, lookup),
-      port: s.port,
-      secure: s.port === 465,
-      requireTLS: true,
-      tls: { servername: s.server },
-      auth: { user: s.uzivatel, pass: s.heslo },
-      connectionTimeout: 15_000,
-      greetingTimeout: 15_000,
-      socketTimeout: 60_000,
-    });
-    try {
-      await posta.sendMail(z);
-    } finally {
-      posta.close();
-    }
-  },
 });
 
 createServer((req, res) => {
