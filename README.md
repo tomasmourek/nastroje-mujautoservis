@@ -1,10 +1,10 @@
 # nastroje.mujautoservis.eu
 
-Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) na Atomys design systemu 2.1.0 (kopie v `atomys/`, needituje se). Nabízí nástroje zdarma ke zkoušení v prohlížeči a odkazy na další služby pro autoservisy.
+Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) ve stylu a paletě úvodní stránky archiv.mujautoservis.eu (`web.css`, `web-motion.js`, písmo Inter v `fonts/`, náhledy aplikace v `nahledy/`). Z Atomys 2.1.0 (kopie v `atomys/`, needituje se) používá jen `vzhled.js` pro přepínání motivu. Nabízí nástroje zdarma ke zkoušení v prohlížeči a odkazy na další služby pro autoservisy.
 
 ## Struktura
 
-- `index.html`: rozcestník. Obsahuje ukázku vstupu a výstupu, seznam nástrojů a služeb a informace o úložišti v prohlížeči.
+- `index.html`: rozcestník. Obsahuje animovanou ukázku vstupu a výstupu, snímky aplikace s ukázkovými daty, seznam nástrojů a služeb a informace o úložišti v prohlížeči.
 - `sestavy/`: sestavená aplikace [ic-office-ucetni-sestavy](https://github.com/tomasmourek/ic-office-ucetni-sestavy) (`npm run build`, obsah `dist/`). Je verzovaná, protože se z ní staví obraz; po změně sestav ji nahraďte novým `dist/` a staré soubory v `sestavy/assets/` smažte.
 - `Dockerfile`, `deploy/nginx.conf`: obraz pro Coolify (nginx, port 80; HTTPS a doménu řeší Traefik).
 

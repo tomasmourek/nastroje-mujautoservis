@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="cs" data-area="finance" data-vzhled="tiskopis" data-vzhled-pevny>
+<html lang="cs" data-vzhled-pevny>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,601 +8,943 @@
       name="description"
       content="Z exportů IC Office připravíte denní i měsíční sestavy pro účetní, soubory pro POHODU a Money S3, faktury ISDOC a kontrolní hlášení DPH. Zpracování probíhá jen v prohlížeči, bez registrace."
     />
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <script src="atomys/vzhled.js"></script>
-    <script src="atomys/ovladani.js"></script>
-    <link rel="stylesheet" href="atomys/atomys.css" />
-    <style>
-      /* Doplněk k Atomys: odrážkové a číslované seznamy v sekcích webu. */
-      .web-seznam {
-        display: grid;
-        gap: var(--at-space-3);
-        max-inline-size: var(--at-layout-text-max);
-        margin: 0;
-        padding-inline-start: var(--at-space-6);
-      }
-      .web-seznam strong {
-        font-weight: var(--at-font-weight-semibold);
-      }
-      .web-sloupce {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-        gap: var(--at-space-6) var(--at-space-10);
-      }
-      .web-sloupce h3 {
-        margin: 0 0 var(--at-space-3);
-        font-size: var(--at-font-size-h4);
-      }
-      .web-text {
-        max-inline-size: var(--at-layout-text-max);
-        margin: 0 0 var(--at-space-3);
-      }
-
-      /* Přepínač motivu převzatý z archiv.mujautoservis.eu. Výplň drážky má vlastní barvu
-         (modrá tmavý, zelená světlý), protože ukazuje režim, ne paletu lišty. */
-      .prepinac-motivu {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--at-on-bar);
-      }
-      .prepinac-popis {
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-        line-height: 1;
-        text-transform: uppercase;
-        white-space: nowrap;
-        opacity: 0.55;
-        transition: opacity 0.18s;
-      }
-      .prepinac-motivu[data-motiv-platny="tmavy"]
-        .prepinac-popis[data-strana="vlevo"],
-      .prepinac-motivu[data-motiv-platny="svetly"]
-        .prepinac-popis[data-strana="vpravo"] {
-        opacity: 1;
-      }
-      .prepinac-drazka {
-        position: relative;
-        display: block;
-        flex: none;
-        width: 58px;
-        height: 30px;
-        background: var(
-          --prepinac-vypln,
-          color-mix(in srgb, currentColor 12%, transparent)
-        );
-        border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
-        border-radius: 999px;
-        transition: background-color 0.18s;
-      }
-      .prepinac-motivu[data-motiv-platny="tmavy"] .prepinac-drazka {
-        --prepinac-vypln: #2b4a72;
-      }
-      .prepinac-motivu[data-motiv-platny="svetly"] .prepinac-drazka {
-        --prepinac-vypln: #9fd8a8;
-      }
-      .prepinac-jezdec {
-        position: absolute;
-        top: 50%;
-        left: 3px;
-        width: 24px;
-        height: 24px;
-        background: #ffffff;
-        border-radius: 50%;
-        /* Vnitřní obrys drží jezdec viditelný i na světlé zelené. */
-        box-shadow:
-          0 1px 3px rgba(0, 0, 0, 0.35),
-          0 0 0 1px rgba(0, 0, 0, 0.14);
-        transform: translateY(-50%);
-        transition: left 0.18s ease-out;
-        pointer-events: none;
-      }
-      .prepinac-motivu[data-motiv-platny="svetly"] .prepinac-jezdec {
-        left: calc(100% - 27px);
-      }
-      /* Klikací plocha leží přes celou drážku a dosahuje výšky dotykového cíle. */
-      .prepinac-poloha {
-        position: absolute;
-        inset: calc((30px - var(--at-touch-target)) / 2) -4px;
-        padding: 0;
-        background: transparent;
-        border: 0;
-        border-radius: 999px;
-        cursor: pointer;
-      }
-      .prepinac-motivu:hover .prepinac-drazka {
-        border-color: currentColor;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .prepinac-jezdec,
-        .prepinac-popis,
-        .prepinac-drazka {
-          transition: none;
-        }
-      }
-    </style>
+    <link
+      rel="preload"
+      href="fonts/inter-latinext-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="web.css?v=20261103" />
+    <script src="web-motion.js?v=20261103" defer></script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   </head>
-  <body class="at-web">
-    <a class="at-skip-link" href="#obsah">Přeskočit na obsah</a>
-
-    <header class="at-web-hlavicka">
-      <div class="at-web-hlavicka__vnitrek">
-        <a class="at-web-hlavicka__produkt" href="./"
-          >nastroje<span class="at-web-hlavicka__domena"
-            >.mujautoservis.eu</span
-          ></a
+  <body>
+    <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
+    <header class="web-lista">
+      <div class="obal">
+        <a class="logo" href="./"
+          ><svg viewBox="0 0 32 32" aria-hidden="true" fill="none">
+            <rect width="32" height="32" rx="9" fill="currentColor" />
+            <g
+              stroke="var(--na-znacce)"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            >
+              <path d="M8 9h16v14H8zM8 13.5h16M8 18h16M13 13.5V23" />
+            </g></svg
+          ><span>nastroje<small>.mujautoservis.eu</small></span></a
         >
-        <button
-          class="at-web-hlavicka__menu"
-          type="button"
-          aria-expanded="false"
-          aria-controls="nabidka"
-        >
-          <svg class="at-icon" aria-hidden="true">
-            <use href="atomys/ikony/ikony.svg#i-menu"></use></svg
-          >Nabídka
-        </button>
-        <div class="at-web-hlavicka__panel" id="nabidka">
-          <nav class="at-web-hlavicka__nav" aria-label="Hlavní navigace">
-            <ul>
-              <li><a href="#nastroje">Nástroje</a></li>
-              <li><a href="#sluzby">Služby pro servis</a></li>
-              <li><a href="#soukromi">Soukromí</a></li>
-            </ul>
-          </nav>
-          <div class="at-web-hlavicka__volby">
-            <div class="prepinac-motivu" id="prepinac-motivu">
-              <span
-                class="prepinac-popis"
-                data-strana="vlevo"
-                aria-hidden="true"
-                >Tmavý</span
+        <nav aria-label="Hlavní navigace">
+          <a href="#funkce">Sestavy</a><a href="#exporty">Exporty</a
+          ><a href="#sluzby">Služby</a><a href="#soukromi">Soukromí</a>
+        </nav>
+        <div class="web-akce">
+          <div class="prepinac-motivu" id="prepinac-motivu">
+            <span class="prepinac-popis" data-strana="vlevo" aria-hidden="true"
+              >Tmavý</span
+            ><span class="prepinac-drazka"
+              ><button
+                type="button"
+                role="switch"
+                class="prepinac-poloha"
+                aria-checked="false"
               >
-              <span class="prepinac-drazka">
-                <button
-                  type="button"
-                  role="switch"
-                  class="prepinac-poloha"
-                  aria-checked="false"
-                >
-                  <span class="at-sr-only">Tmavý režim</span>
-                </button>
-                <span class="prepinac-jezdec" aria-hidden="true"></span>
-              </span>
-              <span
-                class="prepinac-popis"
-                data-strana="vpravo"
-                aria-hidden="true"
-                >Světlý</span
-              >
-            </div>
-            <a class="at-web-hlavicka__akce" href="sestavy/#nacteni"
-              >Otevřít sestavy</a
+                <span class="sr-only">Tmavý režim</span></button
+              ><span class="prepinac-jezdec" aria-hidden="true"></span></span
+            ><span
+              class="prepinac-popis"
+              data-strana="vpravo"
+              aria-hidden="true"
+              >Světlý</span
             >
           </div>
+          <a class="btn btn-male" href="sestavy/#nacteni">Otevřít sestavy</a>
         </div>
       </div>
     </header>
 
-    <main id="obsah" tabindex="-1">
-      <section class="at-uvod" aria-labelledby="uvod-nazev">
-        <div class="at-uvod__hlava">
-          <h1 class="at-uvod__nadpis" id="uvod-nazev">
-            Z&nbsp;exportů IC&nbsp;Office připravíte denní i měsíční sestavy pro
-            účetní a&nbsp;soubory pro POHODU, Money&nbsp;S3 a&nbsp;kontrolní
-            hlášení
-          </h1>
-          <p class="at-uvod__perex">
-            Tržby a&nbsp;DPH po dnech, inventura skladů, výkon pracovníků,
-            pokladní kniha a&nbsp;kniha faktur. Soubory se zpracují jen ve vašem
-            prohlížeči a&nbsp;nikam se neodesílají. Registrace není potřeba.
+    <main id="obsah">
+      <section class="uvod">
+        <div class="obal">
+          <div class="stitek"><b>Účetní sestavy</b> Z exportů IC Office</div>
+          <h1>Sestavy pro účetní <span>z exportů IC Office.</span></h1>
+          <p class="perex">
+            Denní i měsíční sestavy pro účetní a soubory pro POHODU,
+            Money&nbsp;S3 a kontrolní hlášení. Exporty se zpracují jen ve vašem
+            prohlížeči a nikam se neodesílají. Registrace není potřeba.
           </p>
-        </div>
-
-        <figure class="at-dukaz" aria-labelledby="dukaz">
-          <div class="at-dukaz__hlava">
-            <h2 class="at-dukaz__nadpis" id="dukaz">
-              Faktura 2026102 z&nbsp;exportu a&nbsp;její řádek v&nbsp;sestavě
-              tržeb
-            </h2>
-            <span class="at-ukazka-data">Ukázková data</span>
+          <div class="tlacitka">
+            <a class="btn" href="sestavy/#nacteni"
+              >Vyzkoušet na ukázkových datech</a
+            ><a class="btn btn-vedlejsi" href="#exporty"
+              >Které exporty potřebujete</a
+            >
           </div>
-          <div class="at-dukaz__kroky">
-            <div class="at-dukaz__krok">
-              <p class="at-dukaz__popisek">
-                <span class="at-dukaz__role">Vstup</span>
-                Vystavene_faktury_polozky_2026-10-01_2026-10-31.xlsx
-                z&nbsp;IC&nbsp;Office
-              </p>
-              <div
-                class="at-dukaz__obsah"
-                role="region"
-                aria-label="Položky faktury 2026102 v exportu"
-                tabindex="0"
+          <div class="uvod-detail">
+            <span
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                aria-hidden="true"
               >
-                <table class="at-table at-table--skladana">
-                  <thead>
-                    <tr>
-                      <th scope="col">Kód</th>
-                      <th scope="col">Název</th>
-                      <th scope="col" class="at-num">Množství</th>
-                      <th scope="col" class="at-num">Bez DPH</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="at-nowrap" data-popisek="Kód">OL-5W30</td>
-                      <td class="at-table__cela" data-popisek="Název">
-                        Motorový olej 5W-30 1&nbsp;l
-                      </td>
-                      <td class="at-num" data-popisek="Množství">5&nbsp;ks</td>
-                      <td class="at-num" data-popisek="Bez DPH">
-                        1&nbsp;450,00
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="at-nowrap" data-popisek="Kód">OF-200</td>
-                      <td class="at-table__cela" data-popisek="Název">
-                        Olejový filtr
-                      </td>
-                      <td class="at-num" data-popisek="Množství">1&nbsp;ks</td>
-                      <td class="at-num" data-popisek="Bez DPH">220,00</td>
-                    </tr>
-                    <tr>
-                      <td class="at-nowrap" data-popisek="Kód">BD-100</td>
-                      <td class="at-table__cela" data-popisek="Název">
-                        Brzdové destičky přední
-                      </td>
-                      <td class="at-num" data-popisek="Množství">4&nbsp;ks</td>
-                      <td class="at-num" data-popisek="Bez DPH">
-                        4&nbsp;400,00
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="at-nowrap" data-popisek="Kód">–</td>
-                      <td class="at-table__cela" data-popisek="Název">
-                        Práce mechanika
-                      </td>
-                      <td class="at-num" data-popisek="Množství">6&nbsp;hod</td>
-                      <td class="at-num" data-popisek="Bez DPH">
-                        5&nbsp;400,00
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="at-dukaz__krok">
-              <p class="at-dukaz__popisek">
-                <span class="at-dukaz__role">Výstup</span> Sestava Tržby, DPH za
-                říjen 2026, řádek dokladu 2026102
-              </p>
-              <div
-                class="at-dukaz__obsah"
-                role="region"
-                aria-label="Řádek faktury 2026102 v sestavě tržeb"
-                tabindex="0"
+                <path d="m4 12 5 5L20 6" /></svg
+              >Denní i měsíční sestavy</span
+            ><span
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                aria-hidden="true"
               >
-                <table class="at-table at-table--skladana">
-                  <thead>
-                    <tr>
-                      <th scope="col">Údaj sestavy</th>
-                      <th scope="col" class="at-num">Kč</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td data-popisek="Údaj">Materiál náklady</td>
-                      <td class="at-num" data-popisek="Kč">3&nbsp;620,00</td>
-                    </tr>
-                    <tr>
-                      <td data-popisek="Údaj">Materiál PC</td>
-                      <td class="at-num" data-popisek="Kč">6&nbsp;070,00</td>
-                    </tr>
-                    <tr>
-                      <td data-popisek="Údaj">Výkony</td>
-                      <td class="at-num" data-popisek="Kč">5&nbsp;400,00</td>
-                    </tr>
-                    <tr>
-                      <td data-popisek="Údaj">DPH</td>
-                      <td class="at-num" data-popisek="Kč">2&nbsp;408,70</td>
-                    </tr>
-                    <tr>
-                      <td data-popisek="Údaj">Placeno, forma F</td>
-                      <td class="at-num" data-popisek="Kč">13&nbsp;878,70</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                <path d="m4 12 5 5L20 6" /></svg
+              >POHODA, Money S3 a ISDOC</span
+            ><span
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                aria-hidden="true"
+              >
+                <path d="m4 12 5 5L20 6" /></svg
+              >Kontrolní hlášení DPH</span
+            >
           </div>
-          <p class="at-dukaz__kontrola at-dukaz__kontrola--uspech">
-            <svg class="at-icon" aria-hidden="true">
-              <use href="atomys/ikony/ikony.svg#i-hotovo-kruh"></use>
-            </svg>
-            <span>
-              Skladová cena materiálu je dohledaná z&nbsp;výdejek skladu, marže
-              materiálu 2&nbsp;450,00&nbsp;Kč. Odběratel je plátce DPH
-              a&nbsp;plnění přesahuje 10&nbsp;000&nbsp;Kč, faktura proto jde do
-              oddílu A.4 kontrolního hlášení.
-            </span>
-          </p>
-        </figure>
 
-        <div class="at-uvod__akce">
-          <a class="at-btn at-btn--primary" href="sestavy/#nacteni">
-            <svg class="at-icon" aria-hidden="true">
-              <use href="atomys/ikony/ikony.svg#i-prehrat"></use></svg
-            >Vyzkoušet na ukázkových datech
-          </a>
-          <a class="at-link" href="#exporty"
-            >Které exporty z&nbsp;IC&nbsp;Office budete potřebovat</a
-          >
+          <div class="scena">
+            <div
+              class="ukazka skutecny-nahled"
+              role="img"
+              aria-label="Náhled skutečné aplikace Účetní sestavy s ukázkovými daty: sestava Tržby, DPH za říjen 2026"
+            >
+              <div class="ukazka-lista">
+                <span class="ukazka-tecky" aria-hidden="true"
+                  ><i></i><i></i><i></i></span
+                ><span class="ukazka-adresa"
+                  >nastroje.mujautoservis.eu/sestavy</span
+                ><span class="ukazka-popis"
+                  >Ukázková data · smyšlená firma</span
+                >
+              </div>
+              <picture class="nahled-light"
+                ><source
+                  media="(max-width: 560px)"
+                  srcset="nahledy/sestavy-mobil-light.webp"
+                  width="390"
+                  height="650" />
+                <img
+                  src="nahledy/sestavy-desktop-light.webp"
+                  width="1440"
+                  height="640"
+                  alt=""
+                  fetchpriority="high" /></picture
+              ><picture class="nahled-dark"
+                ><source
+                  media="(max-width: 560px)"
+                  srcset="nahledy/sestavy-mobil-dark.webp"
+                  width="390"
+                  height="650" />
+                <img
+                  src="nahledy/sestavy-desktop-dark.webp"
+                  width="1440"
+                  height="640"
+                  alt=""
+                  loading="lazy"
+              /></picture>
+            </div>
+            <section
+              class="motion-archiv"
+              data-motion
+              data-krok="2"
+              aria-label="Animovaná ukázka: faktura 2026102 z exportu a její řádek v sestavě tržeb, ukázková data"
+            >
+              <div class="motion-zahlavi">
+                <span>Ukázková data · faktura 2026102</span
+                ><button
+                  class="motion-ovladani"
+                  type="button"
+                  data-motion-prehrat
+                  data-dalsi="Další krok"
+                  hidden
+                  aria-pressed="false"
+                  data-spustit="Spustit animaci"
+                  data-zastavit="Pozastavit animaci"
+                >
+                  Spustit animaci
+                </button>
+              </div>
+              <div class="motion-hledani">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M5 3h9l5 5v13H5zM14 3v6h5M12 18v-6m-3 3 3-3 3 3"
+                  /></svg
+                ><span class="motion-dotaz">2026102</span
+                ><span class="motion-auto"
+                  >Vystavené faktury a položky · XLSX</span
+                ><span class="motion-nalezeno"
+                  >Export rozpoznán<svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    aria-hidden="true"
+                  >
+                    <path d="m4 12 5 5L20 6" /></svg
+                ></span>
+              </div>
+              <div class="motion-prubeh" aria-hidden="true">
+                <div class="motion-historie motion-polozky">
+                  <div class="motion-navsteva motion-polozka motion-vybrana">
+                    <time>OL-5W30</time
+                    ><span
+                      >Motorový olej 5W-30 1&nbsp;l<small
+                        >5 ks · materiál</small
+                      ></span
+                    ><b>1 450,00</b>
+                  </div>
+                  <div class="motion-navsteva motion-polozka motion-vybrana">
+                    <time>OF-200</time
+                    ><span>Olejový filtr<small>1 ks · materiál</small></span
+                    ><b>220,00</b>
+                  </div>
+                  <div class="motion-navsteva motion-polozka motion-vybrana">
+                    <time>BD-100</time
+                    ><span
+                      >Brzdové destičky přední<small
+                        >4 ks · materiál</small
+                      ></span
+                    ><b>4 400,00</b>
+                  </div>
+                  <div class="motion-navsteva motion-polozka">
+                    <time>–</time
+                    ><span>Práce mechanika<small>6 hod · výkony</small></span
+                    ><b>5 400,00</b>
+                  </div>
+                </div>
+                <div class="motion-doklad">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                    <path d="M3 9h18M3 14h18M9 9v11" /></svg
+                  ><strong>Tržby, DPH</strong
+                  ><span>Řádek dokladu 2026102 · říjen 2026</span>
+                  <dl class="motion-soucty">
+                    <div>
+                      <dt>Materiál náklady</dt>
+                      <dd>3 620,00</dd>
+                    </div>
+                    <div>
+                      <dt>Materiál PC</dt>
+                      <dd>6 070,00</dd>
+                    </div>
+                    <div>
+                      <dt>Výkony</dt>
+                      <dd>5 400,00</dd>
+                    </div>
+                    <div>
+                      <dt>DPH</dt>
+                      <dd>2 408,70</dd>
+                    </div>
+                    <div class="celkem">
+                      <dt>Placeno, forma F</dt>
+                      <dd>13 878,70</dd>
+                    </div>
+                  </dl>
+                  <small>Kontrolní hlášení A.4</small>
+                </div>
+              </div>
+              <p class="motion-vysvetleni">
+                Skladová cena materiálu je dohledaná z&nbsp;výdejek skladu,
+                marže materiálu 2&nbsp;450,00&nbsp;Kč. Odběratel je plátce DPH
+                a&nbsp;plnění přesahuje 10&nbsp;000&nbsp;Kč, faktura proto jde
+                do oddílu A.4 kontrolního hlášení.
+              </p>
+              <div class="motion-kroky" aria-label="Kroky ukázky">
+                <button type="button" data-motion-krok="0">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M5 3h9l5 5v13H5zM14 3v6h5M12 18v-6m-3 3 3-3 3 3"
+                    /></svg
+                  ><span>Načíst export</span></button
+                ><button type="button" data-motion-krok="1">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"
+                    /></svg
+                  ><span>Dohledat skladové ceny</span></button
+                ><button type="button" data-motion-krok="2" aria-current="step">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                    <path d="M3 9h18M3 14h18M9 9v11" /></svg
+                  ><span>Řádek sestavy</span>
+                </button>
+              </div>
+            </section>
+          </div>
         </div>
-        <p class="at-uvod__poznamka">
-          Ukázková data jsou vymyšlený měsíc autoservisu. Vlastní exporty
-          načtete na stejné stránce.
-        </p>
       </section>
 
-      <section class="at-web-sekce" id="nastroje" aria-labelledby="rejstrik">
-        <div class="at-web-sekce__hlava">
-          <h2 id="rejstrik">Nástroje</h2>
-          <p>Běží přímo v&nbsp;prohlížeči, bez účtu a&nbsp;bez instalace.</p>
-        </div>
-        <div class="at-rejstrik">
-          <table class="at-table">
-            <caption class="at-sr-only">
-              Nástroje se vstupy a výstupy
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Nástroj</th>
-                <th scope="col">Vstup</th>
-                <th scope="col">Výstup</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <a class="at-rejstrik__nazev" href="sestavy/#nacteni"
-                    >Účetní sestavy</a
-                  >
-                  <span class="at-rejstrik__popis"
-                    >Denní a&nbsp;měsíční sestavy pro účetní a&nbsp;podklady pro
-                    DPH z&nbsp;exportů IC&nbsp;Office.</span
-                  >
-                </th>
-                <td data-popisek="Vstup">Exporty IC&nbsp;Office v&nbsp;XLSX</td>
-                <td data-popisek="Výstup">
-                  Tisk, PDF, Excel, POHODA XML, Money S3 XML, ISDOC, XML
-                  kontrolního hlášení
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <section class="fakta" aria-label="Sestavy v kostce">
+        <ul>
+          <li>
+            <b>Den nebo měsíc</b><span>výchozí období podle Nastavení</span>
+          </li>
+          <li>
+            <b>Jen v prohlížeči</b><span>exporty se nikam neodesílají</span>
+          </li>
+          <li>
+            <b>Šest sestav</b
+            ><span>tržby, sklad, pracovníci, pokladna, faktury, DPH</span>
+          </li>
+          <li>
+            <b>Čtyři formáty</b
+            ><span>POHODA, Money S3, ISDOC, kontrolní hlášení</span>
+          </li>
+        </ul>
       </section>
 
-      <section class="at-web-sekce" aria-labelledby="obsah-sestav">
-        <div class="at-web-sekce__hlava">
-          <h2 id="obsah-sestav">Co účetní sestavy připraví</h2>
+      <section class="sekce obal" id="funkce">
+        <div class="sekce-hlava">
+          <span class="nadtitul">Sestavy</span>
+          <h2>Co účetní z&nbsp;exportů IC Office dostane.</h2>
           <p>
             Za jeden den, měsíc, vlastní rozsah nebo celé načtené období. Zda se
             sestavy otevřou za den, nebo za měsíc, nastavíte v&nbsp;Nastavení.
           </p>
         </div>
-        <div class="web-sloupce">
+        <div class="bento">
+          <article class="karta siroka">
+            <h3>Tržby a DPH po dnech</h3>
+            <p>
+              Materiál ve skladových i prodejních cenách, výkony, drobný
+              materiál a forma úhrady. Každý den má vlastní součet.
+            </p>
+            <div
+              class="kresba"
+              role="img"
+              aria-label="Ukázka dnů v sestavě Tržby, DPH za říjen 2026 se smyšlenými údaji"
+            >
+              <div class="pohledy" aria-hidden="true">
+                <span class="aktivni">Tržby, DPH</span><span>Inventura</span
+                ><span>Pracovníci</span><span>Pokladna</span><span>Faktury</span
+                ><span>DPH a KH</span>
+              </div>
+              <div class="historie-mini" aria-hidden="true">
+                <div>
+                  <small>5. 10.</small><b class="barva-zlata">4 440,70</b
+                  ><span>hotově</span>
+                </div>
+                <div>
+                  <small>8. 10.</small><b class="barva-modra">13 878,70</b
+                  ><span>převodem</span>
+                </div>
+                <div>
+                  <small>12. 10.</small><b class="barva-zelena">701,80</b
+                  ><span>prodej z pokladny</span>
+                </div>
+                <div>
+                  <small>14. 10.</small><b class="barva-fialova">2 504,70</b
+                  ><span>kartou</span>
+                </div>
+              </div>
+              <small class="popis-ukazky">Ukázková data · Kč s DPH</small>
+            </div>
+          </article>
+          <article class="karta">
+            <h3>Podklad pro DPH</h3>
+            <p>
+              Řádky přiznání na výstupu a oddíly A.4 a A.5 kontrolního hlášení.
+            </p>
+            <div class="kresba doklady-mini" aria-hidden="true">
+              <span
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M19 5 5 19" />
+                  <circle cx="7" cy="7" r="2.5" />
+                  <circle cx="17" cy="17" r="2.5" /></svg
+                ><span
+                  ><b>Řádky přiznání</b
+                  ><small>Základ a daň podle sazeb</small></span
+                ><em>DPH</em></span
+              ><span
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 3h9l5 5v13H5zM14 3v6h5M8 13h8m-8 4h6" /></svg
+                ><span
+                  ><b>Faktura 2026102</b
+                  ><small>Plátce DPH, nad 10 000 Kč</small></span
+                ><em>A.4</em></span
+              ><span
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 3h9l5 5v13H5zM14 3v6h5M8 13h8m-8 4h6" /></svg
+                ><span
+                  ><b>Ostatní plnění</b><small>Souhrnně za období</small></span
+                ><em>A.5</em></span
+              >
+            </div>
+          </article>
+          <article class="karta">
+            <h3>K tisku a do Excelu</h3>
+            <p>
+              Každou sestavu vytisknete, uložíte do PDF nebo stáhnete jako
+              Excel.
+            </p>
+            <div class="kresba export-mini" aria-hidden="true">
+              <div>
+                <span>Inventura skladů<small>bez DPH, podle účtů</small></span
+                ><b>PDF · Excel</b>
+              </div>
+              <div>
+                <span>Výkon pracovníků<small>podle zakázek</small></span
+                ><b>PDF · Excel</b>
+              </div>
+              <div>
+                <span>Pokladní kniha<small>se zůstatkem</small></span
+                ><b>PDF · Excel</b>
+              </div>
+              <div>
+                <span>Kniha vydaných faktur<small>s neuhrazenými</small></span
+                ><b>PDF · Excel</b>
+              </div>
+            </div>
+          </article>
+          <article class="karta">
+            <h3>Soubory pro účetní programy</h3>
+            <p>
+              Vydané faktury a pokladní doklady pro import, elektronické faktury
+              a soubor pro daňový portál.
+            </p>
+            <div class="kresba export-mini" aria-hidden="true">
+              <div>
+                <span>POHODA<small>faktury a pokladní doklady</small></span
+                ><b>XML</b>
+              </div>
+              <div>
+                <span>Money S3<small>faktury a pokladní doklady</small></span
+                ><b>XML</b>
+              </div>
+              <div>
+                <span>ISDOC 6.0.2<small>víc faktur v jednom ZIPu</small></span
+                ><b>ZIP</b>
+              </div>
+              <div>
+                <span
+                  >Kontrolní hlášení DPH<small
+                    >oddíly B doplní účetní</small
+                  ></span
+                ><b>XML</b>
+              </div>
+            </div>
+          </article>
+          <article class="karta">
+            <h3>Den, nebo měsíc</h3>
+            <p>
+              Vyberte si, za jaké období se sestavy otevřou. Rozsah pak změníte
+              jedním výběrem.
+            </p>
+            <div class="kresba hledani-mini" aria-hidden="true">
+              <div>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="5" width="18" height="16" rx="2" />
+                  <path d="M3 10h18M8 3v4m8-4v4" />
+                </svg>
+                říjen 2026
+              </div>
+              <span class="barva-zlata">Jeden den</span
+              ><span class="barva-modra">Měsíc</span
+              ><span class="barva-fialova">Vlastní rozsah</span
+              ><span class="barva-zelena">Celé období</span>
+            </div>
+          </article>
+        </div>
+        <div class="dalsi-funkce">
+          <article>
+            <span class="ikona"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M7 4v16l13-8z" /></svg
+            ></span>
+            <h3>Ukázkový měsíc</h3>
+            <p>
+              Sestavy vyzkoušíte na vymyšleném měsíci autoservisu, bez vlastních
+              dat.
+            </p>
+          </article>
+          <article>
+            <span class="ikona"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10" /></svg
+            ></span>
+            <h3>Skladové ceny z výdejek</h3>
+            <p>
+              Ke každé faktuře se dohledá skladová cena vydaného materiálu a
+              marže.
+            </p>
+          </article>
+          <article>
+            <span class="ikona"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="5" y="11" width="14" height="10" rx="2" />
+                <path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg
+            ></span>
+            <h3>Data zůstávají u vás</h3>
+            <p>
+              Exporty se zpracují v paměti prohlížeče a po zavření stránky
+              zmizí.
+            </p>
+          </article>
+          <article>
+            <span class="ikona"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c0-4 4-6 8-6s8 2 8 6" /></svg
+            ></span>
+            <h3>Bez registrace</h3>
+            <p>
+              Žádný účet ani instalace. Stačí otevřít stránku a načíst exporty.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="sekce obal" id="exporty">
+        <div class="aplikace">
           <div>
-            <h3>Sestavy k&nbsp;tisku a&nbsp;do Excelu</h3>
-            <ul class="web-seznam">
+            <div class="sekce-hlava">
+              <span class="nadtitul">Exporty z IC Office</span>
+              <h2>Čtyři exporty.<br />Všechny sestavy.</h2>
+              <p>
+                Druh souboru se pozná podle záhlaví, název může být libovolný.
+              </p>
+            </div>
+            <ul class="body-seznam">
               <li>
-                <strong>Tržby a&nbsp;DPH po dnech</strong> s&nbsp;materiálem ve
-                skladových i&nbsp;prodejních cenách, výkony, drobným materiálem
-                a&nbsp;formou úhrady.
+                <span class="ikona"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 3h9l5 5v13H5zM14 3v6h5M8 13h8m-8 4h6" /></svg
+                ></span>
+                <div>
+                  <h3>Vystavené faktury a jejich položky</h3>
+                  <p>Pro tržby, knihu faktur, DPH a kontrolní hlášení.</p>
+                </div>
               </li>
               <li>
-                <strong>Inventura skladů</strong> v&nbsp;cenách bez DPH,
-                seskupená podle účtů.
+                <span class="ikona"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect x="2" y="6" width="20" height="12" rx="2" />
+                    <circle cx="12" cy="12" r="2.5" />
+                    <path d="M6 10v4m12-4v4" /></svg
+                ></span>
+                <div>
+                  <h3>Pokladna</h3>
+                  <p>Pro pokladní knihu a prodej za hotové.</p>
+                </div>
               </li>
-              <li><strong>Výkon pracovníků</strong> podle zakázek.</li>
-              <li><strong>Pokladní kniha</strong> se zůstatkem.</li>
               <li>
-                <strong>Kniha vydaných faktur</strong> s&nbsp;neuhrazenými
-                fakturami.
+                <span class="ikona"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"
+                    /></svg
+                ></span>
+                <div>
+                  <h3>Naskladněné a vydané zboží</h3>
+                  <p>Pro inventuru a skladové ceny materiálu.</p>
+                </div>
               </li>
               <li>
-                <strong>Podklad pro DPH</strong>: řádky přiznání na výstupu
-                a&nbsp;oddíly A.4 a&nbsp;A.5 kontrolního hlášení.
+                <span class="ikona"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"
+                    /></svg
+                ></span>
+                <div>
+                  <h3>Mechanici a zakázky</h3>
+                  <p>Pro výkon pracovníků.</p>
+                </div>
               </li>
             </ul>
           </div>
-          <div>
-            <h3>Soubory pro účetní programy a&nbsp;úřad</h3>
-            <ul class="web-seznam">
-              <li>
-                <strong>POHODA XML</strong>: vydané faktury a&nbsp;pokladní
-                doklady.
-              </li>
-              <li>
-                <strong>Money S3 XML</strong>: faktury vydané a&nbsp;pokladní
-                doklady.
-              </li>
-              <li>
-                <strong>ISDOC 6.0.2</strong>: elektronické faktury, víc faktur
-                v&nbsp;jednom ZIPu.
-              </li>
-              <li>
-                <strong>Kontrolní hlášení DPH</strong> pro daňový portál. Oddíly
-                B s&nbsp;přijatými fakturami export IC&nbsp;Office neobsahuje,
-                doplní je účetní.
-              </li>
-            </ul>
+          <div
+            class="zarizeni"
+            role="img"
+            aria-label="Ilustrační ukázka účetních sestav v počítači a telefonu"
+          >
+            <div class="plocha-pc">
+              <svg viewBox="0 0 32 32" aria-hidden="true" fill="none">
+                <rect width="32" height="32" rx="9" fill="currentColor" />
+                <g stroke="#2c1c0a" stroke-width="1.8" stroke-linejoin="round">
+                  <path d="M8 9h16v14H8zM8 13.5h16M8 18h16M13 13.5V23" />
+                </g></svg
+              ><strong>Načtení exportů</strong>
+              <div class="desktop-seznam">
+                <span><b>Rozpoznáno 4 ze 4</b> říjen 2026</span>
+                <div>
+                  Vystavené faktury a položky<small
+                    >tržby · faktury · DPH</small
+                  >
+                </div>
+                <div>Pokladna<small>pokladní kniha</small></div>
+                <div>
+                  Naskladněné a vydané zboží<small
+                    >inventura · skladové ceny</small
+                  >
+                </div>
+                <div>Mechanici a zakázky<small>výkon pracovníků</small></div>
+              </div>
+            </div>
+            <div class="telefon">
+              <div class="telefon-displej">
+                <b>Tržby, DPH</b><small>říjen 2026</small>
+                <div>
+                  <time>5. 10.</time
+                  ><span class="barva-zlata"
+                    >4 440,70<small>hotově</small></span
+                  >
+                </div>
+                <div>
+                  <time>8. 10.</time
+                  ><span class="barva-modra"
+                    >13 878,70<small>převodem</small></span
+                  >
+                </div>
+                <div>
+                  <time>14. 10.</time
+                  ><span class="barva-fialova"
+                    >2 504,70<small>kartou</small></span
+                  >
+                </div>
+                <p>Ukázková data</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section
-        class="at-web-sekce"
-        id="exporty"
-        aria-labelledby="exporty-nadpis"
-      >
-        <div class="at-web-sekce__hlava">
-          <h2 id="exporty-nadpis">Exporty z&nbsp;IC&nbsp;Office</h2>
-          <p>Druh souboru se pozná podle záhlaví, název může být libovolný.</p>
+      <section class="sekce obal" id="jak-zacit">
+        <div class="sekce-hlava stred">
+          <span class="nadtitul">Jak začít</span>
+          <h2>Od exportu k&nbsp;podkladům pro účetní.</h2>
         </div>
-        <ol class="web-seznam">
+        <ol class="kroky">
           <li>
-            <strong>Vystavené faktury a&nbsp;jejich položky</strong> pro tržby,
-            knihu faktur, DPH a&nbsp;kontrolní hlášení.
+            <strong>Vyexportujte z IC Office</strong>
+            <p>
+              Faktury s položkami, pokladnu, pohyby zboží a mechaniky za období,
+              které chcete zpracovat.
+            </p>
           </li>
           <li>
-            <strong>Pokladna</strong> pro pokladní knihu a&nbsp;prodej za
-            hotové.
+            <strong>Načtěte soubory</strong>
+            <p>
+              V Načtení exportů vyberete všechny soubory najednou. Druh každého
+              se pozná podle záhlaví.
+            </p>
           </li>
           <li>
-            <strong>Naskladněné a&nbsp;vydané zboží</strong> pro inventuru
-            a&nbsp;skladové ceny materiálu.
-          </li>
-          <li>
-            <strong>Mechanici a&nbsp;zakázky</strong> pro výkon pracovníků.
+            <strong>Vytiskněte nebo stáhněte</strong>
+            <p>
+              Sestavu vytisknete, uložíte do PDF či Excelu. Soubory pro POHODU,
+              Money S3 a úřad stáhnete.
+            </p>
           </li>
         </ol>
       </section>
 
-      <section class="at-web-sekce" id="sluzby" aria-labelledby="sluzby-nadpis">
-        <div class="at-web-sekce__hlava">
-          <h2 id="sluzby-nadpis">Další služby pro autoservisy</h2>
+      <section class="sekce obal" id="sluzby">
+        <div class="sekce-hlava">
+          <span class="nadtitul">Služby pro servis</span>
+          <h2>Další služby pro autoservisy.</h2>
           <p>
-            Samostatné aplikace s&nbsp;vlastním účtem a&nbsp;vlastními
-            informacemi o&nbsp;zpracování dat.
+            Samostatné aplikace s vlastním účtem a vlastními informacemi o
+            zpracování dat.
           </p>
         </div>
-        <div class="at-rejstrik">
-          <table class="at-table">
-            <caption class="at-sr-only">
-              Další služby pro autoservisy
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Služba</th>
-                <th scope="col">K&nbsp;čemu slouží</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <a
-                    class="at-rejstrik__nazev"
-                    href="https://archiv.mujautoservis.eu/"
-                    >archiv.mujautoservis.eu</a
-                  >
-                </th>
-                <td data-popisek="K čemu slouží">
-                  Archiv servisních zakázek: vyhledávání podle VIN, SPZ
-                  a&nbsp;zákazníka, historie oprav, doklady a&nbsp;exporty do
-                  PDF a&nbsp;Excelu.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a class="at-rejstrik__nazev" href="https://mujkalendar.eu/"
-                    >mujkalendar.eu</a
-                  >
-                </th>
-                <td data-popisek="K čemu slouží">
-                  Rezervační kalendář pro provozovny služeb. Termíny podle
-                  volných míst a&nbsp;vybavení, telefonické objednávky ve
-                  stejném kalendáři.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a class="at-rejstrik__nazev" href="https://mojerezervace.eu/"
-                    >mojerezervace.eu</a
-                  >
-                </th>
-                <td data-popisek="K čemu slouží">
-                  Pro zákazníky: výběr služby a&nbsp;volného termínu bez účtu,
-                  přihlášení až před potvrzením rezervace.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a class="at-rejstrik__nazev" href="https://mojefaktura.eu/"
-                    >mojefaktura.eu</a
-                  >
-                </th>
-                <td data-popisek="K čemu slouží">
-                  Faktury s&nbsp;QR Platbou, odběratelé načtení z&nbsp;ARES
-                  a&nbsp;evidence úhrad.
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="dalsi-funkce">
+          <article>
+            <h3>
+              <a href="https://archiv.mujautoservis.eu/"
+                >archiv.mujautoservis.eu</a
+              >
+            </h3>
+            <p>
+              Archiv servisních zakázek: vyhledávání podle VIN, SPZ a zákazníka,
+              historie oprav, doklady a exporty do PDF a Excelu.
+            </p>
+          </article>
+          <article>
+            <h3><a href="https://mujkalendar.eu/">mujkalendar.eu</a></h3>
+            <p>
+              Rezervační kalendář pro provozovny služeb. Termíny podle volných
+              míst a vybavení, telefonické objednávky ve stejném kalendáři.
+            </p>
+          </article>
+          <article>
+            <h3><a href="https://mojerezervace.eu/">mojerezervace.eu</a></h3>
+            <p>
+              Pro zákazníky: výběr služby a volného termínu bez účtu, přihlášení
+              až před potvrzením rezervace.
+            </p>
+          </article>
+          <article>
+            <h3><a href="https://mojefaktura.eu/">mojefaktura.eu</a></h3>
+            <p>
+              Faktury s QR Platbou, odběratelé načtení z ARES a evidence úhrad.
+            </p>
+          </article>
         </div>
       </section>
 
-      <section
-        class="at-web-sekce"
-        id="soukromi"
-        aria-labelledby="soukromi-nadpis"
-      >
-        <div class="at-web-sekce__hlava">
-          <h2 id="soukromi-nadpis">
-            Soukromí a&nbsp;úložiště v&nbsp;prohlížeči
-          </h2>
+      <section class="sekce obal" id="soukromi">
+        <div class="sekce-hlava">
+          <span class="nadtitul">Soukromí</span>
+          <h2>Soukromí a úložiště v&nbsp;prohlížeči.</h2>
         </div>
-        <div class="web-sloupce">
-          <div>
+        <div class="dalsi-funkce dva-sloupce">
+          <article>
+            <span class="ikona"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M3 9h18" /></svg
+            ></span>
             <h3>Tato stránka</h3>
-            <p class="web-text">
-              Nepoužívá cookies ani analytiku a&nbsp;nenačítá nic z&nbsp;cizích
-              serverů. Pokud změníte barevný motiv, uloží se volba do úložiště
-              vašeho prohlížeče (localStorage), aby platila i&nbsp;při další
-              návštěvě.
+            <p>
+              Nepoužívá cookies ani analytiku a nenačítá nic z cizích serverů.
+              Pokud změníte barevný motiv, uloží se volba do úložiště vašeho
+              prohlížeče (localStorage), aby platila i při další návštěvě.
             </p>
-          </div>
-          <div>
+          </article>
+          <article>
+            <span class="ikona"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="5" y="11" width="14" height="10" rx="2" />
+                <path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg
+            ></span>
             <h3>Účetní sestavy</h3>
-            <p class="web-text">
-              Exporty z&nbsp;IC&nbsp;Office se načtou a&nbsp;zpracují jen
-              v&nbsp;paměti prohlížeče, na server se neodesílají a&nbsp;po
-              zavření stránky zmizí. Údaje firmy a&nbsp;nastavení skladů
-              z&nbsp;Nastavení se ukládají do localStorage tohoto prohlížeče.
-              Smažete je tlačítkem Obnovit výchozí v&nbsp;Nastavení nebo
-              vymazáním dat webu v&nbsp;prohlížeči.
+            <p>
+              Exporty z IC Office se načtou a zpracují jen v paměti prohlížeče,
+              na server se neodesílají a po zavření stránky zmizí. Údaje firmy a
+              nastavení skladů z Nastavení se ukládají do localStorage tohoto
+              prohlížeče. Smažete je tlačítkem Obnovit výchozí v Nastavení nebo
+              vymazáním dat webu v prohlížeči.
             </p>
-          </div>
+          </article>
         </div>
-        <p class="web-text">
-          Služby z&nbsp;předchozí sekce mají vlastní informace o&nbsp;zpracování
-          dat na svých doménách.
+        <p class="sekce-poznamka">
+          Služby z předchozí sekce mají vlastní informace o zpracování dat na
+          svých doménách.
         </p>
+      </section>
+
+      <section class="vyzva obal">
+        <div>
+          <h2>Podklady pro účetní z&nbsp;exportů, které už máte.</h2>
+          <p>
+            Vyzkoušejte sestavy na ukázkovém měsíci, nebo rovnou načtěte vlastní
+            exporty z IC Office.
+          </p>
+          <a class="btn" href="sestavy/#nacteni">Otevřít sestavy</a>
+        </div>
       </section>
     </main>
 
-    <footer class="at-paticka">
-      <div class="at-paticka__tiraz">
-        <p class="at-paticka__produkt">nastroje.mujautoservis.eu</p>
-        <p>
-          Provozovatel: Tomáš Mourek, IČO 74753282, se sídlem Palackého 583,
-          Teplá.
-        </p>
+    <footer class="web-paticka">
+      <div class="obal paticka-sloupce">
+        <div>
+          <a class="logo" href="./"
+            ><svg viewBox="0 0 32 32" aria-hidden="true" fill="none">
+              <rect width="32" height="32" rx="9" fill="currentColor" />
+              <g
+                stroke="var(--na-znacce)"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              >
+                <path d="M8 9h16v14H8zM8 13.5h16M8 18h16M13 13.5V23" />
+              </g></svg
+            ><span>nastroje.mujautoservis.eu</span></a
+          >
+          <p>
+            Účetní sestavy z exportů IC Office.<br />Zpracování jen ve vašem
+            prohlížeči.
+          </p>
+        </div>
+        <div>
+          <h2>Nástroje</h2>
+          <a href="sestavy/#nacteni">Účetní sestavy</a
+          ><a href="#exporty">Exporty z IC Office</a
+          ><a href="#soukromi">Soukromí a úložiště</a>
+        </div>
+        <div>
+          <h2>Služby</h2>
+          <a href="https://archiv.mujautoservis.eu/">archiv.mujautoservis.eu</a
+          ><a href="https://mujkalendar.eu/">mujkalendar.eu</a
+          ><a href="https://mojerezervace.eu/">mojerezervace.eu</a
+          ><a href="https://mojefaktura.eu/">mojefaktura.eu</a>
+        </div>
       </div>
-      <nav class="at-paticka__odkazy" aria-label="Odkazy v patičce">
-        <ul>
-          <li><a href="#soukromi">Soukromí a úložiště</a></li>
-          <li><a href="https://atomys.eu/">Atomys</a></li>
-        </ul>
-      </nav>
+      <div class="paticka-spodek obal">
+        <span
+          >Provozovatel: Tomáš Mourek, IČO 74753282, se sídlem Palackého 583,
+          Teplá.</span
+        ><span
+          >Ukázky na této stránce obsahují smyšlené údaje. Postaveno na
+          <a href="https://atomys.eu/">Atomys</a>.</span
+        >
+      </div>
     </footer>
-
     <script>
-      /* Přepínač motivu jako v archiv.mujautoservis.eu: vlevo tmavý, vpravo světlý. Ukazuje motiv,
-         který právě platí; dokud si návštěvník nevybere, řídí se systémem a prvním přepnutím se
-         volba uloží. Nabídku hlavičky pod 64 rem ovládá ovladani.js. */
+      /* Přepínač motivu jako v archiv.mujautoservis.eu: vlevo tmavý, vpravo světlý. Ukazuje motiv, který právě
+   platí; dokud si návštěvník nevybere, řídí se systémem a prvním přepnutím se volba uloží. */
       var prepinac = document.getElementById("prepinac-motivu");
       var poloha = prepinac.querySelector(".prepinac-poloha");
       function vykresliPrepinac() {

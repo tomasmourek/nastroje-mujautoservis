@@ -1,0 +1,3 @@
+Písmo Inter (https://rsms.me/inter/), autor Rasmus Andersson a přispěvatelé.
+Licence SIL Open Font License 1.1: https://openfontlicense.org/open-font-license-official-text/
+Soubory woff2 jsou podmnožiny latin a latin-ext převzaté beze změny z projektu frontend-mujautoservis.

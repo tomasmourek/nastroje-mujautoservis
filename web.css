@@ -1,0 +1,165 @@
+/* Rozcestník: kompozice a paleta archiv.mujautoservis.eu (verejne.css), bez přihlašovací stránky. */
+@font-face { font-family: Inter; font-weight: 400; font-display: swap; src: url('fonts/inter-latin-400.woff2'); unicode-range: U+0000-00FF,U+2000-206F,U+20AC; }
+@font-face { font-family: Inter; font-weight: 400; font-display: swap; src: url('fonts/inter-latinext-400.woff2'); unicode-range: U+0100-024F,U+1E00-1EFF; }
+@font-face { font-family: Inter; font-weight: 500 600; font-display: swap; src: url('fonts/inter-latin-600.woff2'); unicode-range: U+0000-00FF,U+2000-206F,U+20AC; }
+@font-face { font-family: Inter; font-weight: 500 600; font-display: swap; src: url('fonts/inter-latinext-600.woff2'); unicode-range: U+0100-024F,U+1E00-1EFF; }
+@font-face { font-family: Inter; font-weight: 700 800; font-display: swap; src: url('fonts/inter-latin-700.woff2'); unicode-range: U+0000-00FF,U+2000-206F,U+20AC; }
+@font-face { font-family: Inter; font-weight: 700 800; font-display: swap; src: url('fonts/inter-latinext-700.woff2'); unicode-range: U+0100-024F,U+1E00-1EFF; }
+
+:root {color-scheme:light;--podklad:#f6f7f9;--plocha:#fff;--plocha-2:#eef0f3;--text:#141920;--text-2:#4a525e;--text-3:#5f6875;--linka:#e3e6eb;--pole-ram:#8a929e;--znacka:#8a581e;--znacka-hover:#714516;--na-znacce:#fff;--vyber:#f3e7d4;--znacka-svetla:#f7eddf;--znacka-text:#754b19;--chyba:#a32920;--hotovo:#347451;--stin-sm:0 1px 3px #10182814;--stin-lg:0 12px 24px -6px #1018281f;--stin-xl:0 40px 80px -24px #10182847;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--podklad:#0b0e13;--plocha:#12161d;--plocha-2:#171c24;--text:#eceff3;--text-2:#a6afbb;--text-3:#8b95a3;--linka:#232a35;--pole-ram:#5f6978;--znacka:#dfb56b;--znacka-hover:#edc98d;--na-znacce:#2c1c0a;--vyber:#3a2e1e;--znacka-svetla:#302517;--znacka-text:#edcc96;--chyba:#ffaaa0;--hotovo:#9bd0ae;--stin-sm:0 1px 3px #0006;--stin-lg:0 14px 28px -6px #0009;--stin-xl:0 40px 80px -24px #000c;}}
+:root[data-theme="dark"]{color-scheme:dark;--podklad:#0b0e13;--plocha:#12161d;--plocha-2:#171c24;--text:#eceff3;--text-2:#a6afbb;--text-3:#8b95a3;--linka:#232a35;--pole-ram:#5f6978;--znacka:#dfb56b;--znacka-hover:#edc98d;--na-znacce:#2c1c0a;--vyber:#3a2e1e;--znacka-svetla:#302517;--znacka-text:#edcc96;--chyba:#ffaaa0;--hotovo:#9bd0ae;--stin-sm:0 1px 3px #0006;--stin-lg:0 14px 28px -6px #0009;--stin-xl:0 40px 80px -24px #000c;}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5rem;scrollbar-color:var(--pole-ram) var(--podklad);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--podklad);color:var(--text);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+h1,h2,h3,p{margin:0}h1,h2,h3{color:var(--text)}a{color:inherit;text-underline-offset:.2em}button,input{font:inherit}a,button,input{ -webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--znacka);outline-offset:4px}::selection{background:var(--znacka);color:var(--na-znacce)}
+.obal{max-width:1200px;margin:0 auto;padding:0 20px}.logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.02em;text-decoration:none}.logo svg{width:30px;height:30px;flex:none;color:var(--znacka)}
+.preskocit{position:fixed;top:-100px;left:20px;z-index:100;background:var(--plocha);padding:12px}.preskocit:focus{top:10px}
+.web-lista{position:sticky;top:0;z-index:50;background:var(--podklad);background:color-mix(in srgb,var(--podklad) 82%,transparent);backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--linka)}
+.web-lista .obal{display:flex;align-items:center;gap:28px;height:64px}.web-lista nav{display:flex;gap:4px}.web-lista nav a,.prihlasit{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;border-radius:10px;font-size:14.5px;font-weight:500;color:var(--text-2);text-decoration:none}.web-lista nav a:hover,.prihlasit:hover{background:var(--plocha-2);color:var(--text)}.web-akce{margin-left:auto;display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 26px;border-radius:14px;background:var(--znacka);color:var(--na-znacce);font-size:16px;font-weight:600;letter-spacing:-.005em;text-decoration:none;transition:background-color .15s,box-shadow .15s}.btn:hover{background:var(--znacka-hover)}.btn-vedlejsi{background:var(--plocha);color:var(--text);border:1px solid var(--pole-ram);box-shadow:var(--stin-sm)}.btn-vedlejsi:hover{background:var(--plocha-2)}.btn-male{min-height:44px;padding:0 16px;border-radius:10px;font-size:14px}
+.uvod{position:relative;isolation:isolate;padding:72px 0 0;text-align:center;overflow:hidden}.uvod::before{content:"";position:absolute;inset:-20% -10% auto;height:760px;z-index:-1;pointer-events:none;background:radial-gradient(42% 46% at 50% 38%,color-mix(in srgb,var(--znacka) 16%,transparent),transparent 70%),radial-gradient(30% 34% at 22% 62%,#3b82f614,transparent 70%),radial-gradient(30% 34% at 80% 58%,#a78bfa12,transparent 70%)}
+.stitek{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 6px;border-radius:999px;background:var(--plocha);border:1px solid var(--linka);box-shadow:var(--stin-sm);font-size:13.5px;font-weight:500;color:var(--text-2)}.stitek b{padding:2px 8px;border-radius:999px;background:var(--znacka-svetla);color:var(--znacka-text);font-size:12.5px;font-weight:600}
+.uvod h1{margin:22px auto 0;max-width:15ch;font-size:clamp(2.6rem,6.4vw,5rem);line-height:1.02;letter-spacing:-.04em;font-weight:800}.uvod h1 span{color:var(--znacka);background:linear-gradient(100deg,var(--znacka) 10%,color-mix(in srgb,var(--znacka) 62%,#b88857) 90%);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}.perex{margin:22px auto 0;max-width:40rem;font-size:clamp(1.05rem,1.6vw,1.22rem);line-height:1.6;color:var(--text-2)}.tlacitka{margin-top:32px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.uvod-detail{margin-top:18px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;font-size:13.5px;color:var(--text-3)}.uvod-detail span{display:inline-flex;align-items:center;gap:6px}.uvod-detail svg{width:15px;height:15px;color:var(--znacka)}
+.scena{position:relative;margin:56px auto 0;max-width:1160px;padding-bottom:64px}.ukazka{position:relative;text-align:left;border-radius:18px;overflow:hidden;background:var(--plocha);border:1px solid var(--linka);box-shadow:var(--stin-xl);font-size:12.5px;line-height:1.35}.ukazka-lista{display:flex;align-items:center;gap:12px;height:38px;padding:0 14px;background:var(--podklad);border-bottom:1px solid var(--linka);color:var(--text-3);font-size:11px}.ukazka-tecky{display:flex;gap:6px}.ukazka-tecky i{width:11px;height:11px;border-radius:50%;background:var(--linka)}.ukazka-adresa{margin:0 auto;padding:3px 14px;border:1px solid var(--linka);border-radius:8px;background:var(--plocha)}.ukazka-popis{font-size:9px}.ukazka-telo{display:grid;grid-template-columns:212px minmax(0,1fr)}.ukazka-menu{background:var(--podklad);border-right:1px solid var(--linka);padding:14px 12px;display:flex;flex-direction:column;gap:7px}.ukazka-menu strong{display:flex;align-items:center;gap:9px;font-size:13px}.ukazka-menu strong i{width:26px;height:26px;border-radius:8px;background:#a78bfa26;color:#a78bfa;display:grid;place-items:center;font-style:normal;font-size:11px}.ukazka-menu>span{padding:8px 9px;border-radius:8px;color:var(--text-2);font-weight:500}.ukazka-menu .ukazka-vstup{margin-block:5px;background:var(--znacka);color:var(--na-znacce);text-align:center;font-weight:600}.ukazka-menu .zvolene{background:var(--plocha);color:var(--text);box-shadow:var(--stin-sm)}.ukazka-filtry{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-size:11px;padding-block:8px}.ukazka-filtry small,.ukazka-filtry span:last-child{grid-column:1/-1}.ukazka-filtry small{margin-bottom:3px;color:var(--text-3)}.ukazka-filtry span{background:var(--plocha-2);border-radius:6px;padding:6px;text-align:center}.ukazka-filtry span:last-child{background:var(--znacka-svetla);color:var(--znacka-text)}.ukazka-menu-dole{margin-top:auto;font-size:11px;color:var(--text-3);padding:14px 9px 0}.ukazka-obsah{padding:18px 16px;min-width:0}.ukazka-hledani{padding:10px 12px;border:1px solid var(--pole-ram);border-radius:9px;display:flex;align-items:center;gap:8px}.ukazka-hledani svg{width:16px;height:16px;color:var(--znacka)}.ukazka-hledani span{margin-left:auto;color:var(--text-3);font-size:11px}.ukazka-nadpis{display:flex;align-items:center;justify-content:space-between;margin:19px 0 12px}.ukazka-nadpis strong{font-size:17px;letter-spacing:-.02em}.ukazka-nadpis>span{border-radius:7px;padding:5px 9px;background:var(--znacka-svetla);color:var(--znacka-text);font-size:11px}.ukazka-radek{display:grid;grid-template-columns:1fr 1.8fr 1fr;gap:14px;padding:11px 10px;border-bottom:1px solid var(--linka);font-variant-numeric:tabular-nums}.ukazka-radek>span:last-child{text-align:right}.ukazka-radek small{display:block;margin-top:3px;color:var(--text-2);font-size:10px}.ukazka-radek small.hotovo{color:var(--hotovo)}.ukazka-zahlavi{padding-block:8px;color:var(--text-3);font-size:11px}.ukazka-radek.vybrany{background:var(--vyber);outline:1px solid var(--znacka);outline-offset:-1px;border-radius:7px}.ukazka-detail{margin-top:14px;padding:12px;border-radius:9px;background:var(--plocha-2)}.ukazka-detail>span{color:var(--znacka);font-size:10px}.ukazka-detail strong{display:block;font-size:13px;margin-top:4px}.ukazka-detail p{color:var(--text-3);font-size:11px;margin-top:4px}
+.plovouci{position:absolute;z-index:4;text-align:left;background:var(--plocha);border:1px solid var(--linka);border-radius:16px;box-shadow:var(--stin-lg);padding:14px 16px;font-size:13px;line-height:1.4}.plovouci-historie{left:-28px;bottom:16px;width:290px}.plovouci-doklad{right:-28px;bottom:24px;width:320px}.mini-popis{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--text-3)}.mini-popis svg{width:20px;height:20px;padding:3px;box-sizing:content-box;border-radius:7px;background:var(--znacka-svetla);color:var(--znacka)}.plovouci strong{display:block;margin-top:8px;font-size:14px}.plovouci small{display:block;color:var(--text-3);margin-top:2px;font-size:11px}.ukazka-synteticka{display:block;font-size:9px;color:var(--text-3);margin-top:8px}.doklad-radek{margin-top:10px;background:var(--podklad);padding:9px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:10px;font-size:11px}.doklad-radek b{white-space:nowrap;color:var(--znacka-text)}.mini-stav{display:flex;justify-content:space-between;gap:8px;margin-top:9px;padding:8px 10px;border-radius:9px;background:var(--znacka-svetla);color:var(--znacka-text);font-size:11px}
+.fakta{border-top:1px solid var(--linka);border-bottom:1px solid var(--linka);background:var(--plocha)}.fakta ul{list-style:none;margin:0 auto;padding:0 20px;max-width:1200px;display:grid;grid-template-columns:repeat(4,1fr)}.fakta li{padding:26px 20px;border-left:1px solid var(--linka)}.fakta li:first-child{border-left:0;padding-left:0}.fakta b{display:block;font-size:22px;font-weight:700;letter-spacing:-.03em}.fakta span{display:block;margin-top:2px;font-size:14px;color:var(--text-2)}
+.sekce{padding-top:112px}.sekce-hlava{max-width:44rem}.sekce-hlava.stred{margin:0 auto;text-align:center}.nadtitul{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--znacka)}.sekce h2{margin-top:10px;font-size:clamp(2rem,4vw,3rem);line-height:1.08;letter-spacing:-.04em;font-weight:800}.sekce-hlava p{margin-top:16px;font-size:1.08rem;color:var(--text-2)}
+.bento{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.karta{position:relative;overflow:hidden;border-radius:20px;padding:28px;background:var(--plocha);border:1px solid var(--linka);box-shadow:var(--stin-sm)}.karta.siroka{grid-column:span 2}.karta h3{font-size:19px;letter-spacing:-.02em;font-weight:700}.karta>p{margin-top:8px;color:var(--text-2);font-size:15px;max-width:36rem}.kresba{margin-top:24px}.popis-ukazky{display:block;margin-top:8px;font-size:10px;color:var(--text-3)}.pohledy{display:flex;flex-wrap:wrap;gap:8px}.pohledy span{padding:6px 12px;border-radius:10px;background:var(--plocha-2);color:var(--text-2);font-size:13px}.pohledy .aktivni{background:var(--znacka-svetla);color:var(--znacka-text)}.historie-mini{margin-top:16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.historie-mini>div{padding:12px 8px;border:1px solid var(--linka);border-radius:12px;background:var(--podklad);min-height:126px}.historie-mini small{display:block;color:var(--text-3);font-size:11px;margin-bottom:17px}.historie-mini b{display:block;padding:8px;border-radius:6px;font-size:11px}.historie-mini span{display:block;margin-top:7px;font-size:10px;color:var(--text-3)}.barva-zlata{background:#ca9b3930;color:#cda34e}.barva-modra{background:#378bcb2b;color:#73b9e9}.barva-fialova{background:#9b74d12b;color:#b59ae9}.barva-zelena{background:#31a57f26;color:#64c5a5}
+.doklady-mini{display:grid;gap:9px}.doklady-mini>span{display:flex;align-items:center;gap:10px;padding:12px;background:var(--podklad);border:1px solid var(--linka);border-radius:11px;min-width:0}.doklady-mini svg{width:22px;height:22px;flex:none;color:var(--znacka)}.doklady-mini b{display:block;font-size:12px}.doklady-mini small{display:block;color:var(--text-3);font-size:10px}.doklady-mini em{margin-left:auto;font-style:normal;font-size:10px;color:var(--znacka-text)}.hledani-mini>div{display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:10px;background:var(--podklad);border:1px solid var(--pole-ram);margin-bottom:12px;font-size:14px}.hledani-mini svg{width:17px;height:17px;color:var(--znacka)}.hledani-mini>span{display:inline-block;padding:5px 9px;border-radius:7px;font-size:11px;margin:3px 2px}.zakaznik-mini{display:grid;grid-template-columns:36px 1fr;align-items:center;gap:10px}.avatar{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--znacka-svetla);color:var(--znacka-text);font-size:12px}.zakaznik-mini>strong{font-size:13px}.zakaznik-mini small{display:block;font-weight:400;color:var(--text-3);font-size:10px}.zakaznik-mini>div{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;padding:10px;border-radius:9px;background:var(--podklad);font-size:11px}.zakaznik-mini b{color:var(--text-3);font-weight:500}.export-mini{display:grid;gap:8px}.export-mini div{display:flex;justify-content:space-between;gap:8px;padding:11px;border-radius:9px;background:var(--podklad);font-size:12px}.export-mini b{font-size:10px;color:var(--znacka-text)}
+.dalsi-funkce{margin-top:16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.dalsi-funkce article{padding:24px;border-radius:20px;background:var(--plocha);border:1px solid var(--linka)}.ikona{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--znacka-svetla);color:var(--znacka)}.ikona svg{width:20px;height:20px}.dalsi-funkce h3{margin-top:16px;font-size:16px;letter-spacing:-.015em}.dalsi-funkce p{margin-top:6px;font-size:14.5px;color:var(--text-2)}
+.aplikace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:center}.body-seznam{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:22px}.body-seznam li{display:grid;grid-template-columns:40px 1fr;gap:16px}.body-seznam h3{font-size:16.5px;letter-spacing:-.015em}.body-seznam p{margin-top:4px;color:var(--text-2);font-size:15px}.zarizeni{position:relative;min-height:440px}.plocha-pc{position:absolute;inset:0 60px 40px 0;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#795127,#4b311d 60%,#2d231a);box-shadow:var(--stin-xl);padding:24px;color:#fff}.plocha-pc>svg{width:34px;height:34px;color:#e4b971;display:block;margin-bottom:8px}.plocha-pc>strong{font-size:14px}.desktop-seznam{margin-top:36px;padding:12px;background:#11151bed;border-radius:12px;border:1px solid #ffffff21;color:#e4e8ef;box-shadow:var(--stin-lg)}.desktop-seznam>span{display:flex;gap:10px;padding-bottom:12px;font-size:10px;color:#a6afbb}.desktop-seznam b{color:#dfb56b}.desktop-seznam>div{padding:10px 4px;border-top:1px solid #ffffff17;font-size:12px}.desktop-seznam small{display:block;font-size:10px;color:#a6afbb;margin-top:2px}.telefon{position:absolute;right:0;bottom:0;width:190px;height:360px;padding:7px;background:#171c24;border:1px solid #343d4b;border-radius:28px;box-shadow:var(--stin-xl)}.telefon-displej{height:100%;padding:20px 12px;border-radius:21px;background:#0b0e13;color:#eceff3;font-size:11px}.telefon-displej>b{display:block;font-size:13px}.telefon-displej>small{display:block;color:#a6afbb;margin-top:4px}.telefon-displej>div{display:grid;grid-template-columns:28px 1fr;gap:7px;margin-top:18px}.telefon-displej time{font-size:9px;color:#a6afbb;padding-top:8px}.telefon-displej>div>span{padding:8px;border-radius:7px;font-size:10px}.telefon-displej small{display:block;font-size:8px;margin-top:3px}.telefon-displej p{color:#a6afbb;font-size:9px;margin-top:23px}
+.kroky{margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none;counter-reset:krok}.kroky li{padding:28px;border-radius:20px;background:var(--plocha);border:1px solid var(--linka);counter-increment:krok}.kroky li::before{content:counter(krok);display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--text);color:var(--podklad);font-weight:700;font-size:15px;margin-bottom:18px}.kroky strong{font-size:17px;letter-spacing:-.015em}.kroky p{margin-top:6px;font-size:15px;color:var(--text-2)}
+.vyzva{margin-top:112px}.vyzva>div{padding:64px 48px;border-radius:28px;text-align:center;background:radial-gradient(60% 55% at 50% 0%,#a67a3f,transparent 70%),linear-gradient(160deg,#805424,#442c19 70%);color:#f9f0e1}.vyzva h2{color:#fff;font-size:clamp(2rem,4.4vw,3.2rem);line-height:1.06;letter-spacing:-.04em;font-weight:800}.vyzva p{margin:14px auto 0;max-width:34rem;font-size:1.08rem;color:#f4e8d7}.vyzva .btn{margin-top:30px;background:#fff;color:#5b3b1b;box-shadow:0 10px 30px -10px #0006}.vyzva .btn:hover{background:#f8eeda}.vyzva .btn:focus-visible{outline-color:#fff}
+.web-paticka{margin-top:96px;border-top:1px solid var(--linka);background:var(--plocha);font-size:14px;color:var(--text-2)}.paticka-sloupce{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-block:56px 40px}.paticka-sloupce .logo{min-height:44px}.paticka-sloupce p{margin-top:12px;max-width:22rem}.paticka-sloupce h2{font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px}.paticka-sloupce>div>a:not(.logo){display:flex;align-items:center;min-height:44px;text-decoration:none;margin-bottom:8px}.paticka-sloupce>div>a:hover{color:var(--text);text-decoration:underline}.paticka-spodek{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;border-top:1px solid var(--linka);padding-block:20px 28px;font-size:13px;color:var(--text-3)}
+/* Barevné ukázky zůstávají čitelné také ve světlém motivu. */
+:root[data-theme="light"] .barva-zlata{color:#785118}:root[data-theme="light"] .barva-modra{color:#225b85}:root[data-theme="light"] .barva-fialova{color:#634193}:root[data-theme="light"] .barva-zelena{color:#226b51}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .barva-zlata{color:#785118}:root:not([data-theme="dark"]) .barva-modra{color:#225b85}:root:not([data-theme="dark"]) .barva-fialova{color:#634193}:root:not([data-theme="dark"]) .barva-zelena{color:#226b51}}
+@media(max-width:1239px){.plovouci-historie{left:12px;bottom:8px}.plovouci-doklad{right:12px;bottom:8px}}
+@media(max-width:1100px){.dalsi-funkce{grid-template-columns:repeat(2,minmax(0,1fr))}.web-lista nav{display:none}}
+@media(max-width:960px){.ukazka-telo{grid-template-columns:1fr}.ukazka-menu{display:none}.bento{grid-template-columns:1fr}.karta.siroka{grid-column:auto}.aplikace{grid-template-columns:1fr;gap:40px}.fakta ul{grid-template-columns:repeat(2,1fr)}.fakta li:nth-child(3){border-left:0;padding-left:0}.fakta li:nth-child(n+3){border-top:1px solid var(--linka)}.paticka-sloupce{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}}
+@media(max-width:760px){.plovouci{display:none}.kroky{grid-template-columns:1fr}.sekce{padding-top:88px}.vyzva{margin-top:88px}.vyzva>div{padding:48px 24px}.ukazka-hledani span{display:none}.ukazka-radek{gap:8px;font-size:11px}.ukazka-radek small{font-size:9px}.ukazka-detail{display:none}}
+@media(max-width:560px){.web-lista .obal{gap:12px}.web-lista .logo{font-size:14px;gap:8px}.web-lista .logo svg{width:28px;height:28px}.web-akce{gap:0}.web-akce .btn{display:none}.web-akce .prihlasit{padding-inline:5px;font-size:13px}.uvod{padding-top:48px}.scena{margin-top:40px;padding-bottom:48px}.ukazka{border-radius:14px}.ukazka-lista .ukazka-adresa{display:none}.ukazka-popis{margin-left:auto}.ukazka-obsah{padding:14px 10px}.ukazka-radek{padding-inline:6px}.dalsi-funkce{grid-template-columns:1fr}.karta{padding:22px}.historie-mini{grid-template-columns:repeat(2,minmax(0,1fr))}.historie-mini>div{min-height:110px}.zarizeni{min-height:380px}.plocha-pc{right:32px;padding:20px}.telefon{width:160px;height:340px}.fakta li{padding:20px 14px}.fakta b{font-size:19px}.fakta span{font-size:12px}.paticka-sloupce{grid-template-columns:1fr;gap:24px}.paticka-sloupce .logo{font-size:16px}}
+@media(max-width:380px){.stitek{gap:6px;font-size:11px;white-space:nowrap}.stitek b{font-size:10px}.web-lista .logo{font-size:12px}.web-lista .logo svg{width:25px;height:25px}.web-akce .prihlasit{font-size:12px}.ukazka-radek{font-size:10px}.ukazka-radek small{font-size:8px}}
+/* Ukázky na pevném tmavém podkladu mají vlastní čitelné barvy i v light. */
+.skutecny-nahled picture,.skutecny-nahled img{display:block;width:100%;height:auto}
+.skutecny-nahled .nahled-dark{display:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .skutecny-nahled .nahled-light{display:none}:root:not([data-theme="light"]) .skutecny-nahled .nahled-dark{display:block}}
+:root[data-theme="dark"] .skutecny-nahled .nahled-light{display:none}
+:root[data-theme="dark"] .skutecny-nahled .nahled-dark{display:block}
+.ukazka-mala{--text-3:#e1cdb4;--znacka-text:#edcc96}
+:root .telefon-displej .barva-zlata{color:#cda34e}
+:root .telefon-displej .barva-modra{color:#73b9e9}
+:root .telefon-displej .barva-fialova{color:#b59ae9}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+/* Hledání → návštěvy → jedna oprava. Jedna sekvence pro úvod a login. */
+.motion-archiv{position:relative;z-index:1;margin:-68px auto 0;width:min(760px,calc(100% - 64px));padding:12px 24px 0;border-radius:16px;background:var(--plocha);color:var(--text);box-shadow:var(--stin-xl);text-align:left;font-size:13px;line-height:1.45}
+.motion-zahlavi{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;color:var(--text-3);font-size:11px}
+.motion-archiv button{cursor:pointer;border:0;background:transparent;color:inherit}
+.motion-archiv button:focus-visible{outline:2px solid var(--znacka);outline-offset:-3px}
+.motion-archiv svg{width:18px;height:18px;flex:none}
+.motion-ovladani{min-height:44px;padding:8px;text-decoration:underline;text-underline-offset:3px;font-size:11px}
+.motion-ovladani:hover{color:var(--znacka)}
+.motion-hledani{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--pole-ram);border-radius:10px}
+.motion-hledani>svg{color:var(--znacka)}
+.motion-dotaz{font-weight:600;letter-spacing:.04em;white-space:nowrap}
+.motion-auto{color:var(--text-2)}
+.motion-nalezeno{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--hotovo);font-size:11px}
+.motion-prubeh{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch;gap:24px;margin:18px 0}
+.motion-historie{position:relative}
+.motion-historie::before{content:'';position:absolute;left:16px;top:23px;bottom:23px;width:1px;background:var(--linka)}
+.motion-navsteva{display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:10px;position:relative;padding:10px 8px 10px 0;border-radius:8px;transition:background-color 220ms}
+.motion-navsteva time{z-index:1;padding:3px 0;background:var(--plocha);color:var(--text-3);font-size:10px;font-variant-numeric:tabular-nums}
+.motion-navsteva small{display:block;margin-top:3px;color:var(--text-3);font-size:10px}
+.motion-navsteva b{font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.motion-doklad{align-self:center;background:var(--plocha-2);border-radius:12px;padding:16px;min-width:0}
+.motion-doklad>svg{color:var(--znacka);vertical-align:middle;margin-right:6px}
+.motion-doklad>strong{font-size:13px}
+.motion-doklad>span{display:block;margin-top:10px;font-size:12px}
+.motion-doklad>div{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--linka);margin-top:12px;padding-top:12px;font-size:10px;color:var(--text-2)}
+.motion-doklad b{color:var(--text);white-space:nowrap;font-variant-numeric:tabular-nums}
+.motion-doklad>small{display:inline-block;color:var(--znacka-text);margin-top:10px;font-weight:600;font-size:10px}
+.motion-kroky{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--linka)}
+.motion-kroky button{display:flex;gap:8px;align-items:center;justify-content:center;min-height:52px;padding:8px 4px;font-size:11px;color:var(--text-3);transition:color 150ms,background-color 150ms}
+.motion-kroky button:hover{background:var(--plocha-2)}
+.motion-kroky button[aria-current]{color:var(--znacka)}
+.motion-archiv[data-krok="1"] .motion-vybrana,.motion-archiv[data-krok="2"] .motion-vybrana{background:var(--vyber)}
+.motion-archiv[data-krok="1"] .motion-vybrana time,.motion-archiv[data-krok="2"] .motion-vybrana time{background:var(--vyber);color:var(--znacka-text)}
+.motion-archiv[data-krok="0"] .motion-nalezeno{visibility:hidden}
+@media(prefers-reduced-motion:no-preference){
+ .motion-bezi[data-krok="0"] .motion-dotaz{animation:motion-vyhledat 1050ms steps(8,end) both}
+ .motion-bezi[data-krok="1"] .motion-historie{animation:motion-historie 650ms cubic-bezier(.16,1,.3,1)}
+ .motion-bezi[data-krok="2"] .motion-doklad{animation:motion-doklad 650ms cubic-bezier(.16,1,.3,1)}
+ .motion-archiv[data-krok="0"] .motion-prubeh,.motion-archiv[data-krok="1"] .motion-doklad{opacity:.35}
+ .motion-prubeh,.motion-doklad{transition:opacity 220ms}
+}
+@keyframes motion-vyhledat{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
+@keyframes motion-historie{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0)}}
+@keyframes motion-doklad{from{transform:translateX(16px);opacity:.35}to{transform:translateX(0);opacity:1}}
+@media(max-width:600px){
+ .scena>.motion-archiv{width:100%;margin:16px 0 0;padding-inline:14px}
+ .motion-prubeh{gap:12px;grid-template-columns:minmax(0,1fr)}
+ .scena .motion-doklad{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:center}
+ .scena .motion-doklad>span{grid-column:1/-1;margin:0}.scena .motion-doklad>div{grid-column:1/-1;margin:0;padding-top:8px}.scena .motion-doklad>small{grid-column:3;grid-row:1;margin:0}
+ .motion-nalezeno{font-size:0;gap:0}.motion-kroky button{flex-direction:column;gap:4px;min-height:58px;font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){.motion-archiv *,.motion-archiv *::before{animation:none!important;transition:none!important}}
+
+/* Motion je vidět před snímkem aplikace, i na úzkém displeji. */
+.scena{display:flex;flex-direction:column;gap:24px}
+.scena>.motion-archiv{order:-1;margin:0 auto;width:min(760px,100%)}
+.scena>.skutecny-nahled{width:100%}
+
+/* Doplňky rozcestníku. */
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.logo small{font:inherit}
+
+/* Přepínač tmavý/světlý jako v archivu. Výplň drážky ukazuje režim, ne paletu stránky. */
+.prepinac-motivu{display:inline-flex;align-items:center;gap:10px;color:var(--text-2)}
+.prepinac-popis{font-size:11px;font-weight:800;letter-spacing:.1em;line-height:1;text-transform:uppercase;white-space:nowrap;opacity:.55;transition:opacity .18s}
+.prepinac-motivu[data-motiv-platny="tmavy"] .prepinac-popis[data-strana="vlevo"],.prepinac-motivu[data-motiv-platny="svetly"] .prepinac-popis[data-strana="vpravo"]{opacity:1;color:var(--text)}
+.prepinac-drazka{position:relative;display:block;flex:none;width:58px;height:30px;background:var(--prepinac-vypln,color-mix(in srgb,currentColor 12%,transparent));border:1px solid color-mix(in srgb,currentColor 25%,transparent);border-radius:999px;transition:background-color .18s}
+.prepinac-motivu[data-motiv-platny="tmavy"] .prepinac-drazka{--prepinac-vypln:#2b4a72}
+.prepinac-motivu[data-motiv-platny="svetly"] .prepinac-drazka{--prepinac-vypln:#9fd8a8}
+.prepinac-jezdec{position:absolute;top:50%;left:3px;width:24px;height:24px;background:#fff;border-radius:50%;box-shadow:0 1px 3px #00000059,0 0 0 1px #00000024;transform:translateY(-50%);transition:left .18s ease-out;pointer-events:none}
+.prepinac-motivu[data-motiv-platny="svetly"] .prepinac-jezdec{left:calc(100% - 27px)}
+/* Klikací plocha leží přes celou drážku a má výšku dotykového cíle. */
+.prepinac-poloha{position:absolute;inset:-8px -4px;padding:0;background:transparent;border:0;border-radius:999px;cursor:pointer}
+.prepinac-motivu:hover .prepinac-drazka{border-color:currentColor}
+.prepinac-poloha:focus-visible{outline-offset:2px}
+.web-akce{gap:16px}
+
+/* Motion: položky faktury 2026102 → řádek sestavy tržeb. */
+.motion-dotaz{font-variant-numeric:tabular-nums}
+.motion-auto{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.motion-polozka{grid-template-columns:58px minmax(0,1fr) auto}
+.motion-polozka time{font-size:9.5px;letter-spacing:.02em}
+.motion-soucty{margin:12px 0 0;border-top:1px solid var(--linka);padding-top:8px}
+.motion-soucty div{display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:11px;color:var(--text-2)}
+.motion-soucty dt,.motion-soucty dd{margin:0}
+.motion-soucty dd{color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
+.motion-soucty .celkem{margin-top:4px;padding-top:7px;border-top:1px solid var(--linka);font-weight:600}
+.motion-soucty .celkem dd{color:var(--znacka-text)}
+.motion-vysvetleni{margin:0 0 14px;padding:10px 12px;border-radius:9px;background:var(--znacka-svetla);color:var(--znacka-text);font-size:11.5px;line-height:1.5}
+.historie-mini b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.export-mini span small{display:block;margin-top:2px;color:var(--text-3);font-size:10px}
+
+/* Služby a soukromí: karty se stejnými ploškami jako další funkce. */
+.dalsi-funkce h3 a{text-decoration:none}.dalsi-funkce h3 a:hover{text-decoration:underline}
+.dalsi-funkce h3 a::after{content:" ↗";color:var(--znacka)}
+.dva-sloupce{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sekce-poznamka{margin-top:20px;font-size:14.5px;color:var(--text-2)}
+.paticka-spodek a{color:inherit}
+
+@media(max-width:1100px){.dva-sloupce{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.dva-sloupce{grid-template-columns:1fr}}
+@media(max-width:600px){.motion-polozka{grid-template-columns:52px minmax(0,1fr) auto}.motion-auto{display:none}}
+@media(max-width:560px){.prepinac-popis{display:none}.prepinac-motivu[data-motiv-platny="tmavy"] .prepinac-popis[data-strana="vlevo"],.prepinac-motivu[data-motiv-platny="svetly"] .prepinac-popis[data-strana="vpravo"]{display:inline}.historie-mini b{font-size:10px;padding:7px 6px}}
+@media(max-width:420px){.web-lista .logo small{display:none}}
+@media(prefers-reduced-motion:reduce){.prepinac-jezdec,.prepinac-popis,.prepinac-drazka{transition:none}}
+.uvod h1{max-width:20ch}.uvod h1 span{display:block}
+.motion-polozky::before{display:none}.motion-polozka{padding-left:8px}
+@media(max-width:600px){.scena .motion-doklad>dl{grid-column:1/-1;margin:0}}
+@media(max-width:560px){.uvod h1{font-size:2.3rem}.uvod h1 span{display:inline}}
+.motion-archiv[data-krok="1"] .motion-vybrana small,.motion-archiv[data-krok="2"] .motion-vybrana small{color:var(--text-2)}
