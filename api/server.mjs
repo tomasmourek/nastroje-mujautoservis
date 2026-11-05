@@ -22,6 +22,7 @@ const posta =
         host: SMTP_HOST,
         port: Number(SMTP_PORT),
         secure: Number(SMTP_PORT) === 465,
+        requireTLS: true,
         auth: SMTP_USER ? { user: SMTP_USER, pass: SMTP_PASSWORD } : undefined,
       })
     : null;
