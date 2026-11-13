@@ -60,6 +60,18 @@ Po přihlášení uživatele byl 2026-11-13 dokončen skutečný import z IC Off
 - Inventura zobrazila listopadové období, nalezené odkazy na zdrojové řádky patřily B a žádný A. DPH a kontrolní hlášení i export pro účetní zobrazily listopadové období. Pracovníci neměli data, protože skutečné exporty byly v obou obdobích prázdné.
 - Výsledek: dávka A byla odstraněna a nahrazena dávkou B; původní chyba hromadění exportů se na produkci neprojevila. Karta s načtenou dávkou B zůstala uživateli otevřená. Do repozitáře nebyly uloženy zákaznické soubory, identifikátory dokladů ani osobní údaje.
 
+## Opakované načtení stejného období přes doplněk
+
+Dne 2026-11-13 bylo na produkci skutečným doplňkem znovu načteno stejné období `01.11.2026 – 12.11.2026`, bez změny data a bez návratu na hlavní stránku. Před importem byly zachyceny načtené soubory a obsah všech sedmi obrazovek sestav. Po dokončení importu byly porovnány stejné pohledy; všude, kde je filtr dostupný, bylo zvoleno `Celé načtené období`.
+
+- Během načítání se původní dávka odstranila (nula souborů) a tlačítko importu bylo zakázané.
+- Po dokončení zůstalo šest souborů se šesti jedinečnými názvy. Názvy, druhy, období, počty záznamů a výsledky kontroly byly shodné s původní dávkou.
+- Počty záznamů zůstaly: čtyři faktury, šest položek faktur, nula pokladních dokladů, jedenáct naskladněných položek, šestnáct vydaných položek a nula záznamů pracovníků.
+- Kniha faktur, tržby a DPH, inventura, pokladní kniha, pracovníci, DPH a kontrolní hlášení i export pro účetní měly shodný zobrazený obsah před importem a po něm. Porovnány byly celé tabulky včetně částek a součtů i text obrazovek s vynecháním času vytvoření sestavy.
+- Výsledek: soubory ani údaje v sestavách se nezdvojily. Karta s opakovaně načtenou dávkou zůstala otevřená uživateli. Zákaznické soubory a obsah účetních tabulek nebyly uloženy do repozitáře.
+
+Pokladna a pracovníci byli v tomto období prázdní již před opakováním; jejich kontrola potvrzuje zachování prázdného stavu. Odesílání ani generování exportních souborů pro účetní nebylo součástí tohoto průchodu.
+
 ## Omezení ověření
 
 První pokusy před přihlášením skončily výzvou `IC Office není přihlášený`; tento blokátor byl následným skutečným importem obou období odstraněn. Říjnový parser upozornil na sedm řádků drobného jednicového materiálu s posunutými sloupci, které načetl opravené. Prázdné listopadové exporty pokladny a pracovníků byly označeny upozorněním. Jde o ověření výměny dávky a zobrazení sestav, nikoli o účetní audit výpočtů nebo úplnosti zdrojové evidence.
