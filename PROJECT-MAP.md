@@ -1,9 +1,9 @@
 # nastroje-mujautoservis — projektová mapa
 
-## Příprava instalace doplňku přes obchody — 2026-11-13
+## Nasazení instalačního panelu doplňku — 2026-11-13
 
-- Kandidát ve větvi `codex/nastroje-mujautoservis-instalace-doplnku`, zdroj `ic-office-ucetni-sestavy` commit `b5b4690`. Panel nabízí návod pro zvolený prohlížeč; skutečný instalační odkaz se zobrazí až po doplnění ověřené stránky doplňku v obchodě.
-- Vydavatelské účty ani zveřejněné odkazy dosud nejsou. Doplněk 0.5.3 se dál instaluje ručně. Tato příprava není nasazena na produkci a nedokládá instalaci z obchodu.
+- Claude Code začlenil zdrojové PR #10 a nasazovací PR #11 do `prvni-verze`. Coolify nasadil merge `5e3b36b`, deployment `afzewzgngqhqa0skocd1csae` skončil úspěšně ve 20:58:14 UTC. Produkční HTML, hlavní JavaScript, CSS a ZIP odpovídají kandidátu podle SHA256.
+- Na produkci byly v integrovaném prohlížeči ověřeny všechny tři varianty panelu (Chrome, Edge, Firefox), jejich ruční návody a skutečné stažení ZIPu 0.5.3. Nejde o test tří samostatných enginů. Vydavatelské účty ani zveřejněné odkazy dosud nejsou, instalace z obchodů není dostupná.
 - Zdroj: 193 testů prošlo, čtyři bez zákaznických dat přeskočeny, TypeScript a build prošly. Místní Chrome ověřil volbu všech tří návodů a stažení ZIPu. Všech 67 souborů kandidáta odpovídá zdrojovému `dist/` podle SHA256. [Podrobnosti a hranice ověření](docs/nastroje-mujautoservis-instalace-doplnku-2026-11-13.md).
 
 ## Aktuální checkpoint vydání 0.5.3 — 2026-11-13
