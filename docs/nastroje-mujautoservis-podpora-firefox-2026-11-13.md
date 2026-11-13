@@ -79,3 +79,10 @@ Veřejné `/sestavy/`, `assets/index-DpKm4tE8.js` a ZIP 0.5.0 vrátily HTTP 200.
 Chrome při zahájení přejímky hlásil instalovaný doplněk 0.4.0 a nepovolil nový import. Veřejný ZIP 0.5.0 byl stažen a rozbalen do Stažených souborů, jeho manifest potvrzuje verzi 0.5.0. Aktualizaci ve správci rozšíření musí dokončit uživatel, protože ovládání správce a výběru složky není nástrojem dostupné. Skutečné A → B → B této verze včetně příjemek/výdejek, originálů, součtů a ZIPu zatím není dokončené; totéž platí pro Firefox a Edge.
 
 Přejímka po vydání: načíst dvě různá období A a B, potom B zopakovat. Po změně musí zmizet všechny podklady A; po opakování B se musejí shodovat počty, jedinečná ID a čísla dokladů, tabulky i částky. V IC Office nesmějí přibýt druhé doklady pro stejné pohyby. ZIP musí obsahovat právě PDF dokladů B a správný souhrn jednotlivých příjemek/výdejek a jejich součtů. Ve Firefoxu musí úspěšně projít skutečný binární přenos bez chyby `constructor`. Odeslání e-mailu účetní není touto kontrolou schváleno ani ověřeno.
+# Oprava 0.5.1 — dodatečné načítání skladového přehledu
+
+Projekt: nastroje-mujautoservis. Větev: codex/nastroje-mujautoservis-podpora-firefox. Datum: 2026-11-13. Účel: oprava selhání skutečného importu 0.5.0.
+
+Po aktualizaci doplňku import 0.5.0 selhal: „IC Office nevrátil přehled vystavených výdejek a příjemek“. IC Office vrací úvodní sekci prázdnou a seznam dodává až AJAX požadavkem při rozbalení. Doplněk 0.5.1 používá tento požadavek a nadále odmítá neúplnou dávku. Při neúspěšném importu bylo doplnění dokladů vypnuté.
+
+Zdrojové ověření: 148 úspěšných testů, 4 zákaznické testy bez dat přeskočené; TypeScript a build prošly. Nezávislé read-only review Claude Code nepotvrdilo chybu správnosti; možnost přepínání stavu přehledu je nutné uzavřít skutečným opakováním importu. Sestavení v `sestavy/` odpovídá zdrojovému `dist/`, 67/67 souborů podle SHA256. Uživatel obnovil doplněk na 0.5.1; k pokračování je potřeba také odpovídající frontend, protože kontroluje přesnou verzi. Nasazení 0.5.1 a přejímka A → B → B včetně účetního ZIPu zatím nejsou dokončené.
