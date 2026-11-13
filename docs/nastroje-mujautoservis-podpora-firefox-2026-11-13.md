@@ -54,4 +54,20 @@ Hash byl vypočten z viditelného textu hlavní oblasti stránky. Zákaznické �
 
 ### Zbývající ověření
 
-Ovládání nainstalovaného Firefoxu 147.0.3 zastavil nástroj kvůli nepodporovanému vynucování pravidel URL pro tento Windows prohlížeč. Blokace nebyla obcházena. Uživatel byl požádán o ruční dočasnou instalaci stejného ZIPu a průchod A → B → B. Dokud není výsledek doložen, skutečný import ve Firefoxu zůstává neověřený. Edge nebyl samostatně živě testován; zachování podpory dokládá společná Chromium větev implementace, automatické testy a skutečný průchod v Chrome.
+Ovládání nainstalovaného Firefoxu 147.0.3 zastavil nástroj kvůli nepodporovanému vynucování pravidel URL pro tento Windows prohlížeč. Blokace nebyla obcházena. Uživatel následně provedl ruční test 0.4.0: import selhal chybou `Permission denied to access property "constructor"`. Úspěšný skutečný import ve Firefoxu proto není doložen. Edge nebyl samostatně živě testován; zachování podpory dokládá společná Chromium větev implementace, automatické testy a skutečný průchod v Chrome.
+
+## Následný kandidát 0.5.0 — dosud nenasazený
+
+Zdroj `ic-office-ucetni-sestavy`, commit `2581e1a`, větev `codex/ic-office-ucetni-sestavy-podpora-firefox`. Opravuje převod binárního exportu ve Firefoxu čtením jednotlivých bajtů bez přístupu k `constructor`. Zahrnuje uživatelem objednané příjemky a výdejky v načtených podkladech a balíčku pro účetní: původní PDF, souhrn po dokladech i celkové částky. Samostatná vypnutá volba dovoluje doplnit chybějící doklady za zvolené období podle výchozích hodnot IC Office.
+
+Každý import doplňku nahradí celou dávku včetně PDF. Deduplikace pokrývá opakování i kombinaci původního ručního XLSX s obohaceným CSV. Nový ruční souhrn zneplatní staré PDF; pro úplný ZIP je nutné znovu přidat originály. Vystavení chrání původový zámek a technické ID nepotvrzeného pohybu v localStorage na ic-office.eu. Marker vzniká před POST a zmizí až po potvrzení správného PDF; nejasný výsledek blokuje další zápisy. Exporty a PDF se do tohoto úložiště nezapisují. Bodová informace je v UI, návodu i na úvodní stránce.
+
+- Finální lokální ověření: 144 testů prošlo, 4 zákaznické testy bez dat přeskočeny; TypeScript a Vite build prošly. Lint zablokoval Windows Application Control u nativního modulu oxlint. Ochrana nebyla obcházena.
+- Nezávislé review odhalilo a vedlo k opravě smíšených duplicit, starých PDF a nejistého POST. Následné úzké review těchto tří míst: 0 nálezů; reviewer testy samostatně nespouštěl.
+- Složka `sestavy/` odpovídá zdrojovému `dist/`: 67/67 souborů podle SHA256. ZIP 0.5.0: `A3519F7ADEBBB4B1D7C556A843085007775AF2B0188513D176E8D1E8B2901FAE`. Hlavní `assets/index-DpKm4tE8.js`: `0F7BC0BA007937361344CED3C50DD1AFF14F0793B55DB83E32890D596648E1C6`.
+- Lokální UI zobrazilo šest ukázkových exportů a novou položku skladového ZIPu, správně vypnutou bez skladových dokladů. Dialog předání syntetických souborů ve dvou pokusech vypršel, takže naplněný nový přehled nebyl vizuálně ověřen. Log obsahoval chyby cizího rozšíření a uzavřeného kanálu zpráv; čistá konzole není doložena.
+- V živém IC Office byl při průzkumu jednotlivě vystaven jeden chybějící výdejový doklad k prodeji z 12.11.2026 a po obnovení byl potvrzen jako vystavený. Nejde o přejímku automatické dávky. Ostatní pohyby nebyly hromadně zpracovány; zákaznické exporty a PDF nejsou v repozitáři.
+
+Kandidát je připraven pouze v pracovní větvi. Nasazení přes Coolify na `http://localhost:8000` odmítla URL politika prohlížeče; blokace nebyla obcházena. Přesun do `prvni-verze` musí provést uživatel nebo oprávněný Claude Code podle Git pravidel projektu. Poté je třeba spustit Deploy v Coolify a aktualizovat rozbalený doplněk z veřejného ZIPu 0.5.0. Skutečné A → B → B této verze včetně příjemek/výdejek, originálů, součtů a ZIPu není dokončené; totéž platí pro Firefox a Edge.
+
+Přejímka po vydání: načíst dvě různá období A a B, potom B zopakovat. Po změně musí zmizet všechny podklady A; po opakování B se musejí shodovat počty, jedinečná ID a čísla dokladů, tabulky i částky. V IC Office nesmějí přibýt druhé doklady pro stejné pohyby. ZIP musí obsahovat právě PDF dokladů B a správný souhrn jednotlivých příjemek/výdejek a jejich součtů. Ve Firefoxu musí úspěšně projít skutečný binární přenos bez chyby `constructor`. Odeslání e-mailu účetní není touto kontrolou schváleno ani ověřeno.
