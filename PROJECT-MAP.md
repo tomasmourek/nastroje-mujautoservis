@@ -1,5 +1,11 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Kandidát serverového stahování katalogu — 2026-11-14
+
+- Větev `codex/nastroje-mujautoservis-serverovy-katalog`, základ `d31b096`: příprava Node.js 24 se SQLite, nginx a pevného adresáře `/var/lib/ic-office-katalog`. API proxy čeká nejvýše 120 sekund; SMTP a veřejné cesty zůstávají zachované.
+- Před aktivací je nutný explicitní trvalý svazek v Coolify a šifrovací klíč. Uživatel s přístupovým kódem firmy si pak sám připojí svůj účet IC Office a zapne plán. Stejný účet nelze připojit více firmám. Bez konfigurace automat neběží. Zdrojový build/API se přebírají samostatně; tato příprava není produkční nasazení.
+- Docker daemon na hostiteli není dostupný; kontejner, obnova svazku ani skutečný automatický import dosud nejsou ověřené. [Konfigurace, přejímka a hranice důkazů](docs/nastroje-mujautoservis-serverovy-katalog-2026-11-14.md).
+
 ## Nasazení 0.6.0 — export skladového katalogu — 2026-11-13
 
 - Zdroj `ic-office-ucetni-sestavy` `c9f5920` začleněn PR #11 (merge `6729486`). Nová sekce Export skladového katalogu (`#google-sklady`): XML katalog všech skladů a nastavení denního, týdenního a měsíčního běhu. Plán se zatím ukládá jen místně, automatizace není aktivní.

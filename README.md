@@ -16,6 +16,8 @@ Panel načítání exportů nabízí postup pro Chrome, Edge a Firefox. Instalac
 
 Coolify na Netcupu stahuje tento veřejný repozitář z větve `prvni-verze` a staví `Dockerfile`. Po pushi se nasazuje ručně tlačítkem Deploy v aplikaci `nastroje-mujautoservis`; pak ověřte `https://nastroje.mujautoservis.eu/` a `/sestavy/`.
 
+Kandidát serverového stahování skladového katalogu používá Node.js 24 s vestavěnou SQLite a nginx. Automat se zpřístupní až po nastavení trvalého svazku a šifrovacího klíče. Uživatel s přístupovým kódem firmy jej poté sám připojí ke svému účtu IC Office a aktivuje plán; bez konfigurace zůstává neaktivní. [Příprava a ověření nasazení](docs/nastroje-mujautoservis-serverovy-katalog-2026-11-14.md).
+
 ## Náhled
 
 ```bash

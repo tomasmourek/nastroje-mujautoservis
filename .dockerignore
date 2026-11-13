@@ -1,0 +1,9 @@
+.git
+.worktrees
+.claude
+node_modules
+**/node_modules
+.env*
+**/.env*
+*.sqlite*
+**/*.sqlite*
