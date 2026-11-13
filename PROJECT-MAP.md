@@ -1,5 +1,10 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Kandidát 0.6.0 — export skladového katalogu — 2026-11-13
+
+- Zdroj `ic-office-ucetni-sestavy` `c9f5920` začleněn PR #11 (merge `6729486`). Nová sekce Export skladového katalogu (`#google-sklady`): XML katalog všech skladů a nastavení denního, týdenního a měsíčního běhu. Plán se zatím ukládá jen místně, automatizace není aktivní.
+- `sestavy/` nahrazeno zdrojovým `dist/`; 67/67 souborů odpovídá podle SHA256. Zdroj: 225 testů prošlo, 4 přeskočeny, lint bez chyb, build prošel. Nasazení touto položkou doloženo není. [Evidence buildu](docs/nastroje-mujautoservis-export-skladoveho-katalogu-2026-11-13.md).
+
 ## Nasazení instalačního panelu doplňku — 2026-11-13
 
 - Claude Code začlenil zdrojové PR #10 a nasazovací PR #11 do `prvni-verze`. Coolify nasadil merge `5e3b36b`, deployment `afzewzgngqhqa0skocd1csae` skončil úspěšně ve 20:58:14 UTC. Produkční HTML, hlavní JavaScript, CSS a ZIP odpovídají kandidátu podle SHA256.
@@ -60,6 +65,7 @@ Projekt: nastroje-mujautoservis. Větev: `prvni-verze`. Datum: 2026-11-03.
 - Zdroj `2581e1a`, pracovní větev `codex/ic-office-ucetni-sestavy-podpora-firefox`. 144 testů prošlo, 4 přeskočeny, TypeScript a build prošly; lint blokuje Windows. Následné úzké nezávislé review: 0 nálezů. 67/67 nasazovacích souborů odpovídá zdrojovému buildu.
 - Nasazeno 2026-11-13 z `prvni-verze`, commit `318bd25273627c6b0dedca89c1a78f1bc1e40265` (nasazovací PR č. 5; zdrojové PR č. 4 začleněno jako `dc4fe34`). Coolify deployment `rjecovvywnox9lbsdki6vplk` skončil úspěšně v 17:58:11 UTC. Veřejná stránka, hlavní JavaScript i ZIP vracejí HTTP 200; SHA256 JavaScriptu a ZIPu odpovídá kandidátu.
 - Skutečné ověření 0.5.0 A → B → B včetně skladových dokladů a balíčku pro účetní čeká na aktualizaci nainstalovaného doplňku v Chrome z 0.4.0 na 0.5.0. Firefox ani Edge nebyly úspěšně živě ověřeny. Podrobnosti: [dokumentace vydání](docs/nastroje-mujautoservis-podpora-firefox-2026-11-13.md#vydání-050--skladové-doklady).
+
 ## Následné opravy importu 0.5.2
 
 - Přejímka 0.5.1 potvrdila nahrazení říjnové dávky listopadovou včetně PDF, ale odhalila odmítnutí neomezeného filtru skladu a chybný převod českých částek CSV. Automatický pokus žádný doklad nevytvořil. Opakování a ZIP dosud nejsou přijaté.
