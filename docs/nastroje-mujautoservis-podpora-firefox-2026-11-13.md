@@ -1,7 +1,7 @@
 # nastroje-mujautoservis — podpora Firefoxu
 
 Projekt: `nastroje-mujautoservis`. Větev: `codex/nastroje-mujautoservis-podpora-firefox`, základ `2eda35c`.
-Datum: 2026-11-13. Účel: evidence kandidáta doplňku 0.4.0 a skutečného rozsahu ověření.
+Datum: 2026-11-13. Účel: evidence nasazení doplňku 0.4.0 a skutečného rozsahu ověření.
 
 ## Změna
 
@@ -19,8 +19,12 @@ Návod popisuje instalaci pro všechny tři prohlížeče. Při aktualizaci je n
 
 ## Produkční ověření a zbývající práce
 
-Verze 0.4.0 zatím nebyla nasazena a její skutečný import není doložen. Předchozí úspěšné produkční průchody verze 0.3.1 jsou v [dokumentaci opravy období](nastroje-mujautoservis-nasazeni-opravy-obdobi-2026-11-13.md); nejsou důkazem nového vydání.
+Verze 0.4.0 byla nasazena 2026-11-13. Zdrojové PR č. 3 bylo začleněno jako `c011323ab492c7773d8650aa66f79478f064fc4f`; [nasazovací PR č. 4](https://github.com/tomasmourek/nastroje-mujautoservis/pull/4) jako `ff15b25832bf75f53a23158689e639f73fae7cf5`. Coolify nasadil tento commit z větve `prvni-verze`, deployment `bggb93ernfs2qupw5afccoje`: nový kontejner spuštěn v 16:12:17 UTC, rolling aktualizace dokončena v 16:12:18 UTC, stav Success / Finished.
+
+Veřejná adresa `/sestavy/` vrací HTTP 200. Stažený hlavní JavaScript i veřejný ZIP 0.4.0 mají shodné SHA256 s výše uvedenými soubory kandidáta. Obnovená produkční stránka zobrazuje verzi 0.4.0 a návod pro Firefox. Nastavení prostředí, tajemství ani produkční data nebyly měněny.
+
+Skutečný import verze 0.4.0 ještě není doložen. Předchozí úspěšné produkční průchody verze 0.3.1 jsou v [dokumentaci opravy období](nastroje-mujautoservis-nasazeni-opravy-obdobi-2026-11-13.md); nejsou důkazem nového vydání.
 
 Ovládání nainstalovaného Firefoxu 147.0.3 zastavil nástroj kvůli nepodporovanému vynucování pravidel URL pro tento Windows prohlížeč. Blokace nebyla obcházena. Připraveno je opakovat skutečný import A `01.–31.10.2026`, B `01.–12.11.2026` a opět B. Po změně musí A zmizet; po opakování B se musí shodovat šest jedinečných souborů, počty záznamů i tabulky všech sedmi obrazovek přes celé načtené období.
 
-Tunel do Coolify byl otevřen standardním wrapperem. Dashboard nyní požaduje přihlášení uživatele. Nastavení prostředí, tajemství ani produkční data nebyly měněny.
+V Chrome byla odebrána předchozí verze 0.3.1, aby neběžely dvě instalace současně. Načtení 0.4.0 nyní čeká na výběr existující složky uživatelem: nativní dialog nástroj nedokáže ovládat. Skutečný import v Chrome, Edge ani Firefoxu proto zatím nelze označit za ověřený.
