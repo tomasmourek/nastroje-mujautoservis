@@ -88,7 +88,7 @@ Po aktualizaci doplňku import 0.5.0 selhal: „IC Office nevrátil přehled vys
 Zdrojové ověření: 148 úspěšných testů, 4 zákaznické testy bez dat přeskočené; TypeScript a build prošly. Nezávislé read-only review Claude Code nepotvrdilo chybu správnosti; možnost přepínání stavu přehledu je nutné uzavřít skutečným opakováním importu. Sestavení v `sestavy/` odpovídá zdrojovému `dist/`, 67/67 souborů podle SHA256. Uživatel obnovil doplněk na 0.5.1; k pokračování je potřeba také odpovídající frontend, protože kontroluje přesnou verzi. Nasazení 0.5.1 a přejímka A → B → B včetně účetního ZIPu zatím nejsou dokončené.
 # Opravy skutečného importu 0.5.2
 
-Projekt: nastroje-mujautoservis. Větev: codex/nastroje-mujautoservis-podpora-firefox. Datum: 2026-11-13. Účel: oprava chyb z produkční přejímky; stav tohoto oddílu zpřesňuje starší záznamy níže.
+Projekt: nastroje-mujautoservis. Větev: codex/nastroje-mujautoservis-podpora-firefox. Datum: 2026-11-13. Účel: oprava chyb z produkční přejímky; stav tohoto oddílu zpřesňuje starší záznamy výše.
 
 Produkční 0.5.1 byla nasazena z commitu `1557ca1687ee475706fe88f0406b46d3cc769c7c`; Coolify deployment `ed3l202bjgwf23n0v1evhwzc` skončil úspěšně v 18:18:50 UTC. Chrome s instalovaným doplňkem načetl říjen: sedm souborů a pět PDF. Změna období odstranila všechna data a PDF; čtení 11.–12.11. načetlo sedm souborů a tři existující PDF. Vystavování odmítla kontrola filtru ještě před zápisem. Opakování a balíček zatím ověřeny nejsou; částky CSV byly chybné a nejsou přijatým výsledkem.
 
@@ -97,3 +97,31 @@ Zdroj 0.5.2: `ic-office-ucetni-sestavy`, commit `3b001cb`. Opraveno rozpoznání
 Lokálně prošlo 182 testů, čtyři bez externích vstupů byly přeskočeny; TypeScript a Vite build prošly. Nezávislé read-only review Claude Code vedlo k doplnění ochrany alternativních selektorů a explicitního měsíce, následně pokryté regresními testy. Reviewer testy nespouštěl. Guard rozpoznává známou serverovou šablonu, neanalyzuje libovolné externí skripty. Na živém DOM odpovídal právě jeden inicializační skript a žádná explicitní volba měsíce. Lint blokuje Windows Application Control; ochrana nebyla obcházena.
 
 Všech 67 souborů `sestavy/` odpovídá zdrojovému buildu podle SHA256. Hlavní JS `index-BjiPq37K.js`: `3AB23DE30AA62C509C972F71734B64E89F596AAA69F27F30BAAB47EDE4B10EFF`. ZIP 0.5.2: `16316871088AC1EC0E33BF6FFD96E285F72485129A5B30194926FC5E861B815F`. Skutečnou přejímku A → B → B včetně tvorby pouze chybějících příjemek/výdejek, správných částek a balíčku je nutné dokončit po nasazení a aktualizaci doplňku. Firefox a Edge zůstávají samostatně neověřené.
+
+## Nasazení a skutečná přejímka 0.5.2
+
+Dne 2026-11-13 Claude Code začlenil [zdrojové PR č. 6](https://github.com/tomasmourek/ic-office-ucetni-sestavy/pull/6) jako `347e70a8e3c7316d35d24177858ba211728628d3` a [nasazovací PR č. 7](https://github.com/tomasmourek/nastroje-mujautoservis/pull/7) jako `2bc7661a8683db6c4e3e5bbbd934f2aba1e9bccb` do větví `prvni-verze`. Coolify deployment `q8zgxazkt0ng9zudw6pmqorw` skončil ve stavu `finished` v 18:42:12 UTC. Veřejný JavaScript `index-BjiPq37K.js` a ZIP doplňku 0.5.2 odpovídaly kandidátu podle výše uvedených SHA256. Správce rozšíření v Chrome následně potvrdil instalovanou verzi 0.5.2.
+
+Skutečný import přihlášeného IC Office prošel v pořadí A `01.–31.10.2026` → B `11.–12.11.2026` → opakování B. V A bylo doplnění chybějících dokladů vypnuté; v B i při opakování bylo zapnuté.
+
+| Druh podkladu | A | B | Opakování B |
+| --- | ---: | ---: | ---: |
+| Vystavené faktury | 10 | 1 | 1 |
+| Položky faktur | 56 | 1 | 1 |
+| Pokladna | 3 | 0 | 0 |
+| Naskladněné zboží | 6 | 11 | 11 |
+| Vydané zboží | 23 | 13 | 13 |
+| Mechanici a zakázky | 0 | 0 | 0 |
+| Skladové doklady v souhrnu | 5 | 5 | 5 |
+| Jedinečné exportní soubory | 7 | 7 | 7 |
+| Jedinečná původní PDF | 5 | 5 | 5 |
+
+Změna období vymazala všech sedm exportů i PDF ještě před dalším importem: stránka ukázala nula načtených souborů a 0 ze 7 druhů. Po B zůstaly pouze listopadové názvy souborů a pět listopadových PDF; průnik ID PDF s A byl prázdný. Opakování B zachovalo stejné názvy, počty záznamů i pět stejných ID PDF.
+
+Doplněk během B vytvořil právě dva dosud chybějící doklady: jednu příjemku a jednu výdejku. V IC Office se po obnovení zobrazily jako vystavené vedle tří původních dokladů. Pohyby mimo B zůstaly bez nového dokladu. Kontrola inventury přes „Celé načtené období“ ukázala dvě příjemky za 6 949,71 Kč bez DPH / 8 409,15 Kč s DPH a tři výdejky za 8 180,65 Kč bez DPH / 9 898,59 Kč s DPH, ve shodě s pohyby v IC Office. Říjnové doklady v tomto přehledu nebyly.
+
+### Dosud nedokončená část přejímky 0.5.2
+
+Při následném stahování originálů se přerušilo ovládání Chrome. Jeden původní PDF soubor se skutečně stáhl; stažení a rozbor celého účetního ZIPu zatím doložené nejsou. Po opakování B jsou potvrzené stejné exportní počty a PDF identity, ale zbývá přesné porovnání všech sestav a nová kontrola IC Office, že opakování nevystavilo další doklady. Tuto část nelze označit za dokončenou pouze na základě automatických testů.
+
+Skutečný úspěšný import 0.5.2 ve Firefoxu ani Edge není doložen. Firefoxové ovládání blokovala politika nástroje; nebyla obcházena. E-mail účetní nebyl odeslán. Zákaznické exporty ani PDF nejsou součástí Gitu.
