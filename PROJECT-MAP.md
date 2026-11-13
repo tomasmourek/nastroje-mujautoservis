@@ -1,5 +1,11 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Aktuální checkpoint vydání 0.5.2 — 2026-11-13
+
+- Nasazení 0.5.2 dokončeno; Coolify potvrdil commit `2bc7661a8683db6c4e3e5bbbd934f2aba1e9bccb` ve stavu finished. Veřejné artefakty odpovídají kandidátu podle SHA256.
+- Skutečné Chrome importy říjen → 11.–12. listopadu → opakování listopadu: stará dávka včetně PDF zmizela; po opakování zůstalo sedm exportů, pět PDF a stejné počty záznamů. V listopadové dávce vznikly právě dva chybějící skladové doklady. Součty dvou příjemek a tří výdejek odpovídají IC Office.
+- Dokončení blokuje odpojené ovládání Chrome: zbývá přesné porovnání sestav po opakování, kontrola nepřibytí dokladů v IC Office a stažení/rozbor účetního ZIPu. Firefox a Edge samostatně neověřeny. Podrobnosti: [evidence vydání](docs/nastroje-mujautoservis-podpora-firefox-2026-11-13.md). Starší oddíly níže zachycují předchozí etapy.
+
 Projekt: nastroje-mujautoservis. Větev: `prvni-verze`. Datum: 2026-11-03.
 Účel: rozcestník projektu, doložený stav a další ověřitelný výsledek.
 
