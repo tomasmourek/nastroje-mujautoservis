@@ -29,7 +29,7 @@ První přímé porovnání s pracovním stromem našlo rozdíly u 23 textových
 
 ## Ověření v produkčním prohlížeči
 
-Kontrola proběhla v nové kartě Chrome, aby se neměnily původní uživatelovy načtené exporty. Použita byla pouze vestavěná ukázková data; účetní nebyl odeslán žádný e-mail.
+První kontrola proběhla v nové kartě Chrome, aby se neměnily původní uživatelovy načtené exporty. V této fázi byla použita pouze vestavěná ukázková data; účetní nebyl odeslán žádný e-mail.
 
 - Načteno všech šest ukázkových exportů. Kniha faktur zobrazila čtyři faktury při vlastním rozsahu.
 - Návrat ze sestavy zachoval šest exportů i zvolené období importu.
@@ -39,10 +39,31 @@ Kontrola proběhla v nové kartě Chrome, aby se neměnily původní uživatelov
 - Všechny obrazovky sestav se zobrazily: tržby a DPH, inventura, pracovníci, pokladní kniha, kniha faktur, DPH a kontrolní hlášení, export pro účetní. Jde o kontrolu zobrazení na ukázkových datech, nikoli o nové účetní ověření výpočtů či odeslání.
 - Nové spuštění skutečného doplňku při stejném období okamžitě odstranilo starou dávku. Po chybě přihlášení zůstal seznam prázdný a ovládání se znovu zpřístupnilo.
 
-## Omezení a zbývající ověření
+## Skutečný import dvou období přes doplněk
 
-Skutečný doplněk reagoval na obě spuštění importu. IC Office však v tomto profilu neměl přihlášenou relaci: aplikace zobrazila nejprve výzvu k přihlášení v otevřené kartě a při opakování `IC Office není přihlášený`. Úspěšné stažení dvou různých období ze skutečného IC Office proto nebylo možné dokončit. Zbývající krok: přihlásit IC Office a zopakovat import období A → návrat → změna na B → import B, s kontrolou, že sestavy obsahují jen B.
+Po přihlášení uživatele byl 2026-11-13 dokončen skutečný import z IC Office přes nainstalovaný doplněk do produkčních sestav. Test běžel v nové kartě Chrome bez mocku a bez opuštění aplikace na hlavní stránku.
+
+| Export | A: 01.–31.10.2026 | B: 01.–12.11.2026 |
+| --- | ---: | ---: |
+| Vystavené faktury | 10 | 4 |
+| Položky vystavených faktur | 56 | 6 |
+| Pokladna | 3 | 0 |
+| Naskladněné zboží | 6 | 11 |
+| Vydané zboží | 23 | 16 |
+| Mechanici a zakázky | 0 | 0 |
+
+- Období A načetlo šest skutečných exportů; kniha faktur při filtru `Celé načtené období` obsahovala deset faktur.
+- Návrat na načtení zachoval říjnové datum. Změna období okamžitě odstranila všech šest souborů; kniha faktur pak měla nula řádků a požadovala načtení exportu.
+- Po nastavení B a návratu ze sestavy zůstalo zvoleno `01.11.2026 – 12.11.2026`. Skutečný doplněk úspěšně načetl šest nových exportů, všechny s obdobím B; počet souborů z A byl nula.
+- Kniha faktur s filtrem `Celé načtené období` obsahovala přesně čtyři faktury z B a žádný identifikátor z deseti faktur A. Data vystavení i DUZP byla 02., 04., 04. a 12.11.2026. Nabídka měsíců obsahovala pouze listopad.
+- Tržby při stejném filtru obsahovaly pouze listopadová DUZP. Pokladní kniha neměla žádné řádky: tři říjnové doklady nezůstaly v sestavě, listopadový export byl prázdný.
+- Inventura zobrazila listopadové období, nalezené odkazy na zdrojové řádky patřily B a žádný A. DPH a kontrolní hlášení i export pro účetní zobrazily listopadové období. Pracovníci neměli data, protože skutečné exporty byly v obou obdobích prázdné.
+- Výsledek: dávka A byla odstraněna a nahrazena dávkou B; původní chyba hromadění exportů se na produkci neprojevila. Karta s načtenou dávkou B zůstala uživateli otevřená. Do repozitáře nebyly uloženy zákaznické soubory, identifikátory dokladů ani osobní údaje.
+
+## Omezení ověření
+
+První pokusy před přihlášením skončily výzvou `IC Office není přihlášený`; tento blokátor byl následným skutečným importem obou období odstraněn. Říjnový parser upozornil na sedm řádků drobného jednicového materiálu s posunutými sloupci, které načetl opravené. Prázdné listopadové exporty pokladny a pracovníků byly označeny upozorněním. Jde o ověření výměny dávky a zobrazení sestav, nikoli o účetní audit výpočtů nebo úplnosti zdrojové evidence.
 
 Konzole používaného profilu Chrome obsahovala chybu inicializace rozšíření a zprávy `A listener indicated an asynchronous response ... message channel closed`. Produkční konzoli proto nelze označit za čistou; samotné zobrazení a popsané změny stavu proběhly.
 
-Lokální ověření před vydáním: 58 testů prošlo, čtyři zákaznické testy bez externích podkladů byly přeskočeny; TypeScript a Vite build prošly. Osm regresních scénářů s mockem doplňku a syntetickými CSV prošlo, původní build v regresi selhal. Nezávislé review této opravy neproběhlo. Skutečné odesílání e-mailů a zákaznické účetní podklady nebyly testovány.
+Lokální ověření před vydáním: 58 testů prošlo, čtyři zákaznické testy bez externích podkladů byly přeskočeny; TypeScript a Vite build prošly. Osm regresních scénářů s mockem doplňku a syntetickými CSV prošlo, původní build v regresi selhal. Nezávislé review této opravy neproběhlo. Skutečné odesílání e-mailů nebylo testováno.
