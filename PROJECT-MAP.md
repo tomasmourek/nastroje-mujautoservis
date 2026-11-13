@@ -52,4 +52,3 @@ Projekt: nastroje-mujautoservis. Větev: `prvni-verze`. Datum: 2026-11-03.
 
 - Přejímka 0.5.1 potvrdila nahrazení říjnové dávky listopadovou včetně PDF, ale odhalila odmítnutí neomezeného filtru skladu a chybný převod českých částek CSV. Automatický pokus žádný doklad nevytvořil. Opakování a ZIP dosud nejsou přijaté.
 - Zdroj kandidáta 0.5.2 `ic-office-ucetni-sestavy` commit `3b001cb`: opravy filtru a čtení textových CSV. 182 testů prošlo, čtyři přeskočeny, TypeScript a build prošly; review Claude Code vedlo k doplnění ochrany dalších inline skriptů a explicitního měsíce. 67/67 souborů buildu odpovídá podle SHA256. Podrobnosti a hranice ověření: [evidence vydání](docs/nastroje-mujautoservis-podpora-firefox-2026-11-13.md).
-
