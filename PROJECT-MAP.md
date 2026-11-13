@@ -2,8 +2,8 @@
 
 ## Aktuální checkpoint vydání 0.5.3 — 2026-11-13
 
-- Produkční 0.5.2: porovnání všech sedmi sestav před/po opakování je shodné; v IC Office zůstalo pět stejných listopadových dokladů. Stažený ZIP ověřen: pět PDF, správný souhrn dvou příjemek a tří výdejek, bez říjnových originálů.
-- Opakování odhalilo zapamatovanou poslední stránku skladu. Kandidát 0.5.3 začíná výslovně první stránkou; 183 testů a build prošly. Nasazení a živé opakování 0.5.3 zatím nejsou dokončené.
+- Produkční 0.5.3 je nasazena z `98c6e2b`; Coolify dokončil nasazení v 19:31:19 UTC. Veřejný JavaScript i ZIP odpovídají kandidátu podle SHA256.
+- Skutečné A (říjen) → B (11.–12.11.) → B v Chrome prošlo bez ruční změny zapamatované stránky 17. Sedm sestav se při stejném filtru přesně shoduje; v IC Office zůstalo pět stejných dokladů bez duplicit. Stažený ZIP obsahuje pět PDF a správný souhrn dvou příjemek a tří výdejek pouze za B. Lokálně 183 testů a build prošly; nezávislé review Claude Code bez nálezů, 61 cílených testů úspěšných.
 - Firefox a Edge samostatně neověřeny. Podrobnosti: [evidence vydání](docs/nastroje-mujautoservis-podpora-firefox-2026-11-13.md). Starší oddíly níže zachycují předchozí etapy.
 
 Projekt: nastroje-mujautoservis. Větev: `prvni-verze`. Datum: 2026-11-03.
