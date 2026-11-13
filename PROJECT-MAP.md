@@ -1,9 +1,10 @@
 # nastroje-mujautoservis — projektová mapa
 
-## Kandidát 0.6.0 — export skladového katalogu — 2026-11-13
+## Nasazení 0.6.0 — export skladového katalogu — 2026-11-13
 
 - Zdroj `ic-office-ucetni-sestavy` `c9f5920` začleněn PR #11 (merge `6729486`). Nová sekce Export skladového katalogu (`#google-sklady`): XML katalog všech skladů a nastavení denního, týdenního a měsíčního běhu. Plán se zatím ukládá jen místně, automatizace není aktivní.
-- `sestavy/` nahrazeno zdrojovým `dist/`; 67/67 souborů odpovídá podle SHA256. Zdroj: 225 testů prošlo, 4 přeskočeny, lint bez chyb, build prošel. Nasazení touto položkou doloženo není. [Evidence buildu](docs/nastroje-mujautoservis-export-skladoveho-katalogu-2026-11-13.md).
+- Claude Code začlenil nasazovací PR #13; Coolify nasadil commit `adb131e`, stav `finished` v 22:26:48 UTC. Ruční import čerstvého Excelu z IC Office a stažení XML na produkci: 3 103 položek, 18 skladů, 3 053 kódů; všechna exportovaná pole a součty odpovídají zdroji. Opakování nezměnilo počty ani hash XML. Denní, týdenní a měsíční nastavení přetrvalo obnovení stránky, 31. den se v listopadu správně omezil na 30. Automatický běh není implementovaný, přímý test doplňku čeká na jeho obnovení uživatelem.
+- `sestavy/` odpovídá zdrojovému `dist/` (67/67 souborů podle SHA256). Zdroj: 225 testů prošlo, 4 přeskočeny, lint bez chyb, build prošel. [Důkazy a omezení produkčního ověření](docs/nastroje-mujautoservis-export-skladoveho-katalogu-2026-11-13.md).
 
 ## Nasazení instalačního panelu doplňku — 2026-11-13
 

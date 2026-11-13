@@ -19,4 +19,33 @@ Plán běhu se zatím jen ukládá místně v prohlížeči. Automatizace ani se
 - Git bloby všech 15 změněných souborů (index, assety, ZIP) jsou bajtově shodné s `dist/`. Zbylých 23 nezměněných textových souborů (`atomys/`, `favicon.svg`) má ve zdrojovém `dist/` konce řádků CRLF a Git je ukládá s LF; jde o stejný stav jako v předchozím nasazení.
 - API a nginx se nemění. Žádná zákaznická data ani tajemství nejsou součástí změny.
 
-Změna nemá nezávislé review. Nasazení a produkční ověření nejsou tímto dokumentem doložena.
+Samotné začlenění a nasazovací diff neměly samostatné nezávislé review. Kontroly kandidáta výše nenahrazují skutečný import doplňkem.
+
+## Nasazení a produkční ověření
+
+Claude Code začlenil zdrojové PR #11 a [nasazovací PR #13](https://github.com/tomasmourek/nastroje-mujautoservis/pull/13) do `prvni-verze`. Produkční commit je `adb131e225b2c6fd45dacdc7f056043e09448f16`. Ručně spuštěný Coolify deployment `eybhrivxdtxdjs8nj8gatpr3` skončil stavem `finished` dne 2026-11-13 v 22:26:48 UTC (23:26:48 Praha).
+
+- Produkční `/sestavy/` vrací HTTP 200 a odkazuje na `assets/index-ZchX91FT.js`. Veřejný ZIP 0.6.0 je dostupný; jeho SHA256 odpovídá kandidátu uvedenému výše.
+- V Chrome na produkční stránce `#google-sklady` byl ručně načten čerstvý export Excel ze stránky IC Office „Všechno zboží“, bez hledání a bez omezení skladu. Jde o data přihlášeného uživatele, nikoli o ověření firmy Motoboom. Export ani tento průchod žádné skladové pohyby nebo doklady nevytvářel.
+- Aplikace zobrazila **3 103 skladových položek, 18 skladů a 3 053 produktových kódů**. Stažené pracovní XML má 1 867 645 bajtů a SHA256 `d8ed5e17ba8ac40530e6198e4b4ecae0408ea5b488bd6222324143412796127f`.
+- Nezávislé porovnání stažených souborů pomocí Python `openpyxl` a `ElementTree` potvrdilo všech 3 103 řádků včetně násobnosti a všech devíti exportovaných polí. Při porovnání byly dekódovány standardní OOXML sekvence (jeden název obsahoval koncové `_x000D_`). Součty množství všech 3 053 jedinečných kódů se shodují. Zachováno je také 23 záporných a 186 nulových zásob i kód s úvodními nulami.
+- Opakovaný import stejného Excelu ponechal stejné počty. Druhé skutečně stažené XML je bajtově shodné podle SHA256; položky se nezdvojily. Zákaznické soubory nebyly vloženy do Gitu ani do veřejné dokumentace.
+
+### Nastavení plánu na produkci
+
+Každá z následujících voleb byla uložena v UI a ověřena obnovením stránky. Časová zóna je `Europe/Prague`; test proběhl před půlnocí 13. listopadu 2026.
+
+| Četnost | Uložená volba | Zobrazený příští termín |
+| --- | --- | --- |
+| Denně | 07:16 | 14.11.2026 07:16 |
+| Týdně | středa, 07:16 | 18.11.2026 07:16 |
+| Měsíčně | 31. den, 07:16 | 30.11.2026 07:16 |
+
+Volba 31. dne se tedy pro kratší listopad správně omezila na poslední den měsíce. UI při uložení výslovně oznámilo, že automatický běh není aktivní. Zkušební uložený plán byl následně odstraněn přes UI; stránka potvrdila odstranění a vrátila výchozí denní volbu 06:00.
+
+### Neověřené a nedostupné části
+
+- Přímý import přes doplněk 0.6.0 zatím není přijatý. Chrome stále používal starší běžící doplněk; pokus byl správně odmítnut zprávou o požadované verzi alespoň 0.6.0. Soubory v instalované složce jsou aktualizované, uživatel byl požádán o obnovení doplňku. Výše uvedený skutečný import a export proběhl ručně přes Excel.
+- Firefox a Edge nebyly v této etapě samostatně živě testovány.
+- Ověřeno je ukládání nastavení, nikoli automatické vykonání. Serverový plánovač ani běh při vypnutém prohlížeči nejsou implementované.
+- XML je pracovní skladový katalog. Bez napojení e-shopu, produktových odkazů, obrázků a ověřených prodejních cen není přijato jako hotový feed pro Google Merchant Center; příslušné tlačítko je na produkci neaktivní.
