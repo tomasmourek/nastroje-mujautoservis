@@ -1,7 +1,7 @@
 # nastroje-mujautoservis — podpora Firefoxu
 
 Projekt: `nastroje-mujautoservis`. Větev: `codex/nastroje-mujautoservis-podpora-firefox`, základ `2eda35c`.
-Datum: 2026-11-13. Účel: evidence nasazení doplňku 0.4.0 a skutečného rozsahu ověření.
+Datum: 2026-11-13. Účel: evidence nasazení doplňků 0.4.0 a 0.5.0 a skutečného rozsahu ověření.
 
 ## Změna
 
@@ -56,7 +56,7 @@ Hash byl vypočten z viditelného textu hlavní oblasti stránky. Zákaznické �
 
 Ovládání nainstalovaného Firefoxu 147.0.3 zastavil nástroj kvůli nepodporovanému vynucování pravidel URL pro tento Windows prohlížeč. Blokace nebyla obcházena. Uživatel následně provedl ruční test 0.4.0: import selhal chybou `Permission denied to access property "constructor"`. Úspěšný skutečný import ve Firefoxu proto není doložen. Edge nebyl samostatně živě testován; zachování podpory dokládá společná Chromium větev implementace, automatické testy a skutečný průchod v Chrome.
 
-## Následný kandidát 0.5.0 — dosud nenasazený
+## Vydání 0.5.0 — skladové doklady
 
 Zdroj `ic-office-ucetni-sestavy`, commit `2581e1a`, větev `codex/ic-office-ucetni-sestavy-podpora-firefox`. Opravuje převod binárního exportu ve Firefoxu čtením jednotlivých bajtů bez přístupu k `constructor`. Zahrnuje uživatelem objednané příjemky a výdejky v načtených podkladech a balíčku pro účetní: původní PDF, souhrn po dokladech i celkové částky. Samostatná vypnutá volba dovoluje doplnit chybějící doklady za zvolené období podle výchozích hodnot IC Office.
 
@@ -68,6 +68,14 @@ Každý import doplňku nahradí celou dávku včetně PDF. Deduplikace pokrýv�
 - Lokální UI zobrazilo šest ukázkových exportů a novou položku skladového ZIPu, správně vypnutou bez skladových dokladů. Dialog předání syntetických souborů ve dvou pokusech vypršel, takže naplněný nový přehled nebyl vizuálně ověřen. Log obsahoval chyby cizího rozšíření a uzavřeného kanálu zpráv; čistá konzole není doložena.
 - V živém IC Office byl při průzkumu jednotlivě vystaven jeden chybějící výdejový doklad k prodeji z 12.11.2026 a po obnovení byl potvrzen jako vystavený. Nejde o přejímku automatické dávky. Ostatní pohyby nebyly hromadně zpracovány; zákaznické exporty a PDF nejsou v repozitáři.
 
-Kandidát je připraven pouze v pracovní větvi. Nasazení přes Coolify na `http://localhost:8000` odmítla URL politika prohlížeče; blokace nebyla obcházena. Přesun do `prvni-verze` musí provést uživatel nebo oprávněný Claude Code podle Git pravidel projektu. Poté je třeba spustit Deploy v Coolify a aktualizovat rozbalený doplněk z veřejného ZIPu 0.5.0. Skutečné A → B → B této verze včetně příjemek/výdejek, originálů, součtů a ZIPu není dokončené; totéž platí pro Firefox a Edge.
+### Nasazení 0.5.0 na produkci
+
+[Zdrojové PR č. 4](https://github.com/tomasmourek/ic-office-ucetni-sestavy/pull/4) bylo začleněno jako `dc4fe34343152c71a3f48ee7a95e77b4247f1f6b`; [nasazovací PR č. 5](https://github.com/tomasmourek/nastroje-mujautoservis/pull/5) jako `318bd25273627c6b0dedca89c1a78f1bc1e40265` do větve `prvni-verze`. Uživatel spustil Deploy v přihlášeném Coolify. Read-only konektor potvrdil deployment `rjecovvywnox9lbsdki6vplk` tohoto commitu ve stavu `finished`: spuštění 2026-11-13 v 17:57:57 UTC, dokončení v 17:58:11 UTC.
+
+Veřejné `/sestavy/`, `assets/index-DpKm4tE8.js` a ZIP 0.5.0 vrátily HTTP 200. SHA256 obou stažených artefaktů se shoduje s výše uvedeným kandidátem. Obnovená produkční stránka zobrazuje nové skladové podklady, sedm druhů exportů a vyžaduje doplněk 0.5.0. Tím je potvrzeno nasazení; skutečný import tato kontrola nenahrazuje.
+
+### Zbývající přejímka 0.5.0
+
+Chrome při zahájení přejímky hlásil instalovaný doplněk 0.4.0 a nepovolil nový import. Veřejný ZIP 0.5.0 byl stažen a rozbalen do Stažených souborů, jeho manifest potvrzuje verzi 0.5.0. Aktualizaci ve správci rozšíření musí dokončit uživatel, protože ovládání správce a výběru složky není nástrojem dostupné. Skutečné A → B → B této verze včetně příjemek/výdejek, originálů, součtů a ZIPu zatím není dokončené; totéž platí pro Firefox a Edge.
 
 Přejímka po vydání: načíst dvě různá období A a B, potom B zopakovat. Po změně musí zmizet všechny podklady A; po opakování B se musejí shodovat počty, jedinečná ID a čísla dokladů, tabulky i částky. V IC Office nesmějí přibýt druhé doklady pro stejné pohyby. ZIP musí obsahovat právě PDF dokladů B a správný souhrn jednotlivých příjemek/výdejek a jejich součtů. Ve Firefoxu musí úspěšně projít skutečný binární přenos bez chyby `constructor`. Odeslání e-mailu účetní není touto kontrolou schváleno ani ověřeno.
