@@ -8,6 +8,10 @@ Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) ve sty
 - `sestavy/`: sestavená aplikace [ic-office-ucetni-sestavy](https://github.com/tomasmourek/ic-office-ucetni-sestavy) (`npm run build`, obsah `dist/`). Je verzovaná, protože se z ní staví obraz; po změně sestav ji nahraďte novým `dist/` a staré soubory v `sestavy/assets/` smažte.
 - `Dockerfile`, `deploy/nginx.conf`: obraz pro Coolify (nginx, port 80; HTTPS a doménu řeší Traefik).
 
+## Instalace doplňku
+
+Panel načítání exportů nabízí postup pro Chrome, Edge a Firefox. Instalace z obchodu zatím není dostupná; vydavatelské účty a zveřejněné stránky doplňku dosud nejsou připravené. Skutečné odkazy se nastavují ve zdrojovém repozitáři v `src/lib/instalace-doplnku.json`, pak se znovu sestaví aplikace. Podklady k vydání a odděleným balíčkům jsou ve zdrojovém `CHROMEWEBSTORE.md`. [Ověření tohoto kandidáta](docs/nastroje-mujautoservis-instalace-doplnku-2026-11-13.md).
+
 ## Nasazení
 
 Coolify na Netcupu stahuje tento veřejný repozitář z větve `prvni-verze` a staví `Dockerfile`. Po pushi se nasazuje ručně tlačítkem Deploy v aplikaci `nastroje-mujautoservis`; pak ověřte `https://nastroje.mujautoservis.eu/` a `/sestavy/`.

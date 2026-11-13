@@ -1,5 +1,11 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Příprava instalace doplňku přes obchody — 2026-11-13
+
+- Kandidát ve větvi `codex/nastroje-mujautoservis-instalace-doplnku`, zdroj `ic-office-ucetni-sestavy` commit `b5b4690`. Panel nabízí návod pro zvolený prohlížeč; skutečný instalační odkaz se zobrazí až po doplnění ověřené stránky doplňku v obchodě.
+- Vydavatelské účty ani zveřejněné odkazy dosud nejsou. Doplněk 0.5.3 se dál instaluje ručně. Tato příprava není nasazena na produkci a nedokládá instalaci z obchodu.
+- Zdroj: 193 testů prošlo, čtyři bez zákaznických dat přeskočeny, TypeScript a build prošly. Místní Chrome ověřil volbu všech tří návodů a stažení ZIPu. Všech 67 souborů kandidáta odpovídá zdrojovému `dist/` podle SHA256. [Podrobnosti a hranice ověření](docs/nastroje-mujautoservis-instalace-doplnku-2026-11-13.md).
+
 ## Aktuální checkpoint vydání 0.5.3 — 2026-11-13
 
 - Produkční 0.5.3 je nasazena z `98c6e2b`; Coolify dokončil nasazení v 19:31:19 UTC. Veřejný JavaScript i ZIP odpovídají kandidátu podle SHA256.
