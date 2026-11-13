@@ -23,8 +23,35 @@ Verze 0.4.0 byla nasazena 2026-11-13. Zdrojové PR č. 3 bylo začleněno jako `
 
 Veřejná adresa `/sestavy/` vrací HTTP 200. Stažený hlavní JavaScript i veřejný ZIP 0.4.0 mají shodné SHA256 s výše uvedenými soubory kandidáta. Obnovená produkční stránka zobrazuje verzi 0.4.0 a návod pro Firefox. Nastavení prostředí, tajemství ani produkční data nebyly měněny.
 
-Skutečný import verze 0.4.0 ještě není doložen. Předchozí úspěšné produkční průchody verze 0.3.1 jsou v [dokumentaci opravy období](nastroje-mujautoservis-nasazeni-opravy-obdobi-2026-11-13.md); nejsou důkazem nového vydání.
+### Skutečné importy v Chrome 0.4.0
 
-Ovládání nainstalovaného Firefoxu 147.0.3 zastavil nástroj kvůli nepodporovanému vynucování pravidel URL pro tento Windows prohlížeč. Blokace nebyla obcházena. Připraveno je opakovat skutečný import A `01.–31.10.2026`, B `01.–12.11.2026` a opět B. Po změně musí A zmizet; po opakování B se musí shodovat šest jedinečných souborů, počty záznamů i tabulky všech sedmi obrazovek přes celé načtené období.
+Uživatel nainstaloval veřejný ZIP 0.4.0 do Chrome; verze byla zkontrolována ve správci rozšíření a produkční stránka rozpoznala doplněk. Předchozí verze 0.3.1 byla odebrána. Dne 2026-11-13 byl na produkci skutečným doplňkem a s přihlášeným IC Office dokončen průchod A `01.–31.10.2026` → B `12.11.2026` → znovu B. Období byla zvolena rychlými tlačítky „Minulý měsíc“ a „Poslední pracovní den (12.11.)“.
 
-V Chrome byla odebrána předchozí verze 0.3.1, aby neběžely dvě instalace současně. Načtení 0.4.0 nyní čeká na výběr existující složky uživatelem: nativní dialog nástroj nedokáže ovládat. Skutečný import v Chrome, Edge ani Firefoxu proto zatím nelze označit za ověřený.
+| Druh exportu | A: říjen | B: 12. listopadu | Opakování B |
+| --- | ---: | ---: | ---: |
+| Vystavené faktury | 10 | 1 | 1 |
+| Položky vystavených faktur | 56 | 1 | 1 |
+| Pokladna | 3 | 0 | 0 |
+| Naskladněné zboží | 6 | 0 | 0 |
+| Vydané zboží | 23 | 1 | 1 |
+| Mechanici a zakázky | 0 | 0 | 0 |
+
+Po volbě B se všech šest říjnových souborů odstranilo ještě před načtením a stránka ukázala „Zatím není načtený žádný export“, 0 ze 6 druhů. Po importu B zůstalo šest souborů pouze se suffixem `_2026-11-12_2026-11-12.xlsx`. Kniha faktur přes celé načtené období obsahovala jednu fakturu za 128,00 Kč; průnik jejích identifikátorů s deseti fakturami A byl prázdný. Říjnové pokladní doklady zmizely; prázdný export B vede na obrazovce pokladny k výzvě k načtení exportu, nikoliv ke staré sestavě. V A byla data podle DUZP i za 30. září, proto kontrola použila celé načtené období, nikoliv jen měsíční filtr.
+
+Opakované načtení B bez změny data ponechalo šest jedinečných názvů a celý seznam souborů včetně počtů a kontrol se přesně shodoval. Import znovu nastavil výchozí filtr „Jeden den“; pro porovnání byl opět zvolen filtr „Celé načtené období“. Poté se celý viditelný obsah všech sedmi obrazovek před opakováním a po něm přesně shodoval, včetně tabulek, částek a souhrnů. Ke zdvojování nedošlo.
+
+| Obrazovka | SHA256 shodného viditelného obsahu před/po |
+| --- | --- |
+| Tržby a DPH po dnech | `fc919cd16faf95ca8728310bcdcfed1484a5aa842af1758c4793c49798f043c6` |
+| Inventura skladů | `5604f3dafa596817e7c98432f43d50cf05271f2043a9a7cae42140890fca57fd` |
+| Výkon pracovníků | `5c009ce5d69e7c3af9ad47ce8383507364826d0dc220aeb1c7c0fc7450609c8b` |
+| Pokladní kniha | `c8f1a93e796a0ab6ebf0124463fee0b0bef5d423e19d1bbde0454e7fbaf14fb3` |
+| Kniha vydaných faktur | `fd416edff51ba650a9e479a641a6993e1a67b396c23af7493b952bbeae510708` |
+| DPH a kontrolní hlášení | `798fd656804a4b1d6f7ed1845a8584afb2b95dae7c97db6cd36ae76fbd4faa38` |
+| Export pro účetní | `7610c31fb0055e14d0e8dc410d5d948dd514d688e9acca65a4987542276d6674` |
+
+Hash byl vypočten z viditelného textu hlavní oblasti stránky. Zákaznické řádky ani identifikátory nejsou součástí této dokumentace. Generování a odesílání exportů nebylo součástí testu. Dřívější průchody verze 0.3.1 jsou samostatně v [dokumentaci opravy období](nastroje-mujautoservis-nasazeni-opravy-obdobi-2026-11-13.md).
+
+### Zbývající ověření
+
+Ovládání nainstalovaného Firefoxu 147.0.3 zastavil nástroj kvůli nepodporovanému vynucování pravidel URL pro tento Windows prohlížeč. Blokace nebyla obcházena. Uživatel byl požádán o ruční dočasnou instalaci stejného ZIPu a průchod A → B → B. Dokud není výsledek doložen, skutečný import ve Firefoxu zůstává neověřený. Edge nebyl samostatně živě testován; zachování podpory dokládá společná Chromium větev implementace, automatické testy a skutečný průchod v Chrome.
