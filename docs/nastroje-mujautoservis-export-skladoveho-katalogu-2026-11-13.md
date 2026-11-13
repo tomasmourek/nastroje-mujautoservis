@@ -43,9 +43,14 @@ Každá z následujících voleb byla uložena v UI a ověřena obnovením strá
 
 Volba 31. dne se tedy pro kratší listopad správně omezila na poslední den měsíce. UI při uložení výslovně oznámilo, že automatický běh není aktivní. Zkušební uložený plán byl následně odstraněn přes UI; stránka potvrdila odstranění a vrátila výchozí denní volbu 06:00.
 
+### Skutečný import doplňkem 0.6.0
+
+Po obnovení doplňku uživatelem a obnovení zkušební produkční karty proběhl v Chrome skutečný import tlačítkem „Načíst všechny sklady z IC Office“. První import skončil 13.11.2026 ve 23:50:39 Praha, opakovaný ve 23:51:09. V obou případech zůstalo **3 103 položek, 18 skladů a 3 053 produktových kódů**. Katalog byl při druhém načtení nahrazen bez zdvojení.
+
+Z prvního importu byl přes UI stažen zdrojový Excel i pracovní XML; po opakování bylo znovu staženo XML. Python `openpyxl` a `ElementTree` potvrdily shodu všech devíti polí všech 3 103 skladových řádků včetně násobnosti se zdrojovým Excelem a shodu součtů množství všech 3 053 jedinečných kódů. Obě XML z doplňku jsou bajtově shodná s dřívějším ručním exportem: 1 867 645 bajtů, SHA256 `d8ed5e17ba8ac40530e6198e4b4ecae0408ea5b488bd6222324143412796127f`. Nejde jen o kontrolu náhledu prvních 100 kódů. Žádná skladová data ani doklady se v IC Office nevytvářely.
+
 ### Neověřené a nedostupné části
 
-- Přímý import přes doplněk 0.6.0 zatím není přijatý. Chrome stále používal starší běžící doplněk; pokus byl správně odmítnut zprávou o požadované verzi alespoň 0.6.0. Soubory v instalované složce jsou aktualizované, uživatel byl požádán o obnovení doplňku. Výše uvedený skutečný import a export proběhl ručně přes Excel.
 - Firefox a Edge nebyly v této etapě samostatně živě testovány.
 - Ověřeno je ukládání nastavení, nikoli automatické vykonání. Serverový plánovač ani běh při vypnutém prohlížeči nejsou implementované.
 - XML je pracovní skladový katalog. Bez napojení e-shopu, produktových odkazů, obrázků a ověřených prodejních cen není přijato jako hotový feed pro Google Merchant Center; příslušné tlačítko je na produkci neaktivní.
