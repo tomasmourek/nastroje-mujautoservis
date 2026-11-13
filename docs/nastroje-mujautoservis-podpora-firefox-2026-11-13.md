@@ -120,8 +120,18 @@ Změna období vymazala všech sedm exportů i PDF ještě před dalším import
 
 Doplněk během B vytvořil právě dva dosud chybějící doklady: jednu příjemku a jednu výdejku. V IC Office se po obnovení zobrazily jako vystavené vedle tří původních dokladů. Pohyby mimo B zůstaly bez nového dokladu. Kontrola inventury přes „Celé načtené období“ ukázala dvě příjemky za 6 949,71 Kč bez DPH / 8 409,15 Kč s DPH a tři výdejky za 8 180,65 Kč bez DPH / 9 898,59 Kč s DPH, ve shodě s pohyby v IC Office. Říjnové doklady v tomto přehledu nebyly.
 
-### Dosud nedokončená část přejímky 0.5.2
+### Dokončené porovnání sestav, dokladů a balíčku 0.5.2
 
-Při následném stahování originálů se přerušilo ovládání Chrome. Jeden původní PDF soubor se skutečně stáhl; stažení a rozbor celého účetního ZIPu zatím doložené nejsou. Po opakování B jsou potvrzené stejné exportní počty a PDF identity, ale zbývá přesné porovnání všech sestav a nová kontrola IC Office, že opakování nevystavilo další doklady. Tuto část nelze označit za dokončenou pouze na základě automatických testů.
+Po obnovení spojení s Chrome byly při volbě „Celé načtené období“ uloženy textové výstupy všech sedmi obrazovek před úspěšným opakováním B a po něm. Inventura, tržby a DPH, pracovníci, pokladní kniha, kniha faktur, DPH a kontrolní hlášení i export pro účetní se přesně shodují. Nová kontrola Pohybů zboží v IC Office potvrdila stejných pět listopadových ID a čísel dokladů: dvě příjemky a tři výdejky. Opakování nevytvořilo další doklad; následující pohyby mimo B zůstaly bez dokladu.
 
-Skutečný úspěšný import 0.5.2 ve Firefoxu ani Edge není doložen. Firefoxové ovládání blokovala politika nástroje; nebyla obcházena. E-mail účetní nebyl odeslán. Zákaznické exporty ani PDF nejsou součástí Gitu.
+Skutečně stažený `Prijemky_vydejky_2026-11-11_2026-11-12.zip` má 147 302 bajtů a SHA256 `73e6ee3e5bf377023e854efbf4ecbf236b56f8b419eb948a504692e805431194`. Obsahuje pět jedinečných listopadových PDF v `originaly/`, `souhrn_prijemek_vydejek.csv` a `informace.txt`. Všech pět originálů má podpis `%PDF-`; žádné říjnové ID se v ZIPu nevyskytuje. CSV s UTF-8 BOM obsahuje pět jednotlivých dokladů a dva součty: příjemky 6 949,71 / 8 409,15 Kč a výdejky 8 180,65 / 9 898,59 Kč bez/s DPH. Informace uvádějí správné období a pět přiřazených originálů. Soukromé exporty, texty sestav ani PDF nejsou součástí Gitu.
+
+## Oprava zapamatované stránky 0.5.3
+
+Před úspěšným opakováním se objevil další skutečný problém: IC Office si po průchodu pamatuje stránku 17 ze 17. Verze 0.5.2 zahájila nový průchod na této stránce a ochrana jej zastavila chybou „Stránkování opakuje skladový pohyb; úplnost nelze ověřit.“ Neúplná dávka nebyla načtena a nevznikl nový doklad. Úspěšné výše uvedené porovnání 0.5.2 následovalo až po ručním návratu na první stránku; samo tedy nedokládá bezobslužné opakování.
+
+Verze 0.5.3 zahajuje průchod explicitním `?do=paginationGoodsMove&page=1`. Ostatní kontroly každé stránky, zámek, ochrana POST a úplnost dávky se nemění. Nový regresní test simuluje zapamatovanou poslední stránku i dva po sobě jdoucí importy a ověřuje, že druhý žádný další doklad nevytvoří. Lokálně prošlo 183 testů, čtyři testy bez externích dat byly přeskočeny; TypeScript a Vite build prošly. Nasazení a skutečné opakování 0.5.3 zatím čekají na dokončení.
+
+Skutečný úspěšný import ve Firefoxu ani Edge není doložen. E-mail účetní nebyl odeslán.
+
+Kandidát 0.5.3: všech 67 souborů nasazovací složky odpovídá zdrojovému buildu podle SHA256. ZIP doplňku: `8F0C894E93D699AB37A208E9E3A8EF91D2E7BD1942DA039580ED5C1190B478B9`. Hlavní JS `index-QFFaNh5j.js`: `839007880C547263544E5F5260446EE601891428B70672DC5335FA7C967CBFE4`.
