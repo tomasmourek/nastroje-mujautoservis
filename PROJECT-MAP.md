@@ -1,5 +1,11 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Kandidát Celkového přehledu s grafy — 2026-11-14
+
+- Zdroj `ic-office-ucetni-sestavy` `38752fc` (PR #15): nový `#prehled` se čtyřmi grafy tržeb, stavu úhrady faktur a skladových příjmů/výdejů. Všech 67 webových souborů odpovídá zdrojovému buildu podle SHA256. API se nemění; kandidát vychází z `d5b7442` a zachovává novější opravu přesměrování přihlášení.
+- Deset cílených testů a úplný build prošly po aktualizaci základu. Místní Chrome ověřil částky proti sestavám, změnu období, oba motivy a šířky 1440/390 px; vizuální review skončilo `ship`. [Datový kontrakt a snímky](docs/celkovy-prehled-grafy.md).
+- Začlenění a nasazení neproběhlo: Claude Code 14. 11. vrátil `usage_limit_reached` (obnovení limitu 21. 11.). Aktuální produkce nemá nový přehled. [Nasazovací evidence](docs/nastroje-mujautoservis-celkovy-prehled-2026-11-14.md).
+
 ## Přesměrování serverového přihlášení — 2026-11-14
 
 - Kandidát přebírá zdroj `ic-office-ucetni-sestavy` `5f47eaf`: v přihlašovacím přesměrování dovolí jediný omezený parametr `_fid` a před GET jej odstraní. API modul je bajtově shodný se zdrojem. Produkce `8f51c39` zaznamenala čtyři chyby `IC_LOGIN / presmerovani-parametry`; konkrétní parametr odpovědi není doložený.
