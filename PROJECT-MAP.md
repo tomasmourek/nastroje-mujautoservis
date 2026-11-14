@@ -1,9 +1,12 @@
 # nastroje-mujautoservis — projektová mapa
 
-## Oprava skladových pohybů — 2026-11-14
+## Oprava skladových pohybů — produkční ověření 2026-11-14
 
-- Zdroj ic-office-ucetni-sestavy f962c84: doplněk 0.6.1 označí ID pohybu u neplatného data a typu; parser přijímá doloženou vratku jako příjem. Všech 67 souborů sestavy odpovídá zdrojovému dist podle SHA256. API zůstává beze změny.
-- Cílené kontroly 163/163, katalogové serverové testy 69/69, lint, TypeScript a build prošly. Úplný npm test blokují čtyři nesouvisející SMTP mock testy. Nasazení a opakovaný skutečný import tohoto kandidáta ještě nejsou doložené. [Důkazy a hranice ověření](docs/ic-office-ucetni-sestavy-datum-pohybu-2026-11-14.md).
+- Doplněk 0.6.1 je nasazen z `nastroje-mujautoservis` `6f81a9a` (zdroj `ic-office-ucetni-sestavy` `f962c84`); Coolify dokončil nasazení v 12:52:51 UTC. Pohyb 1608728 má uložené správné datum 24. 8. 2026. Chyby označují ID pohybu a platná vratka se zpracuje jako příjem.
+- Skutečné importy 24. 8. → 24. 9. → opakování prošly. Změna období odstranila staré exporty; opakování zachovalo seznam souborů a všech sedm sestav. V IC Office zůstalo 157 různých ID dokladů, testovaná ID jednotlivě právě jednou.
+- Oba stažené ZIPy mají správné souhrny. Zářijový balíček obsahuje stejnou historickou výdejku 20268 pod třemi různými ID pohybů; nejde o nové doklady po opakování, ale deduplikace sdílených originálů zbývá. Široký import blokuje ERROR 500 PDF pohybu 1552053 v IC Office. Skutečný serverový plán není ověřen bez zabezpečeného připojení firmy.
+- Cílené kontroly 163/163 a katalogové testy 69/69, lint, TypeScript a build prošly. Čtyři nesouvisející SMTP mock testy úplné sady selhávají. [Přesné důkazy a omezení](docs/ic-office-ucetni-sestavy-datum-pohybu-2026-11-14.md).
+
 ## Nasazení Celkového přehledu s grafy — 2026-11-14
 
 - Zdroj `ic-office-ucetni-sestavy` `38752fc` (PR #15): nový `#prehled` se čtyřmi grafy tržeb, stavu úhrady faktur a skladových příjmů/výdejů. Všech 67 webových souborů odpovídá zdrojovému buildu podle SHA256. API se nemění; kandidát vychází z `d5b7442` a zachovává novější opravu přesměrování přihlášení.
