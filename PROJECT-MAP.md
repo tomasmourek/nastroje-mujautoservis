@@ -1,5 +1,10 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Diagnostika připojení katalogu — 2026-11-14
+
+- Bezpečný přenos pevných chybových kódů a kroku selhání přes worker, plánovač a API. Místní kontroly prošly; skutečná příčina produkčního přihlášení a serverový export čekají na nový pokus po nasazení. [Důkazy a hranice ověření](docs/serverove-pripojeni-katalogu-diagnostika-2026-11-14.md).
+
+
 ## Kandidát serverového stahování katalogu — 2026-11-14
 
 - Větev `codex/nastroje-mujautoservis-serverovy-katalog`, základ `d31b096`: příprava Node.js 24 se SQLite, nginx a pevného adresáře `/var/lib/ic-office-katalog`. API proxy čeká nejvýše 120 sekund; SMTP a veřejné cesty zůstávají zachované.

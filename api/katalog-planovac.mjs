@@ -3,6 +3,7 @@ import { DatabaseSync } from "node:sqlite";
 import { mkdir, chmod } from "node:fs/promises";
 import { dirname } from "node:path";
 import { randomBytes, randomUUID, createCipheriv, createDecipheriv, createHash } from "node:crypto";
+import { ChybaKatalogu, zpravaChybyKatalogu, krokChybyKatalogu } from "./katalog-chyby.mjs";
 
 const LEASE = 120_000;
 const TIMEOUT = 90_000;
@@ -20,7 +21,7 @@ const ZPRAVY = {
 const CHYBA_BEHU = "Katalog se nepodařilo stáhnout. Předchozí úspěšný export zůstal zachován.";
 
 export class ChybaPlanovace extends Error {
-  constructor(kod) { super(ZPRAVY[kod] ?? ZPRAVY.ULOZISTE); this.name = "ChybaPlanovace"; this.kod = kod; }
+  constructor(kod, krok) { super(zpravaChybyKatalogu(kod) ?? ZPRAVY[kod] ?? ZPRAVY.ULOZISTE); this.name = "ChybaPlanovace"; this.kod = kod; this.krok = krokChybyKatalogu(krok); }
 }
 
 function sifrovat(klic, firma, hodnota) {
@@ -176,7 +177,7 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
       return stav(firma);
     } catch (e) {
       if (!konci) uvolnit(firma, token);
-      throw e instanceof ChybaPlanovace ? e : new ChybaPlanovace("PRIPOJENI");
+      throw e instanceof ChybaPlanovace ? e : new ChybaPlanovace(e instanceof ChybaKatalogu ? e.code : "PRIPOJENI", e instanceof ChybaKatalogu ? e.krok : null);
     }
   }
 
@@ -278,7 +279,7 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
   }
   // Také chyba SQLite nebo injektovaného kalendáře musí překročit API pouze
   // jako pevné bezpečné sdělení. Nepřebíráme message, cause ani cizí kód chyby.
-  const bezpecnaChyba = (e) => new ChybaPlanovace(e instanceof ChybaPlanovace && Object.hasOwn(ZPRAVY, e.kod) ? e.kod : "ULOZISTE");
+  const bezpecnaChyba = (e) => new ChybaPlanovace(e instanceof ChybaPlanovace && (Object.hasOwn(ZPRAVY, e.kod) || zpravaChybyKatalogu(e.kod)) ? e.kod : "ULOZISTE", e instanceof ChybaPlanovace ? e.krok : null);
   const sync = (fn) => (...args) => { try { return fn(...args); } catch (e) { throw bezpecnaChyba(e); } };
   const async = (fn) => async (...args) => { try { return await fn(...args); } catch (e) { throw bezpecnaChyba(e); } };
   return { stav: sync(stav), pripojit: async(pripojit), nastavitPlan: sync(nastavitPlan),

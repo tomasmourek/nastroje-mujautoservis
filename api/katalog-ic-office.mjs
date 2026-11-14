@@ -1,6 +1,7 @@
 // Každý běh používá vlastní přihlášení a cookie jar; relace prohlížeče se nepřebírá.
 import { CookieJar } from "tough-cookie";
 import { parseHTML } from "linkedom";
+import { ChybaKatalogu } from "./katalog-chyby.mjs";
 
 const PUVOD = "https://ic-office.eu";
 const PRIHLASENI = `${PUVOD}/web/login`;
@@ -11,21 +12,7 @@ const XLSX_LIMIT = 50 * 1024 * 1024;
 const LIMIT_BEHU = 90_000;
 const PRESMEROVANI = new Set([301, 302, 303, 307, 308]);
 const CESTY_PRIHLASENI = new Set(["/web/login", "/", "/overview/"]);
-const ZPRAVY = {
-  IC_LOGIN: "Přihlášení do IC Office selhalo. Ověřte přihlašovací údaje a oprávnění účtu.",
-  IC_FORMAT: "IC Office nevrátil rozpoznaný úplný katalog nebo platný export XLSX.",
-  IC_FILTER: "Katalog IC Office je filtrovaný. Vymažte hledání ve Sklady → Všechno zboží a opakujte načtení.",
-  IC_NETWORK: "Spojení s IC Office selhalo. Opakujte načtení později.",
-  IC_ABORTED: "Načtení katalogu IC Office bylo zrušeno nebo překročilo časový limit.",
-};
-
-class ChybaIc extends Error {
-  constructor(code) {
-    super(ZPRAVY[code]);
-    this.code = code;
-  }
-}
-const chyba = (code) => new ChybaIc(code);
+const chyba = (code) => new ChybaKatalogu(code);
 
 function overitSignal(signal) {
   if (signal.aborted) throw chyba("IC_ABORTED");
@@ -84,7 +71,9 @@ async function dokument(r, signal) {
 function cilPrihlaseni(hodnota, zaklad = PRIHLASENI) {
   let url;
   try { url = new URL(hodnota, zaklad); } catch { throw chyba("IC_LOGIN"); }
-  if (url.origin !== PUVOD || url.username || url.password || url.search || url.hash || !CESTY_PRIHLASENI.has(url.pathname)) throw chyba("IC_LOGIN");
+  if (url.origin !== PUVOD || url.username || url.password) throw new ChybaKatalogu("IC_LOGIN", "presmerovani-puvod");
+  if (url.search || url.hash) throw new ChybaKatalogu("IC_LOGIN", "presmerovani-parametry");
+  if (!CESTY_PRIHLASENI.has(url.pathname)) throw new ChybaKatalogu("IC_LOGIN", "presmerovani-cesta");
   return url.href;
 }
 
@@ -130,6 +119,7 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
   casovac.unref?.();
   const signal = vnejsiSignal ? AbortSignal.any([vnejsiSignal, cas.signal]) : cas.signal;
   const cookies = new CookieJar();
+  let krok = "formular";
   try {
     overitSignal(signal);
     if (!prihlaseni || typeof prihlaseni.email !== "string" || !prihlaseni.email.trim() || prihlaseni.email.length > 320
@@ -163,6 +153,7 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
         if (PRESMEROVANI.has(r.status)) {
           zavritTelo(r);
           if (exportXlsx) throw chyba("IC_FORMAT");
+          krok = "presmerovani";
           if (!login || pocet >= 5) throw chyba("IC_LOGIN");
           const umisteni = r.headers.get("location");
           if (!umisteni) throw chyba("IC_LOGIN");
@@ -183,16 +174,23 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
 
     const vstup = await dokument(await pozadavek(PRIHLASENI, { login: true }), signal);
     const body = polePrihlaseni(vstup, prihlaseni);
-    const poPrihlaseni = await dokument(await pozadavek(PRIHLASENI, { method: "POST", body, login: true }), signal);
+    krok = "prihlaseni";
+    const odpovedPrihlaseni = await pozadavek(PRIHLASENI, { method: "POST", body, login: true });
+    krok = "prihlaseni";
+    const poPrihlaseni = await dokument(odpovedPrihlaseni, signal);
     if (poPrihlaseni.querySelector('input[type="password"]')) throw chyba("IC_LOGIN");
+    krok = "katalog";
     overitKatalog(await dokument(await pozadavek(KATALOG), signal));
+    krok = "export";
     const r = await pozadavek(EXPORT, { exportXlsx: true });
     if (r.status !== 200) { zavritTelo(r); throw chyba("IC_FORMAT"); }
     const nazev = /(?:^|;)\s*filename="?([^";]+)/i.exec(r.headers.get("content-disposition") ?? "")?.[1];
     if (!nazev || !/\.xlsx$/i.test(nazev) || /[\\/\r\n]/.test(nazev)) { zavritTelo(r); throw chyba("IC_FORMAT"); }
     const xlsx = await omezeneTelo(r, XLSX_LIMIT, signal);
     if (xlsx.length < 4 || xlsx[0] !== 80 || xlsx[1] !== 75 || xlsx[2] !== 3 || xlsx[3] !== 4) throw chyba("IC_FORMAT");
+    krok = "kontrola";
     overitKatalog(await dokument(await pozadavek(KATALOG), signal));
+    krok = "prevod";
     let polozky;
     let xml;
     try {
@@ -205,8 +203,7 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
     return { xml, xlsx, polozky: polozky.length, sklady: new Set(polozky.map((p) => p.sklad)).size };
   } catch (e) {
     // Text odpovědi, token, cookies, heslo ani nízkoúrovňová síťová chyba nikdy neopouští adaptér.
-    if (signal.aborted) throw chyba("IC_ABORTED");
-    throw e instanceof ChybaIc ? e : chyba("IC_NETWORK");
+    throw new ChybaKatalogu(signal.aborted ? "IC_ABORTED" : e instanceof ChybaKatalogu ? e.code : "IC_NETWORK", e instanceof ChybaKatalogu ? e.krok ?? krok : krok);
   } finally {
     clearTimeout(casovac);
   }
