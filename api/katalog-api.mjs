@@ -1,4 +1,5 @@
 import { otiskKodu } from "./odeslani.mjs";
+import { zpravaChybyKatalogu, krokChybyKatalogu } from "./katalog-chyby.mjs";
 
 function json(res, status, data) {
   res.writeHead(status, { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" });
@@ -86,6 +87,12 @@ export function vytvoritKatalogApi({ kody, planovac, origin = "https://nastroje.
       if (kodChyby === "OBSAZENO") return chyba(409, "Katalog se právě načítá. Počkejte na dokončení.");
       if (kodChyby === "UCET") return chyba(409, "Účet nelze připojit k této firmě. Pro změnu účtu nejprve odpojte současné připojení; účet nesmí být připojený u jiné firmy.");
       if (["PLAN", "NEPRIPOJENO"].includes(kodChyby)) return chyba(400, "Zkontrolujte plán a připojení k IC Office.");
+      const zprava = zpravaChybyKatalogu(kodChyby);
+      if (zprava) {
+        const krok = krokChybyKatalogu(e.krok);
+        console.warn(JSON.stringify({ udalost: "katalog-chyba", kod: kodChyby, krok }));
+        return odpoved(502, { chyba: `${zprava} Předchozí katalog zůstává zachovaný.`, kod: kodChyby, krok });
+      }
       // Nevracet zprávy knihoven: mohou obsahovat přihlašovací údaje nebo odpověď IC Office.
       return chyba(502, "Připojení nebo načtení katalogu se nezdařilo. Zkontrolujte účet a přístup k IC Office. Předchozí katalog zůstává zachovaný.");
     }
