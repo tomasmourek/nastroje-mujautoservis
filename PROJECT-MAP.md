@@ -1,5 +1,10 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Přesměrování serverového přihlášení — 2026-11-14
+
+- Kandidát přebírá zdroj `ic-office-ucetni-sestavy` `5f47eaf`: v přihlašovacím přesměrování dovolí jediný omezený parametr `_fid` a před GET jej odstraní. API modul je bajtově shodný se zdrojem. Produkce `8f51c39` zaznamenala čtyři chyby `IC_LOGIN / presmerovani-parametry`; konkrétní parametr odpovědi není doložený.
+- Zdroj: 69 serverových testů, sestavení převodníku a lint prošly (10 dosavadních varování). Syntaxe převzatého API prošla. Kandidát dosud není nasazený; skutečné přihlášení ani serverový naplánovaný export nejsou potvrzené. [Důkazy a hranice ověření](docs/serverove-pripojeni-katalogu-diagnostika-2026-11-14.md).
+
 ## Diagnostika připojení katalogu — 2026-11-14
 
 - Bezpečný přenos pevných chybových kódů a kroku selhání přes worker, plánovač a API. Místní kontroly prošly; skutečná příčina produkčního přihlášení a serverový export čekají na nový pokus po nasazení. [Důkazy a hranice ověření](docs/serverove-pripojeni-katalogu-diagnostika-2026-11-14.md).

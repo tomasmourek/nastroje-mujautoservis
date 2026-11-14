@@ -68,12 +68,17 @@ async function dokument(r, signal) {
   try { return parseHTML(obsahHtml).document; } catch { throw chyba("IC_FORMAT"); }
 }
 
-function cilPrihlaseni(hodnota, zaklad = PRIHLASENI) {
+function cilPrihlaseni(hodnota, zaklad = PRIHLASENI, povolitFlash = false) {
   let url;
   try { url = new URL(hodnota, zaklad); } catch { throw chyba("IC_LOGIN"); }
   if (url.origin !== PUVOD || url.username || url.password) throw new ChybaKatalogu("IC_LOGIN", "presmerovani-puvod");
-  if (url.search || url.hash) throw new ChybaKatalogu("IC_LOGIN", "presmerovani-parametry");
   if (!CESTY_PRIHLASENI.has(url.pathname)) throw new ChybaKatalogu("IC_LOGIN", "presmerovani-cesta");
+  // Nette přidává identifikátor flash zprávy po POSTu. Nepotřebujeme jej číst
+  // ani předávat: následujeme jen pevnou cestu, ne akce nebo návratové adresy.
+  if (url.hash || (url.search && (!povolitFlash || !/^\?_fid=[A-Za-z0-9_-]{1,64}$/.test(url.search)))) {
+    throw new ChybaKatalogu("IC_LOGIN", "presmerovani-parametry");
+  }
+  url.search = "";
   return url.href;
 }
 
@@ -157,7 +162,7 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
           if (!login || pocet >= 5) throw chyba("IC_LOGIN");
           const umisteni = r.headers.get("location");
           if (!umisteni) throw chyba("IC_LOGIN");
-          cil = cilPrihlaseni(umisteni, cil);
+          cil = cilPrihlaseni(umisteni, cil, true);
           // Ani stejnému hostu neopakujeme heslo při 307/308; přihlášení může mít jen jednu POST akci.
           if (method === "POST" && [307, 308].includes(r.status)) throw chyba("IC_LOGIN");
           method = "GET";
