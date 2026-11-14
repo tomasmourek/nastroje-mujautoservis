@@ -1,15 +1,15 @@
 # nastroje-mujautoservis — projektová mapa
 
-## Kandidát Celkového přehledu s grafy — 2026-11-14
+## Nasazení Celkového přehledu s grafy — 2026-11-14
 
 - Zdroj `ic-office-ucetni-sestavy` `38752fc` (PR #15): nový `#prehled` se čtyřmi grafy tržeb, stavu úhrady faktur a skladových příjmů/výdejů. Všech 67 webových souborů odpovídá zdrojovému buildu podle SHA256. API se nemění; kandidát vychází z `d5b7442` a zachovává novější opravu přesměrování přihlášení.
 - Deset cílených testů a úplný build prošly po aktualizaci základu. Místní Chrome ověřil částky proti sestavám, změnu období, oba motivy a šířky 1440/390 px; vizuální review skončilo `ship`. [Datový kontrakt a snímky](docs/celkovy-prehled-grafy.md).
-- Začlenění a nasazení neproběhlo: Claude Code 14. 11. vrátil `usage_limit_reached` (obnovení limitu 21. 11.). Aktuální produkce nemá nový přehled. [Nasazovací evidence](docs/nastroje-mujautoservis-celkovy-prehled-2026-11-14.md).
+- Na výslovný pokyn uživatele začleněno přímo přes GitHub: zdrojové PR #15 (`90afcdf`), nasazovací PR #19 (`7e967b1`). Coolify dokončil deployment `7y4n6kjnuqoaocm3ivuyrfnm` v 08:54:05 UTC. Veřejný JavaScript a CSS odpovídají Git blobům podle SHA256. Produkční Chrome na ukázkových datech ověřil prázdný stav, čtyři grafy proti detailním sestavám, změnu období, oba motivy a šířky 1440/390 px bez vodorovného přesahu. Nejde o nový zákaznický import IC Office. [Nasazovací evidence a snímky](docs/nastroje-mujautoservis-celkovy-prehled-2026-11-14.md).
 
 ## Přesměrování serverového přihlášení — 2026-11-14
 
 - Kandidát přebírá zdroj `ic-office-ucetni-sestavy` `5f47eaf`: v přihlašovacím přesměrování dovolí jediný omezený parametr `_fid` a před GET jej odstraní. API modul je bajtově shodný se zdrojem. Produkce `8f51c39` zaznamenala čtyři chyby `IC_LOGIN / presmerovani-parametry`; konkrétní parametr odpovědi není doložený.
-- Zdroj: 69 serverových testů, sestavení převodníku a lint prošly (10 dosavadních varování). Syntaxe převzatého API prošla. Kandidát dosud není nasazený; skutečné přihlášení ani serverový naplánovaný export nejsou potvrzené. [Důkazy a hranice ověření](docs/serverove-pripojeni-katalogu-diagnostika-2026-11-14.md).
+- Zdroj: 69 serverových testů, sestavení převodníku a lint prošly (10 dosavadních varování). Syntaxe převzatého API prošla. Oprava je zahrnuta v nasazení `7e967b1` z 14. 11. v 08:54:05 UTC; skutečné přihlášení ani serverový naplánovaný export nejsou tímto ověřením grafů potvrzené. [Důkazy a hranice ověření](docs/serverove-pripojeni-katalogu-diagnostika-2026-11-14.md).
 
 ## Diagnostika připojení katalogu — 2026-11-14
 

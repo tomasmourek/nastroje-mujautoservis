@@ -45,3 +45,7 @@ Nezávislý Impeccable finish reviewer nenašel materiální vizuální problém
 Nezávislý Impeccable documenter porovnal dokončené komponenty s `PRODUCT.md`, globálními styly, `public/atomys` a existujícími sestavami. Potvrdil zachování tokenů obou motivů, Interu, akcentů `#8a581e / #dfb56b`, mezer `--at-space-2` až `6`, plochých sekcí a úplných HTML legend. Předem chybějící `DESIGN.md` a `.impeccable/design.json` pouze zaznamenal; toto rozšíření jejich vytvoření ani opravu neobjednává. Reviewer ani documenter samostatně nespouštěli testy.
 
 Nejde o nasazení na produkci, skutečný import IC Office ani zákaznickou přejímku. Náhled byl po ověření ukončen.
+
+## Následné produkční ověření — 14. 11. 2026
+
+Zdrojové PR #15 a nasazovací PR #19 byly později na výslovný pokyn uživatele začleněny přímo přes GitHub. Produkce nasadila commit `7e967b1`. Čtyři grafy, shoda s detaily, změna období, prázdný/nulový stav, oba motivy a desktop/mobil prošly na syntetických ukázkových datech. Samostatná [nasazovací evidence se snímky](nastroje-mujautoservis-celkovy-prehled-2026-11-14.md) odděluje toto produkční ověření od výše popsaného místního testu a od skutečného zákaznického importu.
