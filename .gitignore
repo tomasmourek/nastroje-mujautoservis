@@ -1,3 +1,4 @@
 .env
 .env.*
 *.xlsx
+api/node_modules/
