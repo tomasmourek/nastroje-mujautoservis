@@ -1,5 +1,9 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Oprava skladových pohybů — 2026-11-14
+
+- Zdroj ic-office-ucetni-sestavy f962c84: doplněk 0.6.1 označí ID pohybu u neplatného data a typu; parser přijímá doloženou vratku jako příjem. Všech 67 souborů sestavy odpovídá zdrojovému dist podle SHA256. API zůstává beze změny.
+- Cílené kontroly 163/163, katalogové serverové testy 69/69, lint, TypeScript a build prošly. Úplný npm test blokují čtyři nesouvisející SMTP mock testy. Nasazení a opakovaný skutečný import tohoto kandidáta ještě nejsou doložené. [Důkazy a hranice ověření](docs/ic-office-ucetni-sestavy-datum-pohybu-2026-11-14.md).
 ## Nasazení Celkového přehledu s grafy — 2026-11-14
 
 - Zdroj `ic-office-ucetni-sestavy` `38752fc` (PR #15): nový `#prehled` se čtyřmi grafy tržeb, stavu úhrady faktur a skladových příjmů/výdejů. Všech 67 webových souborů odpovídá zdrojovému buildu podle SHA256. API se nemění; kandidát vychází z `d5b7442` a zachovává novější opravu přesměrování přihlášení.
