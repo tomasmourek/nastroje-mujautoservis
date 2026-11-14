@@ -43,10 +43,10 @@ Podíly celého období: faktury/pokladna 97,1 / 2,9 %, zaplacené/nezaplacené 
 
 Desktop 1440 × 1000 a mobilní viewport 390 × 844 byly ověřeny ve světlém i tmavém motivu. Bez vodorovného přesahu: šířka dokumentu 1425 / 375 px včetně prostoru pro svislý posuvník. Čtyři grafové sekce se na mobilu skládají pod sebe v šířce přibližně 343 px. Částky a procenta jsou v HTML legendách čitelné bez najetí myší; ověřeno i posouvání k příjmům a výdejům. Dočasný viewport byl zrušen a původní tmavý motiv obnoven.
 
-- [Produkční desktop — světlý motiv](overeni/celkovy-prehled-produkce-desktop.png)
-- [Produkční skladové grafy](overeni/celkovy-prehled-produkce-sklady.png)
-- [Produkční mobil — světlý motiv](overeni/celkovy-prehled-produkce-mobil.png)
-- [Produkční mobil — tmavý motiv a legenda](overeni/celkovy-prehled-produkce-mobil-legenda.png)
+- [Produkční desktop — světlý motiv](overeni/celkovy-prehled-produkce-desktop.jpg)
+- [Produkční skladové grafy](overeni/celkovy-prehled-produkce-sklady.jpg)
+- [Produkční mobil — světlý motiv](overeni/celkovy-prehled-produkce-mobil.jpg)
+- [Produkční mobil — tmavý motiv a legenda](overeni/celkovy-prehled-produkce-mobil-legenda.jpg)
 
 Celostránkový snímek selhal na časovém limitu nástroje; důkazy tvoří snímky viewportu. Konzole obsahovala chyby inicializace cizího rozšíření a uzavřeného kanálu zpráv. Při práci s přehledem nebyla pozorována funkční chyba; tato kontrola se neoznačuje za čistou konzoli.
 
