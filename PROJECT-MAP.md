@@ -1,11 +1,22 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Ověřený serverový plán katalogu — 2026-11-15
+
+- Nasazena oprava přihlášení z PR #24, revize `39630fb`. Skutečný plán stáhl 15. 11. v 03:17:15 Europe/Prague katalog 3 103 položek z 18 skladů při úplně zavřeném Chrome; procesy Chrome byly před i po termínu nulové. Stažené XML a Excel jsou čitelné a odpovídají počtům serveru.
+- Automat zůstal aktivní denně v 06:00, potvrzeno po obnovení stránky. Počítač nebyl fyzicky vypnutý, týdenní/měsíční splatný běh a restart serveru nejsou součástí důkazu. [Nasazení a skutečné ověření](docs/nastroje-mujautoservis-prihlaseni-primo-katalog-2026-11-15.md). Starší oddíly níže zachycují předchozí checkpointy.
+
+## Samoobslužné připojení katalogu — 2026-11-15
+
+- Kandidát ze zdroje `ic-office-ucetni-sestavy` `245aa17`: přihlášení e-mailovým odkazem a průvodce katalogem bez ručně vydávaného kódu. Starší kódy i samostatné oprávnění pro účetní zůstávají zachované. SHA256 se shoduje u všech 67 webových a 12 API souborů.
+- Zdroj: 257 aplikačních a 86 serverových testů, build a lint prošly; čtyři zákaznické testy přeskočené, deset dosavadních lint varování. Desktopový/mobilní scénář se simulovaným API prošel, nezávislé review po opravách bez dalších nálezů. Nové nasazení, skutečné SMTP, IC Office a splatný serverový běh zatím nejsou ověřené. [Konfigurace a hranice důkazů](docs/nastroje-mujautoservis-samoobsluzne-pripojeni-2026-11-15.md).
+
 ## Oprava skladových pohybů — produkční ověření 2026-11-14
 
 - Doplněk 0.6.1 je nasazen z `nastroje-mujautoservis` `6f81a9a` (zdroj `ic-office-ucetni-sestavy` `f962c84`); Coolify dokončil nasazení v 12:52:51 UTC. Pohyb 1608728 má uložené správné datum 24. 8. 2026. Chyby označují ID pohybu a platná vratka se zpracuje jako příjem.
 - Skutečné importy 24. 8. → 24. 9. → opakování prošly. Změna období odstranila staré exporty; opakování zachovalo seznam souborů a všech sedm sestav. V IC Office zůstalo 157 různých ID dokladů, testovaná ID jednotlivě právě jednou.
-- Oba stažené ZIPy mají správné souhrny. Zářijový balíček obsahuje stejnou historickou výdejku 20268 pod třemi různými ID pohybů; nejde o nové doklady po opakování, ale deduplikace sdílených originálů zbývá. Široký import blokuje ERROR 500 PDF pohybu 1552053 v IC Office. Skutečný serverový plán není ověřen bez zabezpečeného připojení firmy.
-- Cílené kontroly 163/163 a katalogové testy 69/69, lint, TypeScript a build prošly. Čtyři nesouvisející SMTP mock testy úplné sady selhávají. [Přesné důkazy a omezení](docs/ic-office-ucetni-sestavy-datum-pohybu-2026-11-14.md).
+- Oba stažené ZIPy mají správné souhrny. Zářijový balíček obsahuje stejnou historickou výdejku 20268 pod třemi různými ID pohybů; nejde o nové doklady po opakování, ale deduplikace sdílených originálů zbývá. Široký import 14. 11. blokoval ERROR 500 PDF pohybu 1552053 v IC Office; celé období není úspěšně ověřené. Serverový plán byl následně ověřen 15. 11.; viz aktuální checkpoint výše.
+- Cílené kontroly 163/163 a katalogové testy 69/69, lint, TypeScript a build prošly. Při této přejímce 14. 11. selhaly čtyři nesouvisející SMTP mock testy úplné sady; jde o historický výsledek. [Přesné důkazy a omezení](docs/ic-office-ucetni-sestavy-datum-pohybu-2026-11-14.md).
+
 
 ## Nasazení Celkového přehledu s grafy — 2026-11-14
 

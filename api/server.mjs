@@ -6,6 +6,7 @@ import nodemailer from "nodemailer";
 import { nacistKody, vytvoritObsluhu } from "./odeslani.mjs";
 import { isAbsolute, join } from "node:path";
 import { vytvoritKatalogApi } from "./katalog-api.mjs";
+import { otevritUcty, vytvoritUcetApi } from "./katalog-ucty.mjs";
 
 const {
   SMTP_HOST,
@@ -21,6 +22,7 @@ const kody = nacistKody(PRISTUPOVE_KODY);
 // Volitelné serverové připojení. Částečná konfigurace nesmí předstírat funkční automat.
 const { KATALOG_DATA_DIR, KATALOG_SIFROVACI_KLIC, KATALOG_ORIGIN } = process.env;
 let planovac;
+let ucty;
 if (KATALOG_DATA_DIR || KATALOG_SIFROVACI_KLIC) {
   const klic = Buffer.from(KATALOG_SIFROVACI_KLIC ?? "", "base64");
   if (!KATALOG_DATA_DIR || !isAbsolute(KATALOG_DATA_DIR) || klic.length !== 32 || klic.toString("base64") !== KATALOG_SIFROVACI_KLIC)
@@ -28,13 +30,14 @@ if (KATALOG_DATA_DIR || KATALOG_SIFROVACI_KLIC) {
   const { otevritPlanovac } = await import("./katalog-planovac.mjs");
   const { stahnoutNaPozadi } = await import("./katalog-pozadi.mjs");
   const { platnyPlanSkladu, pristiTerminSkladu } = await import("./generated/katalog-format.mjs");
+  // Trvalé samoobslužné identity se musí načíst před úklidem odebraných firem v plánovači.
+  ucty = await otevritUcty({ cesta: join(KATALOG_DATA_DIR, "ucty.sqlite") });
   planovac = await otevritPlanovac({
-    cesta: join(KATALOG_DATA_DIR, "katalog.sqlite"), klic, firmy: new Set(kody.values()),
+    cesta: join(KATALOG_DATA_DIR, "katalog.sqlite"), klic, firmy: new Set([...kody.values(), ...ucty.firmy()]),
     platnyPlan: platnyPlanSkladu, pristiTermin: pristiTerminSkladu,
     stahnout: stahnoutNaPozadi,
   });
 }
-const katalog = vytvoritKatalogApi({ kody, planovac, origin: KATALOG_ORIGIN });
 
 const posta =
   SMTP_HOST && MAIL_FROM
@@ -47,13 +50,20 @@ const posta =
       })
     : null;
 
+const ucet = vytvoritUcetApi({
+  ucty, origin: KATALOG_ORIGIN,
+  odeslat: posta ? (z) => posta.sendMail({ from: MAIL_FROM, ...z }) : null,
+  povolitFirmu: (firma) => planovac.povolitFirmu(firma),
+});
+const katalog = vytvoritKatalogApi({ kody, planovac, firmaRelace: ucet.firma, origin: KATALOG_ORIGIN });
+
 const obsluha = vytvoritObsluhu({
   kody,
   odeslat: posta ? (z) => posta.sendMail({ from: MAIL_FROM, ...z }) : null,
 });
 
 const server = createServer((req, res) => {
-  (async () => { if (!(await katalog(req, res))) await obsluha(req, res); })().catch(() => {
+  (async () => { if (!(await ucet.obsluha(req, res)) && !(await katalog(req, res))) await obsluha(req, res); })().catch(() => {
     if (!res.headersSent) res.writeHead(500);
     res.end();
   });
@@ -70,7 +80,10 @@ server.listen(3000, "127.0.0.1", () =>
   ),
 );
 
-const tick = () => planovac?.tick().catch(() => console.error('{"udalost":"chyba-planovace-katalogu"}'));
+const tick = () => {
+  try { ucty?.uklid(); } catch { console.error('{"udalost":"chyba-uklidu-prihlaseni"}'); }
+  return planovac?.tick().catch(() => console.error('{"udalost":"chyba-planovace-katalogu"}'));
+};
 const interval = planovac ? setInterval(tick, 15_000) : null;
 void tick();
 let konci = false;
@@ -80,6 +93,7 @@ async function ukoncit() {
   if (interval) clearInterval(interval);
   server.close();
   await planovac?.zavrit();
+  ucty?.zavrit();
   posta?.close();
 }
 process.on("SIGTERM", ukoncit);

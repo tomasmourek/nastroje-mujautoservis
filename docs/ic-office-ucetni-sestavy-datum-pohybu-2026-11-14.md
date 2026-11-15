@@ -1,6 +1,6 @@
 # Produkční ověření data pohybu a skladových vratek
 
-Projekt: nastroje-mujautoservis. Větev: `codex/nastroje-mujautoservis-overeni-importu-dokladu`. Datum: 2026-11-14.
+Projekt: nastroje-mujautoservis. Větev: `codex/nastroje-mujautoservis-overeni-importu-dokladu`. Datum: 2026-11-14. Aktualizace návazného ověření: 2026-11-15.
 Účel: doložit opravu importu, opakování bez nových dokladů a přesné hranice přejímky.
 Zdroj: `ic-office-ucetni-sestavy` `f962c8422329a80eab6afb6951079500b112faed`.
 Produkční revize: `nastroje-mujautoservis` `6f81a9adb9277539c2f6499a79edf9f29d47af9d`.
@@ -30,11 +30,11 @@ Oba ZIPy byly skutečně staženy z produkčního tlačítka „Příjemky a vý
 - **Zjištěné omezení:** tři různé historické pohyby 1665047, 1665414 a 1665441 mají číslo 20268 a jejich PDF z IC Office zobrazují stejnou souhrnnou výdejku se součtem všech tří pohybů. První dvě PDF jsou bajtově shodná; třetí má shodný extrahovaný obsah, ale jiný hash. ZIP je ukládá pod třemi ID. Jde o již existující vazbu více pohybů na jeden doklad, nikoli o nové doklady při opakování importu. Souhrn CSV sčítá dílčí hodnoty pohybů správně, ale ZIP nelze označit za zcela bez duplicitních originálů. Samostatná deduplikace skutečných sdílených dokladů nebyla touto opravou provedena; samotné shodné číslo není bezpečným identifikátorem dokladu.
 - Hodnoty položkové inventury respektují stávající nastavení skladů, včetně vyloučeného skladu; nemusejí se rovnat souhrnu všech dokladů. Nastavení zákazníka nebylo měněno.
 
-## Další překážky přejímky
+## Omezení přejímky a následné ověření
 
 - Široký import 1. 1. 2025–31. 10. 2026 s doplňkem 0.6.1 již nehlásí původní neplatné datum ani nepodporovanou vratku. Skončil chybou „Nelze stáhnout PDF skladového dokladu 1552053.“ Přímé otevření jeho PDF v IC Office zobrazilo ERROR 500. Aplikace správně odmítla neúplný import. Celé široké období není úspěšně ověřeno.
-- Serverový katalog je samostatný tok. Nasazení opravy přesměrování ani úspěšný import doplňkem neprokazují serverové přihlášení či splatný běh při zavřeném prohlížeči. V otevřeném Nastavení není vyplněný přístupový kód firmy a přihlašovací heslo IC Office není k dispozici. Skutečné serverové připojení a plánovaný běh zůstávají **NEOVĚŘENÉ**. Je nutné zabezpečené zadání připojení uživatelem; tajemství nepatří do chatu ani Gitu.
+- Serverový katalog je samostatný tok. Při této přejímce 14. 11. ještě nebylo k dispozici zabezpečené připojení firmy a serverový běh nebyl ověřen. Tento stav překonalo [produkční ověření z 15. 11. 2026](nastroje-mujautoservis-prihlaseni-primo-katalog-2026-11-15.md): skutečný denní plán v 03:17:15 Europe/Prague načetl 3 103 položek z 18 skladů při úplně zavřeném Chrome; stažené XML a Excel byly ověřeny. Počítač zůstal zapnutý, Firefox neměl otevřenou katalogovou aplikaci. Fyzicky vypnutý počítač, týdenní/měsíční splatný běh a restart serveru nejsou tímto důkazem pokryté. Tajemství ani zákaznické exporty nepatří do Gitu.
 
-## Místní kontroly
+## Místní kontroly implementace z 14. 11. 2026
 
-Cílené testy doplňku a skladových podkladů: 163/163. Serverový katalog: 69/69. TypeScript, lint a build 0.6.1 prošly. Úplný npm test má čtyři nesouvisející chyby SMTP mocků v `server/transport.test.mjs` (`createTransport.mock.calls[0]` je undefined); 248 testů prošlo a čtyři byly přeskočeny. Tyto kontroly proběhly nad implementací před nasazením; dokumentační doplnění bylo ověřeno `git diff --check`. Nezávislé review této opravy neproběhlo; Claude Code neměl dostupnou kapacitu.
+Cílené testy doplňku a skladových podkladů: 163/163. Serverový katalog: 69/69. TypeScript, lint a build 0.6.1 prošly. Úplný npm test tehdy vykázal čtyři nesouvisející chyby SMTP mocků v `server/transport.test.mjs` (`createTransport.mock.calls[0]` je undefined); 248 testů prošlo a čtyři byly přeskočeny. Tyto kontroly proběhly nad implementací před nasazením; dokumentační doplnění bylo ověřeno `git diff --check`. Nezávislé review této opravy neproběhlo; Claude Code neměl dostupnou kapacitu.
