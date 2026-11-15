@@ -1,5 +1,10 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Samoobslužné připojení katalogu — 2026-11-15
+
+- Kandidát ze zdroje `ic-office-ucetni-sestavy` `245aa17`: přihlášení e-mailovým odkazem a průvodce katalogem bez ručně vydávaného kódu. Starší kódy i samostatné oprávnění pro účetní zůstávají zachované. SHA256 se shoduje u všech 67 webových a 12 API souborů.
+- Zdroj: 257 aplikačních a 86 serverových testů, build a lint prošly; čtyři zákaznické testy přeskočené, deset dosavadních lint varování. Desktopový/mobilní scénář se simulovaným API prošel, nezávislé review po opravách bez dalších nálezů. Nové nasazení, skutečné SMTP, IC Office a splatný serverový běh zatím nejsou ověřené. [Konfigurace a hranice důkazů](docs/nastroje-mujautoservis-samoobsluzne-pripojeni-2026-11-15.md).
+
 ## Oprava skladových pohybů — 2026-11-14
 
 - Zdroj ic-office-ucetni-sestavy f962c84: doplněk 0.6.1 označí ID pohybu u neplatného data a typu; parser přijímá doloženou vratku jako příjem. Všech 67 souborů sestavy odpovídá zdrojovému dist podle SHA256. API zůstává beze změny.

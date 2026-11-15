@@ -9,11 +9,12 @@ const LEASE = 120_000;
 const TIMEOUT = 90_000;
 const RETRY = 300_000;
 const MAX_POKUSU = 3;
+const MAX_STAHOVANI = 2;
 const ZPRAVY = {
   FIRMA: "Firma nemá přístup ke katalogu.",
   PLAN: "Neplatné nastavení plánu.",
   NEPRIPOJENO: "Nejprve připojte IC Office.",
-  OBSAZENO: "Stahování této firmy již probíhá.",
+  OBSAZENO: "Stahování již probíhá. Zkuste to za chvíli znovu.",
   UCET: "Účet již patří jinému připojení. Nejprve odpojte současný účet.",
   PRIPOJENI: "Připojení k IC Office se nezdařilo. Zkontrolujte připojení a zkuste to znovu.",
   ULOZISTE: "Úložiště katalogu není dostupné.",
@@ -71,7 +72,8 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
         firma TEXT NOT NULL REFERENCES firmy(firma) ON DELETE CASCADE, termin INTEGER NOT NULL,
         rev TEXT NOT NULL, pokusy INTEGER NOT NULL, stav TEXT NOT NULL, opakovat INTEGER,
         token TEXT, PRIMARY KEY(firma, termin)
-      );`);
+      );
+      CREATE INDEX IF NOT EXISTS firmy_lease ON firmy(lease_do) WHERE lease_token IS NOT NULL;`);
     const kontrola = db.prepare("SELECT hodnota FROM metadata WHERE klic='sifra'").get();
     if (kontrola) {
       if (desifrovat(klic, "katalog-klic-v1", kontrola.hodnota) !== "katalog-v1") throw new Error();
@@ -88,6 +90,7 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
 
   let konci = false;
   const aktivni = new Map();
+  const dobihajici = new Map();
   const transakce = (fn) => {
     db.exec("BEGIN IMMEDIATE");
     try { const r = fn(); db.exec("COMMIT"); return r; }
@@ -96,6 +99,12 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
   const firmaPovolena = (firma) => {
     if (konci) throw new ChybaPlanovace("ULOZISTE");
     if (typeof firma !== "string" || !firmy.has(firma)) throw new ChybaPlanovace("FIRMA");
+  };
+  // Volá výhradně server po ověření e-mailového odkazu, nikdy veřejné API s ID z těla.
+  const povolitFirmu = (firma) => {
+    if (konci) throw new ChybaPlanovace("ULOZISTE");
+    if (typeof firma !== "string" || !/^email-[a-f0-9]{32}$/.test(firma)) throw new ChybaPlanovace("FIRMA");
+    firmy.add(firma);
   };
   const radek = (firma) => db.prepare("SELECT * FROM firmy WHERE firma=?").get(firma);
   const zalozit = (firma) => db.prepare("INSERT OR IGNORE INTO firmy(firma,rev) VALUES (?,?)").run(firma, randomUUID());
@@ -106,20 +115,35 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
   };
   const promazat = (firma) => db.prepare(`DELETE FROM behy WHERE firma=? AND termin IN
     (SELECT termin FROM behy WHERE firma=? ORDER BY termin DESC LIMIT -1 OFFSET 100)`).run(firma, firma);
-  const uvolnit = (firma, token) => db.prepare("UPDATE firmy SET lease_token=NULL,lease_do=NULL WHERE firma=? AND lease_token=?").run(firma, token);
+  const uvolnit = (firma, token) => {
+    // Odmítnutí race při abortu ještě nemusí znamenat dokončené worker.terminate().
+    if (dobihajici.has(token)) return;
+    db.prepare("UPDATE firmy SET lease_token=NULL,lease_do=NULL WHERE firma=? AND lease_token=?").run(firma, token);
+  };
+  // Počet i rezervace se zkoumají v jedné SQLite transakci: limit platí pro
+  // ruční připojení i tick a také pro další procesy nad stejným svazkem.
+  const volneStazeni = () => db.prepare("SELECT count(*) AS n FROM firmy WHERE lease_token IS NOT NULL AND lease_do>?").get(ted()).n < MAX_STAHOVANI;
 
-  // Promise.race zaručuje uvolnění běhu i při adaptéru, který ignoruje AbortSignal.
+  // Promise.race omezuje čekání volajícího i při adaptéru ignorujícím AbortSignal.
   // Fencing token odmítne jakýkoli opožděný výsledek po vypršení lease/restartu.
-  function stazeni(firma, prihlaseni) {
+  function stazeni(firma, prihlaseni, token) {
     const controller = new AbortController();
+    // Adaptér ignorující abort neblokuje odpověď ani shutdown. Jeho rezervace
+    // zůstane do skutečného dokončení nebo do původní expirace lease.
+    for (const [stary, konec] of dobihajici) if (konec <= ted()) dobihajici.delete(stary);
+    dobihajici.set(token, ted() + LEASE);
     let timer;
     const stop = new Promise((_, reject) => {
       controller.signal.addEventListener("abort", () => reject(new ChybaPlanovace("PRIPOJENI")), { once: true });
       timer = setTimeout(() => controller.abort(), TIMEOUT);
       timer.unref?.();
     });
+    const adapter = Promise.resolve().then(() => stahnout({ firma, prihlaseni, signal: controller.signal })).then(overitSnimek).finally(() => {
+      dobihajici.delete(token);
+      if (controller.signal.aborted && !konci) uvolnit(firma, token);
+    });
     const promise = Promise.race([
-      Promise.resolve().then(() => stahnout({ firma, prihlaseni, signal: controller.signal })).then(overitSnimek), stop,
+      adapter, stop,
     ]).finally(() => { clearTimeout(timer); aktivni.delete(promise); });
     aktivni.set(promise, { firma, controller });
     return promise;
@@ -160,11 +184,12 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
       // heslo umožnilo zjišťovat, které cizí e-maily službu používají.
       if (r.ucet && r.ucet !== ucet) throw new ChybaPlanovace("UCET");
       if (r.lease_token && r.lease_do > ted()) throw new ChybaPlanovace("OBSAZENO");
+      if (!volneStazeni()) throw new ChybaPlanovace("OBSAZENO");
       db.prepare("UPDATE firmy SET lease_token=?,lease_do=? WHERE firma=?").run(token, ted() + LEASE, firma);
       return r;
     });
     try {
-      const s = await stazeni(firma, JSON.parse(text));
+      const s = await stazeni(firma, JSON.parse(text), token);
       firmaPovolena(firma);
       transakce(() => {
         const r = radek(firma);
@@ -218,6 +243,8 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
     return transakce(() => {
       const r = radek(firma);
       if (!r?.prihlaseni || !r.plan || r.dalsi > ted() || r.dalsi == null || (r.lease_token && r.lease_do > ted())) return null;
+      // Přetížení nemění termín ani počet pokusů. Další tick jej zkusí později.
+      if (!volneStazeni()) return null;
       let beh = db.prepare("SELECT * FROM behy WHERE firma=? AND termin=?").get(firma, r.dalsi);
       if (!beh) {
         db.prepare("INSERT INTO behy(firma,termin,rev,pokusy,stav,opakovat) VALUES (?,?,?,0,'retry',?)").run(firma, r.dalsi, r.rev, ted());
@@ -244,7 +271,7 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
       const beh = vyzvednout(firma);
       if (!beh) continue;
       let snimek;
-      try { snimek = await stazeni(firma, JSON.parse(desifrovat(klic, firma, beh.prihlaseni))); }
+      try { snimek = await stazeni(firma, JSON.parse(desifrovat(klic, firma, beh.prihlaseni)), beh.token); }
       catch { /* Do DB patří jen bezpečné sdělení, nikdy chyba adaptéru. */ }
       if (konci) return; // Lease obnoví další proces; výsledek vypínaného procesu nepublikujeme.
       transakce(() => {
@@ -260,8 +287,9 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
           db.prepare("UPDATE behy SET stav='ok',opakovat=NULL WHERE firma=? AND termin=?").run(firma, beh.dalsi);
         } else {
           const opakovat = beh.pokusy < MAX_POKUSU;
-          db.prepare("UPDATE firmy SET chyba=?,dalsi=?,lease_token=NULL,lease_do=NULL WHERE firma=?")
+          db.prepare("UPDATE firmy SET chyba=?,dalsi=? WHERE firma=?")
             .run(CHYBA_BEHU, opakovat ? beh.dalsi : dalsi(JSON.parse(r.plan)), firma);
+          uvolnit(firma, beh.token);
           db.prepare("UPDATE behy SET stav=?,opakovat=? WHERE firma=? AND termin=?")
             .run(opakovat ? "retry" : "failed", opakovat ? ted() + RETRY : null, firma, beh.dalsi);
         }
@@ -282,6 +310,6 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
   const bezpecnaChyba = (e) => new ChybaPlanovace(e instanceof ChybaPlanovace && (Object.hasOwn(ZPRAVY, e.kod) || zpravaChybyKatalogu(e.kod)) ? e.kod : "ULOZISTE", e instanceof ChybaPlanovace ? e.krok : null);
   const sync = (fn) => (...args) => { try { return fn(...args); } catch (e) { throw bezpecnaChyba(e); } };
   const async = (fn) => async (...args) => { try { return await fn(...args); } catch (e) { throw bezpecnaChyba(e); } };
-  return { stav: sync(stav), pripojit: async(pripojit), nastavitPlan: sync(nastavitPlan),
+  return { povolitFirmu: sync(povolitFirmu), stav: sync(stav), pripojit: async(pripojit), nastavitPlan: sync(nastavitPlan),
     odpojit: sync(odpojit), vysledek: sync(vysledek), tick: async(tick), zavrit: async(zavrit) };
 }

@@ -21,7 +21,7 @@ async function teloJson(req) {
 }
 
 /** Vrací false pro ostatní části existujícího API. Žádné CORS ani veřejné URL katalogu. */
-export function vytvoritKatalogApi({ kody, planovac, origin = "https://nastroje.mujautoservis.eu", ted = Date.now }) {
+export function vytvoritKatalogApi({ kody, planovac, firmaRelace, origin = "https://nastroje.mujautoservis.eu", ted = Date.now }) {
   const pokusy = new Map();
   const neplatne = new Map();
   function limit(klic, maximum, mapa = pokusy) {
@@ -44,9 +44,12 @@ export function vytvoritKatalogApi({ kody, planovac, origin = "https://nastroje.
     if (req.headers["sec-fetch-site"] === "cross-site") return chyba(403, "Nepovolený původ požadavku.");
     const ip = String(req.headers["x-forwarded-for"] ?? req.socket.remoteAddress ?? "").split(",").at(-1).trim();
     const kod = /^Bearer\s+(.+)$/i.exec(req.headers.authorization ?? "")?.[1] ?? "";
-    if (!kod) return chyba(401, "V Nastavení vyplňte přístupový kód firmy.");
-    const firma = kod.replace(/[\s\-‐-―]+/g, "").length >= 20 ? kody.get(otiskKodu(kod)) : undefined;
+    const presRelaci = req.headers.authorization === undefined;
+    const firma = presRelaci ? firmaRelace?.(req)
+      : kod.replace(/[\s\-‐-―]+/g, "").length >= 20 ? kody.get(otiskKodu(kod)) : undefined;
+    if (presRelaci && !firma) return chyba(401, "Přihlaste se e-mailem nebo v Nastavení vyplňte dosavadní přístupový kód firmy.");
     if (!firma) return limit(`kod:${ip}`, 30, neplatne) ? chyba(401, "Přístupový kód firmy neplatí.") : chyba(429, "Příliš mnoho pokusů. Zkuste to za hodinu.");
+    if (presRelaci && req.method !== "GET" && req.headers.origin !== origin) return chyba(403, "Nepovolený původ požadavku.");
     if (!limit(`firma:${firma}`, 1000)) return chyba(429, "Příliš mnoho požadavků firmy. Zkuste to za hodinu.");
     const pripraveno = !!planovac;
     if (cesta === "/sestavy/api/katalog/stav" && req.method === "GET")
