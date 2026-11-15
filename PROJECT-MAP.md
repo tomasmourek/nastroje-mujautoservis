@@ -1,5 +1,9 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Kandidát úplného tiskového podkladu — 2026-11-15
+
+- Zdroj 67b59f3 (PR #21), doplněk 0.6.2. Při chybě HTTP 500 původního PDF ověří a uchová úplný tiskový podklad bez nového vystavení. Shoda všech 67 souborů buildu podle SHA256; produkční široký import čeká na ověření. [Evidence](docs/nastroje-mujautoservis-uplny-tiskovy-podklad-2026-11-15.md).
+
 ## Ověřený serverový plán katalogu — 2026-11-15
 
 - Nasazena oprava přihlášení z PR #24, revize `39630fb`. Skutečný plán stáhl 15. 11. v 03:17:15 Europe/Prague katalog 3 103 položek z 18 skladů při úplně zavřeném Chrome; procesy Chrome byly před i po termínu nulové. Stažené XML a Excel jsou čitelné a odpovídají počtům serveru.
