@@ -162,9 +162,20 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
           if (!login || pocet >= 5) throw chyba("IC_LOGIN");
           const umisteni = r.headers.get("location");
           if (!umisteni) throw chyba("IC_LOGIN");
-          cil = cilPrihlaseni(umisteni, cil, true);
           // Ani stejnému hostu neopakujeme heslo při 307/308; přihlášení může mít jen jednu POST akci.
           if (method === "POST" && [307, 308].includes(r.status)) throw chyba("IC_LOGIN");
+          if (method === "POST") {
+            let navrat;
+            try { navrat = new URL(umisteni, cil); }
+            catch { throw new ChybaKatalogu("IC_LOGIN", "presmerovani"); }
+            if (navrat.origin !== PUVOD || navrat.username || navrat.password) {
+              throw new ChybaKatalogu("IC_LOGIN", "presmerovani-puvod");
+            }
+            // Úvodní stránka závisí na účtu IC Office. Cíl ani jeho parametry
+            // nenásledujeme; přihlášení prokáže až pevná stránka katalogu níže.
+            return null;
+          }
+          cil = cilPrihlaseni(umisteni, cil, true);
           method = "GET";
           body = undefined;
           continue;
@@ -182,8 +193,10 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
     krok = "prihlaseni";
     const odpovedPrihlaseni = await pozadavek(PRIHLASENI, { method: "POST", body, login: true });
     krok = "prihlaseni";
-    const poPrihlaseni = await dokument(odpovedPrihlaseni, signal);
-    if (poPrihlaseni.querySelector('input[type="password"]')) throw chyba("IC_LOGIN");
+    if (odpovedPrihlaseni) {
+      const poPrihlaseni = await dokument(odpovedPrihlaseni, signal);
+      if (poPrihlaseni.querySelector('input[type="password"]')) throw chyba("IC_LOGIN");
+    }
     krok = "katalog";
     overitKatalog(await dokument(await pozadavek(KATALOG), signal));
     krok = "export";
