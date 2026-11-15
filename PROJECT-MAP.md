@@ -1,5 +1,10 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Ověřený serverový plán katalogu — 2026-11-15
+
+- Nasazena oprava přihlášení z PR #24, revize `39630fb`. Skutečný plán stáhl 15. 11. v 03:17:15 Europe/Prague katalog 3 103 položek z 18 skladů při úplně zavřeném Chrome; procesy Chrome byly před i po termínu nulové. Stažené XML a Excel jsou čitelné a odpovídají počtům serveru.
+- Automat zůstal aktivní denně v 06:00, potvrzeno po obnovení stránky. Počítač nebyl fyzicky vypnutý, týdenní/měsíční splatný běh a restart serveru nejsou součástí důkazu. [Nasazení a skutečné ověření](docs/nastroje-mujautoservis-prihlaseni-primo-katalog-2026-11-15.md). Starší oddíly níže zachycují předchozí checkpointy.
+
 ## Samoobslužné připojení katalogu — 2026-11-15
 
 - Kandidát ze zdroje `ic-office-ucetni-sestavy` `245aa17`: přihlášení e-mailovým odkazem a průvodce katalogem bez ručně vydávaného kódu. Starší kódy i samostatné oprávnění pro účetní zůstávají zachované. SHA256 se shoduje u všech 67 webových a 12 API souborů.
