@@ -1,8 +1,8 @@
 # nastroje-mujautoservis — projektová mapa
 
-## Kandidát úplného tiskového podkladu — 2026-11-15
+## Produkční ověření širokého importu — 2026-11-15
 
-- Zdroj 67b59f3 (PR #21), doplněk 0.6.2. Při chybě HTTP 500 původního PDF ověří a uchová úplný tiskový podklad bez nového vystavení. Shoda všech 67 souborů buildu podle SHA256; produkční široký import čeká na ověření. [Evidence](docs/nastroje-mujautoservis-uplny-tiskovy-podklad-2026-11-15.md).
+- Zdroj 67b59f3 (PR #21), doplněk 0.6.2, nasazovací PR #26 (`eac4298`); Coolify dokončil nasazení v 10:20:15 UTC. Dva skutečné importy 1. 1. 2025 až 31. 10. 2026 zachovaly sedm sestav a 157 PDF; v IC Office zůstalo stejných 164 ID. ZIP má úplný CSV a 157 PDF, doklad 1552053 má 44 stran a 2 309 položek. Při HTTP 500 je připraven ověřený tiskový podklad bez nového vystavení; všechna PDF byla při přejímce dostupná, fallback tedy nebyl použit. Zůstává 19 upozornění na zdrojová účetní data. [Evidence a hranice důkazu](docs/nastroje-mujautoservis-uplny-tiskovy-podklad-2026-11-15.md).
 
 ## Ověřený serverový plán katalogu — 2026-11-15
 
