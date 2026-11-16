@@ -3,7 +3,7 @@
 Projekt: `nastroje-mujautoservis`  
 Větev: `codex/nastroje-mujautoservis-oprava-firefox-zamku`, základ `1c81a47403e0c273b194b9f74686c21b4ae1b72f`  
 Datum: 2026-11-16  
-Účel: evidence nasazení opravy Firefoxu, oddělení místních testů a produkční přejímky.
+Účel: evidence nasazení opravy Firefoxu, oddělení místních testů a ruční produkční přejímky uživatelem. Doplněno 2026-11-17.
 
 ## Obsah kandidáta
 
@@ -28,4 +28,16 @@ Veřejné GET ověření po nasazení:
 - `https://nastroje.mujautoservis.eu/sestavy/`: HTTP 200, nový hlavní asset `index-CKOYo725.js`.
 - `https://nastroje.mujautoservis.eu/sestavy/doplnek/ucetni-sestavy-ic-office-0.6.3.zip`: HTTP 200, 19 865 bajtů, SHA256 `020206ad26c6451a604f615dac49f630c83ef71ca6a2d30ed82f99e432f256f3`. Stažený produkční ZIP se shoduje s kandidátem.
 
-Skutečný zákaznický průchod dosud není dokončen. Nativní ovládání otevřeného Firefoxu odmítá připojení k oknu chybou vlastnictví okna, a to po obnovení seznamu oken i po resetu relace nástroje. Aktualizace doplňku v uživatelově Firefoxu není potvrzena. Nelze proto tvrdit úspěch skutečných importů dvou období, opakování bez duplicit ani úplnost balíčku pro účetní. Uživatel byl požádán o znovuotevření Firefoxu a ověření načtené verze 0.6.3. Nezávislé review druhým agentem neproběhlo.
+## Ruční produkční ověření uživatelem 2026-11-17
+
+Po potvrzení připraveného Firefoxu s doplňkem 0.6.3 uživatel k požadovanému průchodu uvedl: „vše jsem ověřil a vypadá to dobře“. Potvrzení se vztahuje na skutečný import dvou různých období, opakované načtení druhého období bez duplicit a balíček pro účetní. Jde o ruční ověření oznámené uživatelem, nikoli o automatický zákaznický test provedený agentem.
+
+| Požadovaný průchod | Oznámený výsledek |
+| --- | --- |
+| Období A → jiné období B | Uživatel oznámil úspěšné ověření |
+| Období B znovu | Uživatel oznámil úspěšné ověření bez duplicit |
+| Balíček pro účetní | Uživatel oznámil úspěšné ověření |
+
+Konkrétní rozsahy období, počty a částky záznamů, seznam příjemek/výdejek, hash ani inventář skutečného ZIPu nebyly předány. Úplnost jednotlivých účetních podkladů a stav dokladů přímo v IC Office proto nejsou nezávisle porovnány. Syntetické testy uvedené výše nejsou důkazem těchto zákaznických údajů.
+
+Nativní ovládání uživatelova Firefoxu nejprve selhávalo při připojení k oknu i po resetu relace; následný pokus výslovně zastavila politika nástroje, protože nepodporuje vynucování pravidel URL v tomto prohlížeči Windows. Blokace nebyla obcházena. Tento záznam nepotvrzuje nové živé ověření Chrome/Edge ani serverového plánovače katalogu. Nezávislé review druhým agentem neproběhlo.

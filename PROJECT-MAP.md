@@ -121,5 +121,10 @@ Projekt: nastroje-mujautoservis. Větev: `prvni-verze`. Datum: 2026-11-03.
 
 - Zdrojový PR #23 je začleněn jako `43d8620a6ddfb4a8b46c922cad82431ac5a6dd75`. Nasazovací soubory odpovídají zdrojovému buildu; API se nemění.
 - Cílené testy: 274 prošlo, čtyři přeskočeny; build prošel. Izolovaný Firefox ověřil opravu se syntetickými vstupy. Produkční import ani balíček pro účetní tím nejsou ověřeny.
-- Nasazovací PR #28 začleněn jako `eabac29cc4c3b57ce90c36046250870b45b4b2e1`; Coolify deployment `ajyikhvmar2sc36pyo8gyugz` dokončen úspěšně ve 13:50:53 UTC. Produkční stránka i ZIP vracejí HTTP 200, SHA256 ZIPu odpovídá kandidátu. Skutečný zákaznický test ve Firefoxu blokuje připojení nástroje k oknu i po resetu relace.
+- Nasazovací PR #28 začleněn jako `eabac29cc4c3b57ce90c36046250870b45b4b2e1`; Coolify deployment `ajyikhvmar2sc36pyo8gyugz` dokončen úspěšně ve 13:50:53 UTC. Produkční stránka i ZIP vracejí HTTP 200, SHA256 ZIPu odpovídá kandidátu. Následné ruční ověření uživatelem je uvedeno níže.
 - Podrobnosti a aktuální omezení: [evidence Firefoxu 0.6.3](docs/nastroje-mujautoservis-firefox-zamek-2026-11-16.md).
+
+## Ruční ověření Firefoxu 0.6.3 — 2026-11-17
+
+- Uživatel po potvrzení připraveného Firefoxu 0.6.3 oznámil úspěšné ruční ověření dvou různých období, opakovaného načtení bez duplicit a balíčku pro účetní na produkci.
+- Jde o uživatelovo potvrzení bez předaných počtů, částek a inventáře ZIPu; agent zákaznický průchod nezávisle neprovedl. Ovládání Firefoxu zastavila politika nástroje. Historické syntetické výsledky zůstávají oddělené. [Záznam a hranice ověření](docs/nastroje-mujautoservis-firefox-zamek-2026-11-16.md#ruční-produkční-ověření-uživatelem-2026-11-17).
