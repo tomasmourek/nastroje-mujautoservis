@@ -117,8 +117,9 @@ Projekt: nastroje-mujautoservis. Větev: `prvni-verze`. Datum: 2026-11-03.
 - Přejímka 0.5.1 potvrdila nahrazení říjnové dávky listopadovou včetně PDF, ale odhalila odmítnutí neomezeného filtru skladu a chybný převod českých částek CSV. Automatický pokus žádný doklad nevytvořil. Opakování a ZIP dosud nejsou přijaté.
 - Zdroj kandidáta 0.5.2 `ic-office-ucetni-sestavy` commit `3b001cb`: opravy filtru a čtení textových CSV. 182 testů prošlo, čtyři přeskočeny, TypeScript a build prošly; review Claude Code vedlo k doplnění ochrany dalších inline skriptů a explicitního měsíce. 67/67 souborů buildu odpovídá podle SHA256. Podrobnosti a hranice ověření: [evidence vydání](docs/nastroje-mujautoservis-podpora-firefox-2026-11-13.md).
 
-## Oprava Firefoxu 0.6.3 — kandidát 2026-11-16
+## Oprava Firefoxu 0.6.3 — nasazení 2026-11-16
 
 - Zdrojový PR #23 je začleněn jako `43d8620a6ddfb4a8b46c922cad82431ac5a6dd75`. Nasazovací soubory odpovídají zdrojovému buildu; API se nemění.
 - Cílené testy: 274 prošlo, čtyři přeskočeny; build prošel. Izolovaný Firefox ověřil opravu se syntetickými vstupy. Produkční import ani balíček pro účetní tím nejsou ověřeny.
+- Nasazovací PR #28 začleněn jako `eabac29cc4c3b57ce90c36046250870b45b4b2e1`; Coolify deployment `ajyikhvmar2sc36pyo8gyugz` dokončen úspěšně ve 13:50:53 UTC. Produkční stránka i ZIP vracejí HTTP 200, SHA256 ZIPu odpovídá kandidátu. Skutečný zákaznický test ve Firefoxu blokuje připojení nástroje k oknu i po resetu relace.
 - Podrobnosti a aktuální omezení: [evidence Firefoxu 0.6.3](docs/nastroje-mujautoservis-firefox-zamek-2026-11-16.md).

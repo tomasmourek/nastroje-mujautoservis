@@ -3,7 +3,7 @@
 Projekt: `nastroje-mujautoservis`  
 Větev: `codex/nastroje-mujautoservis-oprava-firefox-zamku`, základ `1c81a47403e0c273b194b9f74686c21b4ae1b72f`  
 Datum: 2026-11-16  
-Účel: nasazovací kandidát opravy Firefoxu, oddělení místních testů a produkční přejímky.
+Účel: evidence nasazení opravy Firefoxu, oddělení místních testů a produkční přejímky.
 
 ## Obsah kandidáta
 
@@ -21,4 +21,11 @@ Skutečný izolovaný Firefox 160 se syntetickým transportem reprodukoval půvo
 
 ## Produkční přejímka
 
-Dosud nedokončena. Nativní ovládání otevřeného Firefoxu odmítá připojení k oknu chybou vlastnictví okna, a to i po obnovení seznamu oken. Nelze proto zatím tvrdit úspěch skutečných importů dvou období, opakování bez duplicit ani úplnost balíčku pro účetní. Nezávislé review druhým agentem neproběhlo.
+Nasazovací [PR #28](https://github.com/tomasmourek/nastroje-mujautoservis/pull/28) byl začleněn do `prvni-verze` jako `eabac29cc4c3b57ce90c36046250870b45b4b2e1`. Coolify spustil deployment `ajyikhvmar2sc36pyo8gyugz` 2026-11-16 ve 13:50:37 UTC a dokončil jej úspěšně ve 13:50:53 UTC. Log potvrzuje sestavení tohoto commitu, spuštění nového kontejneru a dokončení rolling aktualizace. Obraz: `5wvbppnjadlaqcwc07ikri3d:eabac29cc4c3b57ce90c36046250870b45b4b2e1`. Aplikace nemá nakonfigurovaný healthcheck.
+
+Veřejné GET ověření po nasazení:
+
+- `https://nastroje.mujautoservis.eu/sestavy/`: HTTP 200, nový hlavní asset `index-CKOYo725.js`.
+- `https://nastroje.mujautoservis.eu/sestavy/doplnek/ucetni-sestavy-ic-office-0.6.3.zip`: HTTP 200, 19 865 bajtů, SHA256 `020206ad26c6451a604f615dac49f630c83ef71ca6a2d30ed82f99e432f256f3`. Stažený produkční ZIP se shoduje s kandidátem.
+
+Skutečný zákaznický průchod dosud není dokončen. Nativní ovládání otevřeného Firefoxu odmítá připojení k oknu chybou vlastnictví okna, a to po obnovení seznamu oken i po resetu relace nástroje. Aktualizace doplňku v uživatelově Firefoxu není potvrzena. Nelze proto tvrdit úspěch skutečných importů dvou období, opakování bez duplicit ani úplnost balíčku pro účetní. Uživatel byl požádán o znovuotevření Firefoxu a ověření načtené verze 0.6.3. Nezávislé review druhým agentem neproběhlo.
