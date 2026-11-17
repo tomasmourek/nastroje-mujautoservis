@@ -19,7 +19,7 @@ function overitSignal(signal) {
 }
 
 // I testovací nebo nestandardní transport musí jít zrušit při čekání na hlavičky/tělo.
-function prerusitelne(slib, signal) {
+export function prerusitelne(slib, signal) {
   overitSignal(signal);
   return new Promise((splnit, selhat) => {
     const zruseno = () => selhat(chyba("IC_ABORTED"));
@@ -28,11 +28,11 @@ function prerusitelne(slib, signal) {
   });
 }
 
-function zavritTelo(r) {
+export function zavritTelo(r) {
   if (r.body) void r.body.cancel().catch(() => {});
 }
 
-async function omezeneTelo(r, limit, signal) {
+export async function omezeneTelo(r, limit, signal) {
   const delka = r.headers.get("content-length");
   if (delka !== null && (!/^\d+$/.test(delka) || Number(delka) > limit)) {
     zavritTelo(r);
@@ -58,7 +58,7 @@ async function omezeneTelo(r, limit, signal) {
   }
 }
 
-async function dokument(r, signal) {
+export async function dokument(r, signal) {
   const obsah = r.headers.get("content-type");
   if (obsah && !/^text\/html(?:\s*;|$)/i.test(obsah)) {
     zavritTelo(r);
@@ -68,7 +68,7 @@ async function dokument(r, signal) {
   try { return parseHTML(obsahHtml).document; } catch { throw chyba("IC_FORMAT"); }
 }
 
-function cilPrihlaseni(hodnota, zaklad = PRIHLASENI, povolitFlash = false) {
+export function cilPrihlaseni(hodnota, zaklad = PRIHLASENI, povolitFlash = false) {
   let url;
   try { url = new URL(hodnota, zaklad); } catch { throw chyba("IC_LOGIN"); }
   if (url.origin !== PUVOD || url.username || url.password) throw new ChybaKatalogu("IC_LOGIN", "presmerovani-puvod");
@@ -82,7 +82,7 @@ function cilPrihlaseni(hodnota, zaklad = PRIHLASENI, povolitFlash = false) {
   return url.href;
 }
 
-function polePrihlaseni(doc, prihlaseni) {
+export function polePrihlaseni(doc, prihlaseni) {
   const form = doc.querySelector("form#frm-loginForm");
   if (!form || (form.getAttribute("method") ?? "").toLowerCase() !== "post") throw chyba("IC_LOGIN");
   const akce = new URL(cilPrihlaseni(form.getAttribute("action") ?? ""));

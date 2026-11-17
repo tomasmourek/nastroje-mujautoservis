@@ -21,7 +21,7 @@ async function teloJson(req) {
 }
 
 /** Vrací false pro ostatní části existujícího API. Žádné CORS ani veřejné URL katalogu. */
-export function vytvoritKatalogApi({ kody, planovac, firmaRelace, origin = "https://nastroje.mujautoservis.eu", ted = Date.now }) {
+export function vytvoritKatalogApi({ kody, planovac, firmaRelace, priOdpojeni, origin = "https://nastroje.mujautoservis.eu", ted = Date.now }) {
   const pokusy = new Map();
   const neplatne = new Map();
   function limit(klic, maximum, mapa = pokusy) {
@@ -79,6 +79,9 @@ export function vytvoritKatalogApi({ kody, planovac, firmaRelace, origin = "http
         await planovac.pripojit(firma, { email, heslo: data.heslo });
       } else if (cesta.endsWith("/odpojit")) {
         if (Object.keys(data).length) return chyba(400, "Neplatný požadavek.");
+        // Zrušit i účetní plán dříve, než zmizí jeho připojení. Chyba nesmí
+        // ponechat aktivní automat nad právě odpojenými přihlašovacími údaji.
+        await priOdpojeni?.(firma);
         planovac.odpojit(firma);
       } else {
         if (Object.keys(data).length !== 1 || !("plan" in data)) return chyba(400, "Neplatný požadavek.");

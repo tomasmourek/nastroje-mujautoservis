@@ -239,6 +239,59 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
     return r?.[typ] == null ? null : Buffer.from(r[typ]);
   }
 
+  // Interní služba účetní používá stejný účet a zámek jako katalog. Přihlašovací
+  // údaje neopouštějí callback a nejsou součástí odpovědi žádného API.
+  async function sPripojenim(firma, provest) {
+    firmaPovolena(firma);
+    const token = randomUUID();
+    const pred = transakce(() => {
+      const r = radek(firma);
+      if (!r?.prihlaseni) throw new ChybaPlanovace("NEPRIPOJENO");
+      if ((r.lease_token && r.lease_do > ted()) || !volneStazeni()) throw new ChybaPlanovace("OBSAZENO");
+      db.prepare("UPDATE firmy SET lease_token=?,lease_do=? WHERE firma=?").run(token, ted() + LEASE, firma);
+      return r;
+    });
+    const controller = new AbortController();
+    const overitAktualnost = () => {
+      firmaPovolena(firma);
+      const r = radek(firma);
+      if (controller.signal.aborted || !r?.prihlaseni || r.rev !== pred.rev || r.lease_token !== token || r.lease_do <= ted()) {
+        controller.abort();
+        throw new ChybaPlanovace("OBSAZENO");
+      }
+    };
+    let timer, heartbeat;
+    // Interní callback používá ukončitelný worker a časově omezené SMTP.
+    // Při abortu vyčkáme jeho skutečné ukončení včetně obnovy filtrů.
+    {
+      timer = setTimeout(() => controller.abort(), 15 * 60_000);
+      timer.unref?.();
+      heartbeat = setInterval(() => {
+        try {
+          // Zrušený callback může ještě obnovovat filtry nebo dokončovat SMTP.
+          // Jeho zámek platí až do skutečného konce, i po odpojení či shutdownu.
+          const z = db.prepare("UPDATE firmy SET lease_do=? WHERE firma=? AND lease_token=?").run(ted() + LEASE, firma, token);
+          if (z.changes !== 1) controller.abort();
+        } catch { controller.abort(); }
+      }, 30_000);
+      heartbeat.unref?.();
+    }
+    dobihajici.set(token, Infinity);
+    const adapter = Promise.resolve().then(() => {
+      overitAktualnost();
+      return provest({ prihlaseni: JSON.parse(desifrovat(klic, firma, pred.prihlaseni)), signal: controller.signal, overitAktualnost });
+    }).finally(() => {
+      dobihajici.delete(token);
+      if (!konci) uvolnit(firma, token);
+    });
+    const promise = adapter.finally(() => {
+      clearTimeout(timer); clearInterval(heartbeat); aktivni.delete(promise);
+      if (!konci) uvolnit(firma, token);
+    });
+    aktivni.set(promise, { firma, controller });
+    return promise;
+  }
+
   function vyzvednout(firma) {
     return transakce(() => {
       const r = radek(firma);
@@ -311,5 +364,5 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
   const sync = (fn) => (...args) => { try { return fn(...args); } catch (e) { throw bezpecnaChyba(e); } };
   const async = (fn) => async (...args) => { try { return await fn(...args); } catch (e) { throw bezpecnaChyba(e); } };
   return { povolitFirmu: sync(povolitFirmu), stav: sync(stav), pripojit: async(pripojit), nastavitPlan: sync(nastavitPlan),
-    odpojit: sync(odpojit), vysledek: sync(vysledek), tick: async(tick), zavrit: async(zavrit) };
+    odpojit: sync(odpojit), vysledek: sync(vysledek), sPripojenim, tick: async(tick), zavrit: async(zavrit) };
 }

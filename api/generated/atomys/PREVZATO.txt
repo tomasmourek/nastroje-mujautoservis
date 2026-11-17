@@ -1,0 +1,6 @@
+Atomys Design Language 2.1.0
+Zdroj: github.com/tomasmourek/atomys-design-system, commit ec4da57
+Převzato: 2026-11-03T08:46:22.706Z
+
+Tuto složku needitujte. Úpravy pro projekt patří do vlastního CSS mimo ni.
+Aktualizace: node <atomys-design-system>/tools/prevzit.mjs C:/Projekty/ic-office-ucetni-sestavy/public/atomys

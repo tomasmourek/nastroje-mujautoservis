@@ -1,5 +1,11 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Kandidát automatického odesílání účetní — 2026-11-17
+
+- Zdroj `ic-office-ucetni-sestavy` `894e19a` ([PR #25](https://github.com/tomasmourek/ic-office-ucetni-sestavy/pull/25)): serverový denní/měsíční plán s potvrzeným nastavením, ověřením vlastního IČO, kontrolou úplnosti a trvalou ochranou proti opakovanému odeslání.
+- Zdrojové testy 303 + 182 prošly (čtyři zákaznické přeskočeny), build a lint prošly. SHA256 kandidáta odpovídá zdroji. Lokální Docker build i spuštění bez síťového přístupu prošly; služba vytvořila čtyři databáze a odmítla neautorizované účetní API.
+- Není nasazeno ani živě ověřeno v IC Office či schránce účetní. [Konfigurace, důkazy a podmínky přejímky](docs/nastroje-mujautoservis-automaticke-odesilani-2026-11-17.md).
+
 ## Produkční ověření širokého importu — 2026-11-15
 
 - Zdroj 67b59f3 (PR #21), doplněk 0.6.2, nasazovací PR #26 (`eac4298`); Coolify dokončil nasazení v 10:20:15 UTC. Dva skutečné importy 1. 1. 2025 až 31. 10. 2026 zachovaly sedm sestav a 157 PDF; v IC Office zůstalo stejných 164 ID. ZIP má úplný CSV a 157 PDF, doklad 1552053 má 44 stran a 2 309 položek. Při HTTP 500 je připraven ověřený tiskový podklad bez nového vystavení; všechna PDF byla při přejímce dostupná, fallback tedy nebyl použit. Zůstává 19 upozornění na zdrojová účetní data. [Evidence a hranice důkazu](docs/nastroje-mujautoservis-uplny-tiskovy-podklad-2026-11-15.md).
