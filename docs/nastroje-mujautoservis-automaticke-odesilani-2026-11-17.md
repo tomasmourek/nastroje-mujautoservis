@@ -1,6 +1,6 @@
-# nastroje-mujautoservis — kandidát automatického odesílání účetní
+# nastroje-mujautoservis — nasazení automatického odesílání účetní
 
-Projekt: `nastroje-mujautoservis`. Větev: `codex/nastroje-mujautoservis-automaticke-odesilani`, základ `78ccd94`. Datum: 2026-11-17. Účel: evidence sestaveného kandidáta a hranice jeho ověření.
+Projekt: `nastroje-mujautoservis`. Produkční commit: `499b25ba4bb61911a1765074291dff1489375b6a`. Datum: 2026-11-17. Účel: evidence nasazení a hranice technického a zákaznického ověření.
 
 ## Zdroj a chování
 
@@ -12,9 +12,9 @@ Plán, rezervace období a otisk odesílání jsou trvalé. Souběh katalogu a �
 
 ## Konfigurace a nasazení
 
-Dockerfile, nginx, spouštěcí skripty a produkční konfigurace se tímto kandidátem nemění. Použije se stávající trvalý soukromý adresář `KATALOG_DATA_DIR`, kanonický base64 klíč 32 bajtů `KATALOG_SIFROVACI_KLIC` a `KATALOG_ORIGIN`. Klíč se nesmí nově generovat nad existujícími daty. K dosavadním `ucty.sqlite` a `katalog.sqlite` přibudou `ucetni.sqlite` a `odeslani.sqlite`; svazek i zálohy musí zahrnovat celý adresář. Technický deník se automaticky nepročišťuje, aby stáří nebo restart neobnovily již odeslané období. Retenci a postup reconciliace je potřeba před zákaznickým vydáním provozně určit.
+Používá se stávající trvalý soukromý adresář `KATALOG_DATA_DIR`, kanonický base64 klíč 32 bajtů `KATALOG_SIFROVACI_KLIC` a `KATALOG_ORIGIN`. Klíč se nesmí nově generovat nad existujícími daty. K dosavadním `ucty.sqlite` a `katalog.sqlite` přibyly `ucetni.sqlite` a `odeslani.sqlite`; svazek i zálohy musí zahrnovat celý adresář. Technický deník se automaticky nepročišťuje, aby stáří nebo restart neobnovily již odeslané období. Retenci a postup reconciliace je potřeba před zákaznickým vydáním provozně určit. Nasazení opravilo spouštěcí skript: soukromé API dostává explicitně `PORT=3000`, protože Coolify nastavuje `PORT=80` pro nginx.
 
-SMTP používá `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `MAIL_FROM`; 587 vyžaduje STARTTLS, 465 přímé TLS. Účetní automat se bez katalogového úložiště, klíče a poštovního transportu nezpřístupní. Tajemství nejsou součástí Gitu ani tohoto dokumentu. Produkční hodnoty a zálohy nebyly touto místní kontrolou měněny ani ověřeny.
+SMTP používá `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `MAIL_FROM`; 587 vyžaduje STARTTLS, 465 přímé TLS. Účetní automat se bez katalogového úložiště, klíče a poštovního transportu nezpřístupní. Tajemství nejsou součástí Gitu ani tohoto dokumentu. Nasazení použilo dosavadní konfiguraci a klíč bez změny; hodnoty tajemství nebyly vypisovány. Start služby potvrdil dostupnou konfiguraci SMTP, nikoliv skutečné doručení zprávy.
 
 ## Provedené kontroly
 
@@ -24,8 +24,19 @@ SMTP používá `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `MAIL_FR
 - Skutečný lokální `docker build` prošel s Node.js 24 Alpine. Výsledný obraz má ID `sha256:d774a61d57f6a06dbf3c425e90b885b0cda335330aff2c3c388cfc532b48265e`.
 - Obraz byl spuštěn s `--network none`, syntetickým klíčem a syntetickou SMTP konfigurací. Služba ohlásila aktivní katalog i účetní plánovač, vytvořila všechny čtyři SQLite databáze a účetní API bez přihlášení vrátilo HTTP 401. Služba byla řádně ukončena a kontejner odstraněn. Žádná externí pošta nebyla odeslána.
 
+## Produkční nasazení bez Computer Use
+
+- Přes GitHub začleněno zdrojové [PR #25](https://github.com/tomasmourek/ic-office-ucetni-sestavy/pull/25), merge `d976891`, a nasazovací [PR #31](https://github.com/tomasmourek/nastroje-mujautoservis/pull/31), merge `e64a39a`. První deployment skončil, ale API vracelo HTTP 502: zděděné `PORT=80` kolidovalo s nginx (`EADDRINUSE`). Samotný stav Coolify tedy nebyl potvrzením funkčnosti.
+- [PR #32](https://github.com/tomasmourek/nastroje-mujautoservis/pull/32), oprava `6a9f330`, nastavuje internímu API port 3000. Lokální Docker build prošel; skutečný kontejner s produkčním `PORT=80`, syntetickou konfigurací a `--network none` vrátil web 200, stav API 200 a účetní API bez přihlášení 401. Testovací kontejner byl ukončen a odstraněn.
+- Finální Coolify deployment `45f39008-0146-4cc7-93fe-14a0149b7087` skončil `finished` dne 17. 11. 2026 v **15:58:17 UTC / 16:58:17 Europe/Prague**. Běží obraz `5wvbppnjadlaqcwc07ikri3d:499b25ba4bb61911a1765074291dff1489375b6a` z větve `prvni-verze`.
+- Před nasazením vznikly konzistentní online kopie `katalog.sqlite` a `ucty.sqlite` pomocí `node:sqlite.backup`. Obě byly znovu otevřeny a `PRAGMA integrity_check` vrátil `ok`. Leží v soukromém serverovém adresáři `/root/nastroje-mujautoservis-zaloha-pred-automatickym-odesilanim-20261117/` s oprávněními 700/600. Úplná obnova služby ze zálohy nebyla nacvičena.
+- Zachován původní Docker svazek `5wvbppnjadlaqcwc07ikri3d-ic-office-katalog`, připojený do `/var/lib/ic-office-katalog`. Po nasazení mají všechny čtyři databáze integritu `ok`; dosavadní účty, relace a katalogové běhy zůstaly přítomné. Nové tabulky mají nula účetních plánů, běhů i pokusů o odeslání.
+- Všech **67 veřejných souborů** `sestavy/` a **79 serverových souborů** (17 runtime modulů a 62 generovaných) odpovídá Git objektům nasazeného commitu podle SHA256. Porovnávají se Git objekty, nikoliv Windows checkout s převodem LF/CRLF.
+- Veřejné `/sestavy/` odpovídá HTTP 200; `/sestavy/api/stav` vrací HTTP 200 a `pripraveno: true`. `/sestavy/api/ucetni/stav` bez relace vrací očekávané HTTP 401. Start služby potvrzuje `smtp: true`, `katalog: true`, `ucetni: true`, `port: 3000`.
+- Nasazení a kontroly proběhly přes SSH, Coolify a HTTP bez Computer Use. Žádný účetní plán nebyl aktivován a nebyla odeslána zkušební zpráva zákazníkovi.
+
 ## Co ještě není prokázané
 
-Tento kandidát není produkční nasazení. Skutečný firemní profil IC Office a jeho HTML selektory, účetní import, přílohy a doručení účetní zatím nejsou živě ověřeny. Computer Use ukončila politika pro tento Windows prohlížeč; zákaz nebyl obcházen. Historické ověření katalogu a ruční Firefox test tyto nové kroky nenahrazují.
+Skutečný vlastní firemní profil IC Office a jeho HTML selektory, účetní import, úplnost zákaznických příloh a doručení účetní zatím nejsou živě ověřeny. Dřívější ovládání prohlížeče ukončila politika Computer Use; zákaz nebyl obcházen. Historické ověření katalogu a ruční Firefox test tyto nové kroky nenahrazují.
 
-Produkční přejímka po schváleném nasazení: ověřit obnovitelnou zálohu, vlastní IČO, úplný balíček a uživatelem potvrzeného příjemce. Poté aktivovat blízký termín, zavřít prohlížeč a doložit serverový běh i přijatou zprávu. Opakování stejného období a restart služby musí zachovat jedinou zprávu. Do té doby nelze funkci označit za produkčně ověřenou.
+Před zákaznickou aktivací ověřit vlastní IČO, úplný balíček a uživatelem potvrzeného příjemce a přílohy. Poté aktivovat blízký termín, zavřít prohlížeč a doložit serverový běh i přijatou zprávu. Opakování stejného období a restart služby musí zachovat jedinou zprávu. Do té doby je doložené technické nasazení a místní testy, nikoliv skutečné automatické odeslání účetní.
