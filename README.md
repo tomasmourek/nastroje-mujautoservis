@@ -14,6 +14,8 @@ Panel načítání exportů nabízí postup pro Chrome, Edge a Firefox. Instalac
 
 ## Nasazení
 
+Připravený kandidát přidává serverové denní nebo měsíční odesílání účetní s ověřeným přihlášením e-mailem, kontrolou vlastní firmy a trvalým deníkem proti opakování. Vyžaduje stávající trvalý katalogový svazek, šifrovací klíč a SMTP. Lokální testy i Docker prošly; produkční import a doručení zatím nejsou ověřené. [Konfigurace a přejímka kandidáta](docs/nastroje-mujautoservis-automaticke-odesilani-2026-11-17.md).
+
 Coolify na Netcupu stahuje tento veřejný repozitář z větve `prvni-verze` a staví `Dockerfile`. Po pushi se nasazuje ručně tlačítkem Deploy v aplikaci `nastroje-mujautoservis`; pak ověřte `https://nastroje.mujautoservis.eu/` a `/sestavy/`.
 
 Kandidát serverového stahování skladového katalogu používá Node.js 24 s vestavěnou SQLite a nginx. Automat se zpřístupní až po nastavení trvalého svazku a šifrovacího klíče. Uživatel s přístupovým kódem firmy jej poté sám připojí ke svému účtu IC Office a aktivuje plán; bez konfigurace zůstává neaktivní. [Příprava a ověření nasazení](docs/nastroje-mujautoservis-serverovy-katalog-2026-11-14.md).

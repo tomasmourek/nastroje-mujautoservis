@@ -1,0 +1,70 @@
+/* Atomys Design Language 2.1.0 — Tailwind CSS 4. Generováno, needitovat ručně.
+ * @layer theme, base, atomys, components, utilities;
+ * @import "tailwindcss"; @import "./atomys.css"; @import "./tailwind-v4.css"; */
+@theme inline {
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --font-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-canvas: var(--at-canvas);
+  --color-surface-1: var(--at-surface-1);
+  --color-surface-2: var(--at-surface-2);
+  --color-ink: var(--at-ink);
+  --color-ink-soft: var(--at-ink-soft);
+  --color-muted: var(--at-muted);
+  --color-rule: var(--at-rule);
+  --color-rule-strong: var(--at-rule-strong);
+  --color-field-border: var(--at-field-border);
+  --color-focus: var(--at-focus);
+  --color-focus-halo: var(--at-focus-halo);
+  --color-success: var(--at-success);
+  --color-success-soft: var(--at-success-soft);
+  --color-warning: var(--at-warning);
+  --color-warning-soft: var(--at-warning-soft);
+  --color-danger: var(--at-danger);
+  --color-danger-soft: var(--at-danger-soft);
+  --color-info: var(--at-info);
+  --color-info-soft: var(--at-info-soft);
+  --color-bar: var(--at-bar);
+  --color-on-bar: var(--at-on-bar);
+  --color-bar-muted: var(--at-bar-muted);
+  --color-bar-rule: var(--at-bar-rule);
+  --color-bar-field: var(--at-bar-field);
+  --color-bar-field-border: var(--at-bar-field-border);
+  --color-table-head: var(--at-table-head);
+  --color-on-table-head: var(--at-on-table-head);
+  --color-overlay: var(--at-overlay);
+  --color-accent: var(--at-accent);
+  --color-accent-hover: var(--at-accent-hover);
+  --color-accent-border: var(--at-accent-border);
+  --color-on-accent: var(--at-on-accent);
+  --color-accent-text: var(--at-accent-text);
+  --color-accent-soft: var(--at-accent-soft);
+  --color-on-bar-accent: var(--at-on-bar-accent);
+  --font-ui: var(--at-font-ui);
+  --font-data: var(--at-font-data);
+  --font-sans: var(--at-font-ui);
+  --font-mono: var(--at-font-data);
+  --radius-control: var(--at-radius-control);
+  --radius-surface: var(--at-radius-surface);
+  --radius-dialog: var(--at-radius-dialog);
+  --radius: var(--at-radius-control);
+  --radius-sm: var(--at-radius-control);
+  --radius-md: var(--at-radius-control);
+  --radius-lg: var(--at-radius-dialog);
+  --radius-full: var(--at-radius-pill);
+  --shadow-layer: var(--at-shadow-layer);
+}
+
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme]), :root:not([data-theme]) *) {
+      @slot;
+    }
+  }
+}

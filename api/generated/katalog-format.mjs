@@ -1,28 +1,18 @@
-import * as e from "xlsx";
-// src/lib/zaklad.ts
-function t(e) {
-	return e == null ? "" : String(e).replace(/_x000D_/g, "").trim();
-}
-function n(e) {
-	return t(e).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
-}
-new Intl.NumberFormat("cs-CZ", {
-	minimumFractionDigits: 2,
-	maximumFractionDigits: 2
-}), new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 2 });
+import { l as e, m as t } from "./zaklad-Xwu_hcf2.js";
+import * as n from "xlsx";
 // src/lib/google-sklady.ts
 function r(r) {
-	let i = e.read(r, { type: "array" }), a = e.utils.sheet_to_json(i.Sheets[i.SheetNames[0]], {
+	let i = n.read(r, { type: "array" }), a = n.utils.sheet_to_json(i.Sheets[i.SheetNames[0]], {
 		header: 1,
 		defval: ""
-	}), o = a.findIndex((e) => [
+	}), o = a.findIndex((t) => [
 		"kod",
 		"nazev",
 		"sklad",
 		"mnozstvi"
-	].every((t) => e.some((e) => n(e) === t)));
+	].every((n) => t.some((t) => e(t) === n)));
 	if (o < 0) throw Error("Vyberte export Excel z IC Office → Sklady → Všechno zboží.");
-	let s = a[o].map(n);
+	let s = a[o].map(e);
 	return a.slice(o + 1).map((e, t) => ({
 		r: e,
 		cisloRadku: o + t + 2

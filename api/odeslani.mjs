@@ -1,9 +1,10 @@
 // Odeslání podkladů účetní e-mailem. Obsluha požadavků bez závislostí, aby šla testovat;
 // SMTP a naslouchání řeší server.mjs. Každé odeslání vyžaduje přístupový kód firmy; server
 // zná jen otisky kódů. Posílá se ze společné adresy služby, odpovědi jdou na e-mail firmy.
-// Nic se neukládá: přílohy nepřežijí odeslání a do logu jde jen firma, výsledek, počet příloh
+// Přílohy nepřežijí odeslání; deník uchovává jen otisky a stav. Do logu jde firma, výsledek, počet příloh
 // a velikost, nikdy adresy, kódy ani obsah.
 import { createHash } from "node:crypto";
+import { vytvoritPamatovyDenik } from "./odeslani-denik.mjs";
 
 const MAX_TELO = 28 * 1024 * 1024;
 const MAX_PRILOHY = 20 * 1024 * 1024;
@@ -13,7 +14,6 @@ const LIMIT_ODESLANI = 30;
 const LIMIT_FIRMA = 20;
 const LIMIT_CHYB_KODU = 30;
 const MAX_SLEDOVANYCH = 10_000;
-const PAMET_ID = 24 * HODINA;
 
 const EMAIL =
   /^[^\s@<>()[\],;:"\\]{1,64}@[^\s@<>()[\],;:"\\]+\.[^\s@<>()[\],;:"\\]{2,}$/;
@@ -84,8 +84,13 @@ export function zkontrolovat(t) {
     });
   }
   return {
-    // Stejné označení pro jiné adresáty je jiné odeslání.
+    // Zachováno pro dosavadní volající; deník váže samotné ID na celý obsah zprávy.
     klic: createHash("sha256").update(JSON.stringify([id, komu])).digest("hex"),
+    id,
+    otisk: createHash("sha256").update(JSON.stringify([
+      komu, odpovedetNa || "", predmet.trim(), text,
+      prilozene.map(p => [p.filename, createHash("sha256").update(p.content).digest("hex")]),
+    ])).digest("hex"),
     velikost,
     zprava: {
       to: komu,
@@ -153,19 +158,8 @@ function cist(req) {
   });
 }
 
-/** Srozumitelná zpráva pro uživatele podle chyby SMTP. */
-function zpravaChyby(e) {
-  switch (e?.code) {
-    case "EAUTH":
-      return "Poštovní server služby odmítl přihlášení.";
-    case "ECONNECTION":
-    case "ETIMEDOUT":
-    case "ESOCKET":
-    case "ETLS":
-      return "Poštovní server služby není dostupný. Zkuste to později.";
-  }
-  return `Poštovní server zprávu nepřijal${e?.responseCode ? ` (kód ${e.responseCode})` : ""}. Zkuste to později.`;
-}
+/** Ani výpadek spojení nemusí znamenat, že SMTP zprávu nepřijalo. */
+const NEJISTE = "Výsledek odeslání není potvrzený. Další pokus je pozastavený proti zdvojení. Nejdříve ověřte doručení u účetní nebo správce služby.";
 
 /** Časy za poslední hodinu z mapy podle klíče (adresy klienta nebo firmy). */
 const zaHodinu = (mapa, k, nyni) =>
@@ -192,11 +186,11 @@ export function vytvoritObsluhu({
   odeslat,
   ted = Date.now,
   log = console.log,
+  denik = vytvoritPamatovyDenik(),
 }) {
   const odeslani = [];
   const chybyKodu = new Map();
   const odeslaniFirmy = new Map();
-  const zpracovana = new Map();
 
   const json = (res, kod, telo) => {
     res.writeHead(kod, {
@@ -283,20 +277,6 @@ export function vytvoritObsluhu({
         chyba: "Společná adresa služby není nastavená. Zkuste to později.",
       });
 
-    // Opakované odeslání téhož (dvě karty, nový pokus po výpadku spojení) se neodešle podruhé;
-    // stejné období jiné firmy pro stejnou účetní je jiné odeslání.
-    const klic = `${firma}:${z.klic}`;
-    for (const [id, t] of zpracovana)
-      if (nyni - t.cas > PAMET_ID) zpracovana.delete(id);
-    const predtim = zpracovana.get(klic);
-    if (predtim?.stav === "odeslano")
-      return json(res, 200, { ok: true, duplicitni: true });
-    if (predtim?.stav === "probiha")
-      return json(res, 409, {
-        ok: false,
-        chyba: "Stejné odeslání právě probíhá.",
-      });
-
     while (odeslani.length && nyni - odeslani[0] > HODINA) odeslani.shift();
     if (odeslani.length >= LIMIT_ODESLANI)
       return json(res, 429, {
@@ -304,11 +284,22 @@ export function vytvoritObsluhu({
         chyba: "Překročen limit odeslání za hodinu. Zkuste to později.",
       });
 
-    zpracovana.set(klic, { stav: "probiha", cas: nyni });
+    // Trvalý deník musí být zapsán PŘED SMTP. Nejasný výsledek se nikdy sám neuvolní.
+    let pokus;
+    try { pokus = denik.zahajit({ firma, id: z.id, otisk: z.otisk }); }
+    catch {
+      zaznam("chyba-deniku", { firma });
+      return json(res, 503, { ok: false, chyba: "Deník odesílání není dostupný. Zpráva nebyla odeslána." });
+    }
+    if (pokus.stav === "odeslano") return json(res, 200, { ok: true, duplicitni: true });
+    if (pokus.stav === "konflikt") return json(res, 409, { ok: false,
+      chyba: "Pod stejným označením už existuje odeslání s jinými podklady nebo příjemci." });
+    if (pokus.stav !== "nove") return json(res, 409, { ok: false,
+      chyba: pokus.stav === "probiha" ? `Stejné odeslání právě probíhá nebo čeká na ověření. ${NEJISTE}` : NEJISTE });
     odeslani.push(nyni);
     try {
       await odeslat(z.zprava);
-      zpracovana.set(klic, { stav: "odeslano", cas: nyni });
+      denik.dokoncit({ firma, id: z.id, token: pokus.token, stav: "odeslano" });
       zaznam("odeslano", {
         firma,
         priloh: z.zprava.attachments.length,
@@ -316,13 +307,14 @@ export function vytvoritObsluhu({
       });
       return json(res, 200, { ok: true });
     } catch (e) {
-      zpracovana.delete(klic);
+      try { denik.dokoncit({ firma, id: z.id, token: pokus.token, stav: "nejiste" }); }
+      catch { zaznam("chyba-deniku", { firma }); }
       zaznam("chyba-smtp", {
         firma,
         kod: e?.code ?? null,
         odpoved: e?.responseCode ?? null,
       });
-      return json(res, 502, { ok: false, chyba: zpravaChyby(e) });
+      return json(res, 502, { ok: false, nejiste: true, chyba: NEJISTE });
     }
   };
 }
