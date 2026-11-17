@@ -14,7 +14,8 @@ konci() {
 }
 trap konci TERM INT
 while true; do
-  su-exec nginx node /opt/odesilani/server.mjs &
+  # Coolify nastavuje PORT=80 pro veřejný nginx. Soukromé API má vlastní pevný port.
+  PORT=3000 su-exec nginx node /opt/odesilani/server.mjs &
   api_pid=$!
   wait "$api_pid" || true
   api_pid=
