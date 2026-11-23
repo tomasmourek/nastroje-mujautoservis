@@ -8,7 +8,11 @@ Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) ve sty
 - `sestavy/`: sestavená aplikace [ic-office-ucetni-sestavy](https://github.com/tomasmourek/ic-office-ucetni-sestavy) (`npm run build`, obsah `dist/`). Je verzovaná, protože se z ní staví obraz; po změně sestav ji nahraďte novým `dist/` a staré soubory v `sestavy/assets/` smažte.
 - `Dockerfile`, `deploy/nginx.conf`: obraz pro Coolify (nginx, port 80; HTTPS a doménu řeší Traefik).
 
-## Instalace doplňku
+## IC Office Tutoriál
+
+Na [stránce tutoriálu](tutorial/) je verze 2.58.0 pro Chrome, Edge, Brave, Operu, Firefox a Safari. Stránka nabízí návody podle prohlížeče a stahuje šest vydaných ZIPů přímo z `tutorial/ke-stazeni/`. Při aktualizaci převezměte nové balíčky z vydání Tutoriálu a upravte verzi i odkazy v `tutorial/index.html`.
+
+## Instalace doplňku pro účetní sestavy
 
 Panel načítání exportů nabízí postup pro Chrome, Edge a Firefox. Instalace z obchodu zatím není dostupná; vydavatelské účty a zveřejněné stránky doplňku dosud nejsou připravené. Skutečné odkazy se nastavují ve zdrojovém repozitáři v `src/lib/instalace-doplnku.json`, pak se znovu sestaví aplikace. Podklady k vydání a odděleným balíčkům jsou ve zdrojovém `CHROMEWEBSTORE.md`. [Ověření tohoto kandidáta](docs/nastroje-mujautoservis-instalace-doplnku-2026-11-13.md).
 

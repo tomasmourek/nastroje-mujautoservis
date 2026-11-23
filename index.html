@@ -38,9 +38,10 @@
         >
         <nav aria-label="Hlavní navigace">
           <a href="#funkce">Sestavy</a><a href="#exporty">Exporty</a
-          ><a href="#sluzby">Služby</a><a href="#soukromi">Soukromí</a>
+          ><a href="#sluzby">Nástroje</a><a href="#soukromi">Soukromí</a>
         </nav>
         <div class="web-akce">
+          <a class="prihlasit" href="tutorial/">Tutoriál IC Office</a>
           <div class="prepinac-motivu" id="prepinac-motivu">
             <span class="prepinac-popis" data-strana="vlevo" aria-hidden="true"
               >Tmavý</span
@@ -790,14 +791,14 @@
 
       <section class="sekce obal" id="sluzby">
         <div class="sekce-hlava">
-          <span class="nadtitul">Služby pro servis</span>
-          <h2>Další služby pro autoservisy.</h2>
-          <p>
-            Samostatné aplikace s vlastním účtem a vlastními informacemi o
-            zpracování dat.
-          </p>
+          <h2>Další nástroje pro autoservisy.</h2>
+          <p>Průvodce pro IC Office, archiv zakázek, rezervace a fakturace.</p>
         </div>
         <div class="dalsi-funkce">
+          <article>
+            <h3><a href="tutorial/">IC Office Tutoriál</a></h3>
+            <p>Průvodce příjmem zakázky, fakturací a dalšími postupy přímo v IC Office. Vyberte si svůj prohlížeč a stáhněte doplněk s návodem k instalaci.</p>
+          </article>
           <article>
             <h3>
               <a href="https://archiv.mujautoservis.eu/"
@@ -981,6 +982,7 @@
         </div>
         <div>
           <h2>Nástroje</h2>
+          <a href="tutorial/">IC Office Tutoriál</a>
           <a href="sestavy/#nacteni">Účetní sestavy</a
           ><a href="#exporty">Exporty z IC Office</a
           ><a href="#soukromi">Soukromí a úložiště</a>
@@ -1003,33 +1005,6 @@
         >
       </div>
     </footer>
-    <script>
-      /* Přepínač motivu jako v archiv.mujautoservis.eu: vlevo tmavý, vpravo světlý. Ukazuje motiv, který právě
-   platí; dokud si návštěvník nevybere, řídí se systémem a prvním přepnutím se volba uloží. */
-      var prepinac = document.getElementById("prepinac-motivu");
-      var poloha = prepinac.querySelector(".prepinac-poloha");
-      function vykresliPrepinac() {
-        var tmavy = atomysVzhled.stav().efektivniMotiv === "dark";
-        prepinac.dataset.motivPlatny = tmavy ? "tmavy" : "svetly";
-        poloha.setAttribute("aria-checked", String(tmavy));
-        poloha.title = tmavy
-          ? "Přepnout na světlý režim"
-          : "Přepnout na tmavý režim";
-      }
-      poloha.addEventListener("click", function () {
-        var tmavy = atomysVzhled.stav().efektivniMotiv === "dark";
-        atomysVzhled.nastavit({ motiv: tmavy ? "light" : "dark" });
-      });
-      // Šipky míří na polohu, ne na pořadí: vlevo je tmavý, vpravo světlý.
-      poloha.addEventListener("keydown", function (u) {
-        if (u.key !== "ArrowLeft" && u.key !== "ArrowRight") return;
-        u.preventDefault();
-        atomysVzhled.nastavit({
-          motiv: u.key === "ArrowLeft" ? "dark" : "light",
-        });
-      });
-      document.addEventListener("atomys:vzhled", vykresliPrepinac);
-      vykresliPrepinac();
-    </script>
+    <script src="web-motiv.js" defer></script>
   </body>
 </html>
