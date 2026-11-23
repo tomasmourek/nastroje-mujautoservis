@@ -1,0 +1,68 @@
+.tutorial {
+  padding-block: clamp(28px, 5vw, 76px) 32px;
+}
+.tutorial-rozvrh {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1fr);
+  grid-template-areas: "uvod instalace" "ukazka instalace";
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  column-gap: clamp(48px, 8vw, 132px);
+  row-gap: 36px;
+}
+.tutorial-uvod { grid-area: uvod; }
+.tutorial a:not(.btn) { text-underline-offset: .2em; }
+.zpet, .tutorial-paticka a { font-size: .9rem; color: var(--text-2); }
+.tutorial-uvod h1 {
+  margin: 24px 0 18px;
+  font-size: clamp(3.1rem, 6.7vw, 6rem);
+  line-height: .98;
+  letter-spacing: -.04em;
+}
+.tutorial-uvod p {
+  max-width: 37ch;
+  margin: 0;
+  color: var(--text-2);
+  font-size: clamp(1rem, 1.55vw, 1.22rem);
+  line-height: 1.55;
+}
+.tutorial-uvod .verze { margin-top: 16px; color: var(--znacka-text); font-size: .9rem; font-weight: 600; }
+.instalace { grid-area: instalace; }
+.instalace h2 { margin: 0; font-size: clamp(1.45rem, 2.7vw, 2rem); line-height: 1.2; letter-spacing: -.025em; }
+.instalace > p { margin: 10px 0; color: var(--text-2); line-height: 1.6; }
+.prohlizece { margin-top: 22px; border-top: 1px solid var(--linka); }
+.prohlizec { border-bottom: 1px solid var(--linka); }
+.prohlizec summary {
+  cursor: pointer; list-style: none; display: flex; align-items: center;
+  justify-content: space-between; gap: 15px; padding: 15px 7px 15px 0;
+}
+.prohlizec summary::-webkit-details-marker { display: none; }
+.prohlizec summary::after {
+  content: ""; width: 9px; height: 9px; flex: none; margin-right: 4px;
+  border: solid var(--znacka); border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.prohlizec[open] summary::after { transform: rotate(225deg); }
+.prohlizec summary:hover strong, .prohlizec[open] summary strong { color: var(--znacka-text); }
+.prohlizec summary strong, .prohlizec summary small { display: block; }
+.prohlizec summary strong { font-size: 1.1rem; }
+.prohlizec summary small { margin-top: 2px; color: var(--text-3); font-size: .84rem; }
+.postup { padding: 0 0 20px; line-height: 1.55; }
+.postup .btn { margin: 2px 0 7px; }
+.postup ol { padding-left: 1.45em; }
+.postup li { margin: 8px 0; }
+.postup p { color: var(--text-2); }
+.postup code { background: var(--plocha-2); padding: .08em .22em; overflow-wrap: anywhere; }
+.instalace .spusteni { margin-top: 36px; }
+.tutorial-ukazka { grid-area: ukazka; max-width: 390px; margin: 0; }
+.tutorial-ukazka figcaption { font-size: .85rem; margin-bottom: 9px; color: var(--text-3); }
+.karta-kroku { border: 1px solid var(--linka); border-top: 3px solid #d74034; border-radius: 12px; background: var(--plocha); padding: 20px 22px; }
+.karta-zahlavi { display: flex; justify-content: space-between; gap: 14px; color: var(--text-2); font-size: .85rem; }
+.karta-kroku h2 { margin: 16px 0 7px; font-size: 1.3rem; }
+.karta-kroku p { margin: 0; line-height: 1.55; }
+.tutorial-paticka { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--linka); }
+@media (max-width: 760px) {
+  .tutorial-rozvrh { grid-template-columns: minmax(0,1fr); grid-template-rows: auto; grid-template-areas: "uvod" "instalace" "ukazka"; gap: 32px; }
+  .tutorial-uvod h1 { margin: 18px 0 12px; }
+  .tutorial-uvod h1 br { display: none; }
+  .tutorial-ukazka { width: 100%; }
+}

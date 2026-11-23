@@ -24,11 +24,12 @@ RUN chmod +x /opt/odesilani.sh /opt/spustit.sh
 
 COPY deploy/nginx-server.conf /etc/nginx/nginx.conf
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
-COPY index.html favicon.svg web.css web-motion.js /usr/share/nginx/html/
+COPY index.html favicon.svg web.css web-motion.js web-motiv.js /usr/share/nginx/html/
 COPY fonts /usr/share/nginx/html/fonts
 COPY nahledy /usr/share/nginx/html/nahledy
 COPY atomys /usr/share/nginx/html/atomys
 COPY sestavy /usr/share/nginx/html/sestavy
+COPY tutorial /usr/share/nginx/html/tutorial
 
 EXPOSE 80
 ENTRYPOINT ["/opt/spustit.sh"]
