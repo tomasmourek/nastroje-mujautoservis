@@ -10,7 +10,7 @@ Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) ve sty
 
 ## IC Office Tutoriál
 
-Na [stránce tutoriálu](tutorial/) je verze 2.60.0 pro Chrome, Edge, Brave, Operu, Firefox a Safari. Stránka nabízí návody podle prohlížeče a stahuje šest vydaných ZIPů přímo z `tutorial/ke-stazeni/`. Při aktualizaci převezměte nové balíčky z vydání Tutoriálu a upravte verzi i odkazy v `tutorial/index.html`. Na stejné stránce jsou pokyny k první cvičné zakázce a [tisknutelný návod pro aktivaci EET od MOJE daně po pokladnu v IC Office](tutorial/aktivace-eet.html). Soubor `tutorial/soukromi.html` vychází z `PRIVACY.md` příslušného vydání.
+Na [stránce tutoriálu](tutorial/) je verze 2.61.0 pro Chrome, Edge, Brave, Operu, Firefox a Safari. Stránka nabízí návody podle prohlížeče a stahuje šest vydaných ZIPů přímo z `tutorial/ke-stazeni/`. Při aktualizaci převezměte nové balíčky z vydání Tutoriálu a upravte verzi i odkazy v `tutorial/index.html`. Na stejné stránce jsou pokyny k první cvičné zakázce a [tisknutelný návod pro aktivaci EET od MOJE daně po pokladnu v IC Office](tutorial/aktivace-eet.html). Po stažení certifikátu lze z doplňku otevřít nastavení EET a předvyplnit číslo provozovny a označení pokladny. Soubor `.p12` i heslo zadává uživatel přímo v IC Office. Soubor `tutorial/soukromi.html` vychází z `PRIVACY.md` příslušného vydání.
 
 ## Instalace doplňku pro účetní sestavy
 

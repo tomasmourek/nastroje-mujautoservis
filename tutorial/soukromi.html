@@ -67,7 +67,9 @@
 </ul>
 <p><strong>Osobní údaje tu nejsou.</strong> Od verze 2.54.0 se z tohoto klíče odstraňují i tehdy, když v něm zbyly po starší verzi doplňku.</p>
 <h3 id="postup-pri-aktivaci-eet">Postup při aktivaci EET</h3>
-<p>Do místního klíče <code>icop2:eet-krok</code> se po vašem potvrzení uloží pouze identifikátor kroku nebo označení dokončeného návodu. Tlačítkem <strong>Smazat postup</strong> v okně doplňku označení smažete. Panel při aktivaci EET zobrazuje text z doplňku. Údaje o firmě, přihlašovací údaje, soubor certifikátu i jeho heslo zadáváte sami přímo na příslušném webu. Panel nemá vlastní formulář pro jejich zadání a neodesílá síťové požadavky.</p>
+<p>Do místního klíče <code>icop2:eet-krok</code> se po vašem potvrzení uloží pouze identifikátor kroku nebo označení dokončeného návodu. Tlačítkem <strong>Smazat postup</strong> v okně doplňku označení smažete. Přihlašovací údaje zadáváte pouze na stránce zvolené přihlašovací služby.</p>
+<p>Ve verzi 2.61.0 můžete po stažení certifikátu použít <strong>Pokračovat do IC Office</strong>. Volitelně vyplníte číslo provozovny a označení pokladny. Pro předvyplnění jsou údaje dostupné jen v určené kartě IC Office, nejvýše 15 minut. Do té doby jsou v úložišti relace prohlížeče (<code>storage.session</code>), případně v paměti doplňku. Po potvrzení či zrušení předání nebo po zavření cílové karty je doplněk odstraní dříve. Nedostanou se do adresy stránky ani do synchronizovaného úložiště.</p>
+<p>V cílové kartě zkontrolujete servis a zvolíte <strong>Předvyplnit údaje</strong>. Doplněk doplní jen prázdná pole pro provozovnu a pokladnu. EIČ poplatníka zadáváte, soubor <code>.p12</code> vybíráte a heslo k němu vkládáte sami přímo v IC Office. Doplněk tyto údaje nepřebírá. Nastavení uložíte sami tlačítkem <strong>Uložit EET</strong>.</p>
 <h3 id="icop2kontakt-vas-kontakt-jen-v-tomto-pocitaci"><code>icop2:kontakt</code> — váš kontakt (jen v tomto počítači)</h3>
 <p>Ukládá se do <code>chrome.storage.local</code> a <strong>nesynchronizuje se</strong>. Obsahuje zákaznické číslo Inter Cars, jméno, telefon, e-mail a jméno vybraného obchodního specialisty IC Office — tedy údaje, které jste vyplnili pro případ, že budete chtít pomoc od hotline.</p>
 <p>Do verze 2.53.x byl kontakt součástí synchronizovaného stavu. Při prvním spuštění novější verze se automaticky přesune do místního úložiště a ze synchronizovaného se smaže.</p>
@@ -82,8 +84,7 @@
 <h2 id="prezentace-ukazkovy-rezim">Prezentace (ukázkový režim)</h2>
 <p><strong>Ukázka první zakázky</strong> ukazuje fiktivní příjem zákazníka, vozidlo a zakázku uvnitř doplňku. Průchod je dočasný, můžete jej zopakovat před zadáním zákaznického čísla. Ve vašem servisu při něm nevzniká zakázka, podpis ani zpráva.</p>
 <p>Od verze 2.19.0 umí průvodce <strong>předvést scénář sám</strong> — pomalu vypisuje ukázkové
-údaje a kliká za vás. Je to jediné místo, kde doplněk do IC Office <strong>zapisuje</strong>;
-ve všech ostatních režimech jen ukazuje, kam kliknout.</p>
+údaje a kliká za vás. V návodu k EET může doplněk na vaše přání také předvyplnit dva údaje o pokladně. Uložení nastavení EET potvrzujete sami.</p>
 <ul>
 <li>Spustí se <strong>jedině vaším potvrzením</strong> ve varovném okně, které předem říká,
 co vznikne. Sama od sebe se nespustí nikdy — běží jen v té kartě, kde jste ji
@@ -122,7 +123,8 @@ i v rozcestníku. Skrytí průvodce (<strong>×</strong>) ji ukončí taky.</li>
 <h2 id="opravneni">Oprávnění</h2>
 <ul>
 <li><code>activeTab</code> a <code>scripting</code> — na vaše kliknutí zobrazí krok v aktivní kartě na stránkách EET v IC Office, v portálu MOJE daně nebo v oficiální nápovědě EET. Při přihlášení přes banku či identitu zůstává k dispozici samostatná karta doplňku.</li>
-<li><code>storage</code> — uložení nastavení a postupu v místním profilu Chrome,</li>
+<li><code>alarms</code> — naplánuje odstranění dočasných údajů po 15 minutách i bez dalšího otevření doplňku,</li>
+<li><code>storage</code> — uložení nastavení a postupu v profilu prohlížeče a dočasné předání dvou volitelných údajů pro nastavení EET,</li>
 <li><code>https://ic-office.eu/*</code> — zobrazení interaktivní nápovědy na stránkách IC Office a doplnění telefonu a e-mailu z vašeho nastavení,</li>
 <li><code>https://api.web3forms.com/*</code> — odeslání potvrzené žádosti o pomoc, pokud je tato cesta zapnutá (viz níže).</li>
 </ul>

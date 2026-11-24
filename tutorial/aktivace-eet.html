@@ -142,6 +142,7 @@
               <h3>Uložte soubor .p12 a jeho heslo</h3>
               <p>Zvolte Zobrazit heslo a stáhnout certifikát. Uložte zobrazené heslo, například do správce hesel. V počítači ověřte, že máte stažený soubor s příponou .p12. Teprve pak zaškrtněte potvrzení o bezpečném uložení a klikněte na Dokončit.</p>
               <p><strong>Jak poznáte, že je krok hotový?</strong> Certifikát má v seznamu stav Platný. Víte, kde najdete soubor i heslo právě k němu. Heslo budete potřebovat v IC Office.</p>
+              <p><strong>Máte doplněk?</strong> Po stažení certifikátu v návodu použijte <strong>Pokračovat do IC Office</strong>. Pro cílovou kartu IC Office si můžete připravit číslo provozovny přidělené v DIS+ a vlastní označení pokladny. Oba údaje jsou volitelné. Pokud je chcete vyplnit až v IC Office, ponechte je zde prázdné.</p>
               <p class="eet-pomoc">Pokud okno se souborem nevidíte, otevřete v prohlížeči Stažené soubory. Na stránce certifikátu je i odkaz pro ruční stažení. Heslo se při převzetí zobrazuje jen jednou. Soubor ani heslo neposílejte podpoře.</p>
             </li>
           </ol>
@@ -151,26 +152,29 @@
           <ol class="eet-kroky" start="11">
             <li id="ic-office">
               <h3>Otevřete nastavení EET v IC Office</h3>
-              <p>Přejděte do svého servisu v IC Office. Vpravo nahoře otevřete Nastavení a vyberte EET 2.0. Pokud ještě není zapnuto, zaškrtněte Zapnout elektronickou evidenci tržeb (EET).</p>
+              <p>Používáte-li doplněk, přejděte do karty, kterou otevřela volba <strong>Pokračovat do IC Office</strong>. Při ručním nastavení otevřete vpravo nahoře <strong>Nastavení</strong> a vyberte <strong>EET 2.0</strong>. Po případném přihlášení nejdřív zkontrolujte název servisu. Pokud evidence ještě není zapnutá, sami zaškrtněte <strong>Zapnout elektronickou evidenci tržeb (EET)</strong>.</p>
+              <p>Do povinného pole <strong>EIČ poplatníka</strong> zadejte přímo v IC Office evidenční identifikační číslo podnikatele nebo firmy (nejvýše 14 znaků). Pokud si nejste jisti, které číslo vám náleží, ověřte ho u své účetní nebo Finanční správy.</p>
+              <p>Pokud jste si v doplňku připravili údaje o pokladně, klikněte ve správné kartě na <strong>Předvyplnit údaje</strong>. Doplněk vyplní jen prázdná pole pro provozovnu a pokladnu. Už vyplněné hodnoty zůstanou zachované. Pokud předání vypršelo, můžete údaje napsat ručně v kroku 13.</p>
               <p class="eet-cil"><a href="https://ic-office.eu/settings/eet" target="_blank" rel="noopener noreferrer">Otevřít nastavení EET v IC Office</a> <small>(nová karta)</small></p>
               <p><strong>Jak poznáte, že je krok hotový?</strong> Vidíte formulář s výběrem certifikátu a údaji pokladny.</p>
               <p class="eet-pomoc">Pokud položku nastavení nevidíte, obraťte se na správce svého servisu. U již nastavené pokladny nejprve porovnejte provozovnu a označení zařízení s dosavadním nastavením.</p>
             </li>
             <li id="vybrat-soubor">
               <h3>Vyberte certifikát a vložte jeho heslo</h3>
-              <p>V poli Certifikát (*.p12) klikněte na výběr souboru. Otevřete složku, kam jste certifikát stáhli, označte soubor .p12 a potvrďte výběr. Do pole Heslo k certifikátu zadejte heslo získané při jeho stažení.</p>
+              <p>Přímo v IC Office u pole <strong>Certifikát (ve formátu *.p12)</strong> klikněte na <strong>Vybrat certifikát</strong>. Otevřete složku, kam jste certifikát stáhli, označte soubor .p12 a potvrďte výběr. Do pole Heslo k certifikátu zadejte heslo získané při jeho stažení.</p>
               <p><strong>Jak poznáte, že je krok hotový?</strong> U pole vidíte jméno vybraného souboru. Heslo patří k tomuto konkrétnímu souboru.</p>
+              <p>IC Office podporuje ruční import certifikátu přes tento formulář. Přímé převzetí certifikátu z portálu MOJE daně jsme v dostupných podkladech neověřili.</p>
               <p class="eet-pomoc">Vybírejte přímo soubor .p12. Do pole pro heslo nepatří heslo ke vstupu do IC Office nebo k datové schránce. Oba údaje zadávejte výhradně do nastavení vašeho servisu.</p>
             </li>
             <li id="oznaceni-pokladny">
               <h3>Vyplňte tři údaje o pokladně</h3>
-              <p>Do pole Označení evidenční jednotky přepište číslo přidělené v DIS+. Do Označení pokladního zařízení zadejte vlastní označení této pokladny, například POKLADNA1. Do Počátečního pořadového čísla zadejte začátek vaší číselné řady.</p>
+              <p>Pokud jste použili předvyplnění, porovnejte zobrazené hodnoty s údaji své pokladny. Prázdná pole vyplňte ručně. Do pole Označení evidenční jednotky patří číslo přidělené v DIS+. Do Označení pokladního zařízení patří vlastní označení této pokladny o délce nejvýše 20 znaků, například POKLADNA1. Do Počátečního pořadového čísla zadejte začátek vaší číselné řady.</p>
               <p><strong>Jak poznáte, že je krok hotový?</strong> Číslo jednotky souhlasí s provozovnou v DIS+. Pokladna má vlastní označení a víte, od kterého čísla má evidovat.</p>
               <p class="eet-pomoc">U zcela nové řady může být první číslo 1. Při převodu nebo výměně pokladny ověřte se správcem dosavadní označení a návaznost číslování.</p>
             </li>
             <li id="ulozeni">
               <h3>Uložte nastavení</h3>
-              <p>Zkontrolujte firmu, provozovnu, označení pokladny a číselnou řadu. Pak v IC Office klikněte na Uložit EET. Přečtěte zprávu po uložení a zkontrolujte, že zůstala nastavena správná provozovna a pokladna.</p>
+              <p>Zkontrolujte firmu, EIČ, provozovnu, označení pokladny a číselnou řadu. Nakonec sami klikněte v IC Office na <strong>Uložit EET</strong>. Přečtěte zprávu po uložení a zkontrolujte, že zůstala nastavena správná provozovna a pokladna.</p>
               <p><strong>Jak poznáte, že je krok hotový?</strong> IC Office přijal nastavení bez ohlášené chyby. První skutečnou platbu ověříte až při běžném provozu.</p>
               <p class="eet-pomoc">Při chybě souboru nebo hesla znovu vyberte správný soubor a heslo z jeho vydání. Pokud chyba trvá, sdělte specialistovi IC Office text chyby bez hesla a bez přílohy s certifikátem.</p>
             </li>
@@ -198,7 +202,7 @@
             <li><a href="https://podpora.mojedane.gov.cz/cs/seznam-okruhu/elektronicka-evidence-trzeb-2-0/jak-zalozim-evidencni-jednotku-4764">Založení evidenční jednotky</a></li>
             <li><a href="https://podpora.mojedane.gov.cz/cs/seznam-okruhu/elektronicka-evidence-trzeb-2-0/jak-vygeneruji-pokladni-certifikat-4766">Vydání pokladního certifikátu</a></li>
             <li><a href="https://ic-office.eu/help/eet">Nápověda IC Office k EET</a></li>
-            <li><a href="https://eet.gov.cz/cs/zacinam-s-eet/evidence-trzeb-v-praxi">Jak poznat, že Finanční správa tržbu přijala</a></li>
+            <li><a href="https://eet.gov.cz/cs/zacinam-s-eet/evidence-trzeb-v-praxi">EIČ poplatníka a potvrzení přijetí tržby</a></li>
           </ul>
         </section>
       </article>
