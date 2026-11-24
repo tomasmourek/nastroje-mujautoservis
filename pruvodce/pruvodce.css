@@ -14,10 +14,15 @@
 .tutorial a:not(.btn) { text-underline-offset: .2em; }
 .zpet, .tutorial-paticka a { font-size: .9rem; color: var(--text-2); }
 .tutorial-uvod h1 {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .2em .33em;
   margin: 24px 0 18px;
-  font-size: clamp(3.1rem, 6.7vw, 6rem);
+  font-size: clamp(2.2rem, 4.3vw, 3.65rem);
   line-height: .98;
   letter-spacing: -.04em;
+}
+.tutorial-uvod .ic-office-logo {
+  display: block; box-sizing: content-box; width: clamp(100px, 12vw, 154px); height: auto;
+  padding: 6px 8px; border-radius: 4px; background: #fff;
 }
 .tutorial-uvod p {
   max-width: 37ch;
@@ -63,7 +68,6 @@
 @media (max-width: 760px) {
   .tutorial-rozvrh { grid-template-columns: minmax(0,1fr); grid-template-rows: auto; grid-template-areas: "uvod" "ukazka" "instalace"; gap: 32px; }
   .tutorial-uvod h1 { margin: 18px 0 12px; }
-  .tutorial-uvod h1 br { display: none; }
   .tutorial .stahnout-mobil { display: inline-flex; }
 }
 
