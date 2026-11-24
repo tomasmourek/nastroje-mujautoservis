@@ -13,6 +13,7 @@ const MAX_STAHOVANI = 2;
 const ZPRAVY = {
   FIRMA: "Firma nemá přístup ke katalogu.",
   PLAN: "Neplatné nastavení plánu.",
+  XML: "Zkontrolujte výběr skladů a názvy elementů XML.",
   NEPRIPOJENO: "Nejprve připojte IC Office.",
   OBSAZENO: "Stahování již probíhá. Zkuste to za chvíli znovu.",
   UCET: "Účet již patří jinému připojení. Nejprve odpojte současný účet.",
@@ -44,11 +45,14 @@ function overitSnimek(v) {
     || !Buffer.isBuffer(v.xlsx) || v.xlsx.length > 50 * 1024 * 1024
     || !Number.isSafeInteger(v.polozky) || v.polozky < 0 || !Number.isSafeInteger(v.sklady) || v.sklady < 0)
     throw new ChybaPlanovace("PRIPOJENI");
-  return { xml: Buffer.from(v.xml), xlsx: v.xlsx, polozky: v.polozky, sklady: v.sklady };
+  const nazvySkladu = v.nazvySkladu ?? [];
+  if (!Array.isArray(nazvySkladu) || !nazvySkladu.every(sklad => typeof sklad === "string" && sklad))
+    throw new ChybaPlanovace("PRIPOJENI");
+  return { xml: Buffer.from(v.xml), xlsx: v.xlsx, polozky: v.polozky, sklady: v.sklady, nazvySkladu: JSON.stringify(nazvySkladu) };
 }
 
 /** Node 24+, privátní cesta na trvalém svazku a 32bajtový provozní klíč. */
-export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTermin, stahnout, ted = () => Date.now() }) {
+export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTermin, stahnout, platneXml, ted = () => Date.now() }) {
   if (!Buffer.isBuffer(klic) || klic.length !== 32 || !(firmy instanceof Set)
     || [...firmy].some((f) => typeof f !== "string" || !/^[a-z0-9-]{1,40}$/.test(f))
     || typeof platnyPlan !== "function" || typeof pristiTermin !== "function" || typeof stahnout !== "function")
@@ -78,6 +82,14 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
     if (kontrola) {
       if (desifrovat(klic, "katalog-klic-v1", kontrola.hodnota) !== "katalog-v1") throw new Error();
     } else db.prepare("INSERT INTO metadata VALUES ('sifra', ?)").run(sifrovat(klic, "katalog-klic-v1", "katalog-v1"));
+    db.exec("BEGIN IMMEDIATE");
+    try {
+      const sloupce = new Set(db.prepare("PRAGMA table_info(firmy)").all().map(s => s.name));
+      if (!sloupce.has("nastaveni_xml")) db.exec("ALTER TABLE firmy ADD COLUMN nastaveni_xml TEXT");
+      if (!sloupce.has("nazvy_skladu")) db.exec("ALTER TABLE firmy ADD COLUMN nazvy_skladu TEXT");
+      if (!sloupce.has("xml_ceka")) db.exec("ALTER TABLE firmy ADD COLUMN xml_ceka INTEGER NOT NULL DEFAULT 0");
+      db.exec("COMMIT");
+    } catch (e) { db.exec("ROLLBACK"); throw e; }
     // Odebraný přístup smaže i uložená tajemství a poslední výsledky firmy.
     for (const { firma } of db.prepare("SELECT firma FROM firmy").all()) {
       if (!firmy.has(firma)) db.prepare("DELETE FROM firmy WHERE firma=?").run(firma);
@@ -126,7 +138,7 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
 
   // Promise.race omezuje čekání volajícího i při adaptéru ignorujícím AbortSignal.
   // Fencing token odmítne jakýkoli opožděný výsledek po vypršení lease/restartu.
-  function stazeni(firma, prihlaseni, token) {
+  function stazeni(firma, prihlaseni, token, nastaveni) {
     const controller = new AbortController();
     // Adaptér ignorující abort neblokuje odpověď ani shutdown. Jeho rezervace
     // zůstane do skutečného dokončení nebo do původní expirace lease.
@@ -138,7 +150,7 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
       timer = setTimeout(() => controller.abort(), TIMEOUT);
       timer.unref?.();
     });
-    const adapter = Promise.resolve().then(() => stahnout({ firma, prihlaseni, signal: controller.signal })).then(overitSnimek).finally(() => {
+    const adapter = Promise.resolve().then(() => stahnout({ firma, prihlaseni, nastaveni: nastaveni ? JSON.parse(nastaveni) : undefined, signal: controller.signal })).then(overitSnimek).finally(() => {
       dobihajici.delete(token);
       if (controller.signal.aborted && !konci) uvolnit(firma, token);
     });
@@ -159,6 +171,9 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
       pristiTermin: termin != null ? new Date(termin).toISOString() : null,
       posledniUspech: r?.uspech != null ? new Date(r.uspech).toISOString() : null,
       chyba: r?.chyba ?? null, polozky: r?.polozky ?? null, sklady: r?.sklady ?? null,
+      nastaveniXml: r?.nastaveni_xml ? JSON.parse(r.nastaveni_xml) : null,
+      nazvySkladu: r?.nazvy_skladu ? JSON.parse(r.nazvy_skladu) : [],
+      xmlCeka: !!r?.xml_ceka,
       bezi: !!r?.lease_token && r.lease_do > ted(),
     };
   }
@@ -189,15 +204,15 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
       return r;
     });
     try {
-      const s = await stazeni(firma, JSON.parse(text), token);
+      const s = await stazeni(firma, JSON.parse(text), token, pred.nastaveni_xml);
       firmaPovolena(firma);
       transakce(() => {
         const r = radek(firma);
-        if (!r || r.rev !== pred.rev || r.lease_token !== token) throw new ChybaPlanovace("OBSAZENO");
+        if (!r || r.rev !== pred.rev || r.lease_token !== token || r.nastaveni_xml !== pred.nastaveni_xml) throw new ChybaPlanovace("OBSAZENO");
         overitUcet(r);
-        db.prepare(`UPDATE firmy SET rev=?,ucet=?,prihlaseni=?,xml=?,xlsx=?,polozky=?,sklady=?,uspech=?,chyba=NULL,
+        db.prepare(`UPDATE firmy SET rev=?,ucet=?,prihlaseni=?,xml=?,xlsx=?,polozky=?,sklady=?,nazvy_skladu=?,xml_ceka=0,uspech=?,chyba=NULL,
           dalsi=?,lease_token=NULL,lease_do=NULL WHERE firma=?`).run(randomUUID(), ucet, sifrovat(klic, firma, text), s.xml, s.xlsx,
-            s.polozky, s.sklady, ted(), r.plan ? dalsi(JSON.parse(r.plan)) : null, firma);
+            s.polozky, s.sklady, s.nazvySkladu, ted(), r.plan ? dalsi(JSON.parse(r.plan)) : null, firma);
       });
       return stav(firma);
     } catch (e) {
@@ -220,12 +235,25 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
     });
   }
 
+  function nastavitXml(firma, nastaveni) {
+    firmaPovolena(firma);
+    if (!platneXml?.(nastaveni)) throw new ChybaPlanovace("XML");
+    return transakce(() => {
+      const r = radek(firma);
+      if (!r?.prihlaseni) throw new ChybaPlanovace("NEPRIPOJENO");
+      if (r.lease_token && r.lease_do > ted()) throw new ChybaPlanovace("OBSAZENO");
+      const nove = JSON.stringify(nastaveni);
+      if (nove !== r.nastaveni_xml) db.prepare("UPDATE firmy SET nastaveni_xml=?,xml_ceka=1 WHERE firma=?").run(nove, firma);
+      return stav(firma);
+    });
+  }
+
   function odpojit(firma) {
     firmaPovolena(firma);
     transakce(() => {
       // Řádek se zámkem zůstává do ukončení případného již běžícího požadavku.
       db.prepare(`UPDATE firmy SET rev=?,ucet=NULL,prihlaseni=NULL,plan=NULL,dalsi=NULL,uspech=NULL,chyba=NULL,
-        xml=NULL,xlsx=NULL,polozky=NULL,sklady=NULL WHERE firma=?`).run(randomUUID(), firma);
+        xml=NULL,xlsx=NULL,polozky=NULL,sklady=NULL,nastaveni_xml=NULL,nazvy_skladu=NULL,xml_ceka=0 WHERE firma=?`).run(randomUUID(), firma);
       db.prepare("DELETE FROM behy WHERE firma=?").run(firma);
     });
     for (const beh of aktivni.values()) if (beh.firma === firma) beh.controller.abort();
@@ -236,6 +264,7 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
     firmaPovolena(firma);
     if (!["xml", "xlsx"].includes(typ)) throw new ChybaPlanovace("PLAN");
     const r = radek(firma);
+    if (typ === "xml" && r?.xml_ceka) return null;
     return r?.[typ] == null ? null : Buffer.from(r[typ]);
   }
 
@@ -324,19 +353,19 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
       const beh = vyzvednout(firma);
       if (!beh) continue;
       let snimek;
-      try { snimek = await stazeni(firma, JSON.parse(desifrovat(klic, firma, beh.prihlaseni)), beh.token); }
+      try { snimek = await stazeni(firma, JSON.parse(desifrovat(klic, firma, beh.prihlaseni)), beh.token, beh.nastaveni_xml); }
       catch { /* Do DB patří jen bezpečné sdělení, nikdy chyba adaptéru. */ }
       if (konci) return; // Lease obnoví další proces; výsledek vypínaného procesu nepublikujeme.
       transakce(() => {
         const r = radek(firma);
-        if (!r || r.rev !== beh.rev || r.lease_token !== beh.token || r.dalsi !== beh.dalsi) {
+        if (!r || r.rev !== beh.rev || r.lease_token !== beh.token || r.dalsi !== beh.dalsi || r.nastaveni_xml !== beh.nastaveni_xml) {
           db.prepare("UPDATE behy SET stav='cancelled' WHERE firma=? AND termin=? AND token=?").run(firma, beh.dalsi, beh.token);
           uvolnit(firma, beh.token);
           return;
         }
         if (snimek) {
-          db.prepare(`UPDATE firmy SET xml=?,xlsx=?,polozky=?,sklady=?,uspech=?,chyba=NULL,dalsi=?,lease_token=NULL,lease_do=NULL WHERE firma=?`)
-            .run(snimek.xml, snimek.xlsx, snimek.polozky, snimek.sklady, ted(), dalsi(JSON.parse(r.plan)), firma);
+          db.prepare(`UPDATE firmy SET xml=?,xlsx=?,polozky=?,sklady=?,nazvy_skladu=?,xml_ceka=0,uspech=?,chyba=NULL,dalsi=?,lease_token=NULL,lease_do=NULL WHERE firma=?`)
+            .run(snimek.xml, snimek.xlsx, snimek.polozky, snimek.sklady, snimek.nazvySkladu, ted(), dalsi(JSON.parse(r.plan)), firma);
           db.prepare("UPDATE behy SET stav='ok',opakovat=NULL WHERE firma=? AND termin=?").run(firma, beh.dalsi);
         } else {
           const opakovat = beh.pokusy < MAX_POKUSU;
@@ -363,6 +392,6 @@ export async function otevritPlanovac({ cesta, klic, firmy, platnyPlan, pristiTe
   const bezpecnaChyba = (e) => new ChybaPlanovace(e instanceof ChybaPlanovace && (Object.hasOwn(ZPRAVY, e.kod) || zpravaChybyKatalogu(e.kod)) ? e.kod : "ULOZISTE", e instanceof ChybaPlanovace ? e.krok : null);
   const sync = (fn) => (...args) => { try { return fn(...args); } catch (e) { throw bezpecnaChyba(e); } };
   const async = (fn) => async (...args) => { try { return await fn(...args); } catch (e) { throw bezpecnaChyba(e); } };
-  return { povolitFirmu: sync(povolitFirmu), stav: sync(stav), pripojit: async(pripojit), nastavitPlan: sync(nastavitPlan),
+  return { povolitFirmu: sync(povolitFirmu), stav: sync(stav), pripojit: async(pripojit), nastavitPlan: sync(nastavitPlan), nastavitXml: sync(nastavitXml),
     odpojit: sync(odpojit), vysledek: sync(vysledek), sPripojenim, tick: async(tick), zavrit: async(zavrit) };
 }

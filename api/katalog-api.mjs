@@ -6,13 +6,13 @@ function json(res, status, data) {
   res.end(JSON.stringify(data));
 }
 
-async function teloJson(req) {
+async function teloJson(req, limit = 8192) {
   if (!/^application\/json(?:\s*;|$)/i.test(req.headers["content-type"] ?? "")) throw new Error("TELO");
   let velikost = 0;
   const casti = [];
   for await (const cast of req) {
     velikost += cast.length;
-    if (velikost > 8192) throw new Error("TELO");
+    if (velikost > limit) throw new Error("TELO");
     casti.push(cast);
   }
   const data = JSON.parse(Buffer.concat(casti).toString("utf8"));
@@ -66,10 +66,11 @@ export function vytvoritKatalogApi({ kody, planovac, firmaRelace, priOdpojeni, o
       });
       res.end(vysledek); return true;
     }
-    if (!["/sestavy/api/katalog/pripojit", "/sestavy/api/katalog/plan", "/sestavy/api/katalog/odpojit"].includes(cesta)) return chyba(404, "Nenalezeno.");
+    const nastavujeXml = cesta === "/sestavy/api/katalog/nastaveni-xml";
+    if (!nastavujeXml && !["/sestavy/api/katalog/pripojit", "/sestavy/api/katalog/plan", "/sestavy/api/katalog/odpojit"].includes(cesta)) return chyba(404, "Nenalezeno.");
     if (req.method !== "POST") return chyba(405, "Nepovolená metoda.");
     let data;
-    try { data = await teloJson(req); } catch { return chyba(400, "Neplatný nebo příliš velký požadavek."); }
+    try { data = await teloJson(req, nastavujeXml ? 65_536 : undefined); } catch { return chyba(400, "Neplatný nebo příliš velký požadavek."); }
     try {
       if (cesta.endsWith("/pripojit")) {
         const email = typeof data.email === "string" ? data.email.trim().toLowerCase() : "";
@@ -83,6 +84,9 @@ export function vytvoritKatalogApi({ kody, planovac, firmaRelace, priOdpojeni, o
         // ponechat aktivní automat nad právě odpojenými přihlašovacími údaji.
         await priOdpojeni?.(firma);
         planovac.odpojit(firma);
+      } else if (nastavujeXml) {
+        if (Object.keys(data).length !== 1 || !Object.hasOwn(data, "nastaveni")) return chyba(400, "Neplatný požadavek.");
+        planovac.nastavitXml(firma, data.nastaveni);
       } else {
         if (Object.keys(data).length !== 1 || !("plan" in data)) return chyba(400, "Neplatný požadavek.");
         planovac.nastavitPlan(firma, data.plan);
@@ -92,6 +96,8 @@ export function vytvoritKatalogApi({ kody, planovac, firmaRelace, priOdpojeni, o
       const kodChyby = e?.kod;
       if (kodChyby === "OBSAZENO") return chyba(409, "Katalog se právě načítá. Počkejte na dokončení.");
       if (kodChyby === "UCET") return chyba(409, "Účet nelze připojit k této firmě. Pro změnu účtu nejprve odpojte současné připojení; účet nesmí být připojený u jiné firmy.");
+      if (kodChyby === "XML") return chyba(400, "Zkontrolujte výběr skladů a názvy elementů XML.");
+      if (kodChyby === "NEPRIPOJENO" && nastavujeXml) return chyba(400, "Nejprve připojte IC Office.");
       if (["PLAN", "NEPRIPOJENO"].includes(kodChyby)) return chyba(400, "Zkontrolujte plán a připojení k IC Office.");
       const zprava = zpravaChybyKatalogu(kodChyby);
       if (zprava) {

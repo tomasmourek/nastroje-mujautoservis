@@ -1,7 +1,58 @@
 import { h as e, l as t } from "./zaklad-BALOwaPP.js";
 import * as n from "xlsx";
 // src/lib/google-sklady.ts
-function r(r) {
+var r = {
+	kod: "Kód zboží",
+	nazev: "Název",
+	popis: "Popis",
+	ean: "EAN",
+	vyrobniCislo: "Výrobní číslo",
+	sklad: "Sklad",
+	misto: "Místo ve skladu",
+	jednotka: "Jednotka",
+	mnozstvi: "Množství"
+}, i = Object.keys(r), a = {
+	sklady: null,
+	jenSkladem: !1,
+	format: null
+}, o = {
+	koren: "katalog",
+	polozka: "polozka",
+	pole: {
+		kod: "kod",
+		nazev: "nazev",
+		popis: "popis",
+		ean: "ean",
+		vyrobniCislo: "vyrobni_cislo",
+		sklad: "sklad",
+		misto: "misto",
+		jednotka: "jednotka",
+		mnozstvi: "mnozstvi"
+	}
+};
+function s(e) {
+	return typeof e == "object" && !!e && !Array.isArray(e);
+}
+function c(e) {
+	return typeof e == "string" && /^(?!xml)[A-Z_][\w.-]{0,63}$/i.test(e);
+}
+function l(e) {
+	if (!s(e) || Object.keys(e).length !== 3 || typeof e.jenSkladem != "boolean") return !1;
+	let { sklady: t, format: n } = e;
+	if (t !== null && (!Array.isArray(t) || t.length < 1 || t.length > 50 || new Set(t).size !== t.length || !t.every((e) => typeof e == "string" && e.length <= 200 && e.trim() && e === e.trim()))) return !1;
+	if (n === null) return !0;
+	if (!s(n) || Object.keys(n).length !== 3 || !c(n.koren) || !c(n.polozka) || !s(n.pole)) return !1;
+	let i = Object.entries(n.pole);
+	return i.length > 0 && i.every(([e, t]) => Object.hasOwn(r, e) && c(t)) && new Set(i.map(([, e]) => e)).size === i.length;
+}
+function u(e) {
+	return [...new Set(e.map((e) => e.sklad))].sort((e, t) => e.localeCompare(t, "cs"));
+}
+function d(e, t) {
+	let n = t.sklady === null ? null : new Set(t.sklady);
+	return e.filter((e) => (!n || n.has(e.sklad)) && (!t.jenSkladem || e.mnozstvi > 0));
+}
+function f(r) {
 	let i = n.read(r, { type: "array" }), a = n.utils.sheet_to_json(i.Sheets[i.SheetNames[0]], {
 		header: 1,
 		defval: ""
@@ -32,13 +83,16 @@ function r(r) {
 		};
 	});
 }
-function i(e) {
+function p(e) {
 	let t = /* @__PURE__ */ new Map();
 	for (let n of e) {
-		let e = n.kod;
-		t.set(e, [...t.get(e) ?? [], n]);
+		let e = t.get(n.kod);
+		e ? e.push(n) : t.set(n.kod, [n]);
 	}
-	return [...t].sort(([e], [t]) => e.localeCompare(t)).map(([e, t]) => {
+	return t;
+}
+function m(e) {
+	return [...p(e)].sort(([e], [t]) => e.localeCompare(t)).map(([e, t]) => {
 		let n = t[0], r = ["Chybí produktový odkaz, obrázek a ověřená prodejní cena z e-shopu."];
 		(!e || e.length > 50) && r.push("Chybí jednoznačný kód do 50 znaků."), t.some((e) => !e.nazev) && r.push("Chybí název produktu."), n.popis || r.push("Chybí popis produktu."), t.some((e) => e.nazev !== n.nazev || e.ean !== n.ean || e.jednotka !== n.jednotka || e.vyrobniCislo !== n.vyrobniCislo) && r.push("Kód označuje různé produkty; před napojením je nutné jej rozlišit.");
 		let i = t.reduce((e, t) => e + t.mnozstvi, 0);
@@ -54,22 +108,36 @@ function i(e) {
 		};
 	});
 }
-var a = (e) => e.replace(/[^\u0009\u000a\u000d\u0020-\ud7ff\ue000-\ufffd\u{10000}-\u{10ffff}]/gu, "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
-function o(e) {
+var h = (e) => e.replace(/[^\u0009\u000a\u000d\u0020-\ud7ff\ue000-\ufffd\u{10000}-\u{10ffff}]/gu, "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+function g(e, t = !1) {
+	let n = p(e);
 	return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0" xmlns:ic="https://nastroje.mujautoservis.eu/sklady/1.0"><channel>
-<title>IC Office – pracovní katalog všech skladů</title>
+<title>IC Office – pracovní katalog ${t ? "vybraných skladů" : "všech skladů"}</title>
 <description>NEÚPLNÉ: určeno k přípravě napojení e-shopu, nepředávat do Merchant Center.</description>
-${i(e).map((t) => `<item><g:id>${a(t.id)}</g:id><g:title>${a(t.nazev)}</g:title><g:description>${a(t.popis)}</g:description><ic:quantity>${t.mnozstvi}</ic:quantity><ic:issues>${a(t.chyby.join(" "))}</ic:issues>${e.filter((e) => e.kod === t.id).map((e) => `<ic:stock><ic:code>${a(e.kod)}</ic:code><ic:title>${a(e.nazev)}</ic:title><ic:description>${a(e.popis)}</ic:description><ic:warehouse>${a(e.sklad)}</ic:warehouse><ic:location>${a(e.misto)}</ic:location><ic:quantity>${e.mnozstvi}</ic:quantity><ic:unit>${a(e.jednotka)}</ic:unit><ic:ean>${a(e.ean)}</ic:ean><ic:manufacturer_code>${a(e.vyrobniCislo)}</ic:manufacturer_code></ic:stock>`).join("")}</item>`).join("\n")}
+${m(e).map((e) => `<item><g:id>${h(e.id)}</g:id><g:title>${h(e.nazev)}</g:title><g:description>${h(e.popis)}</g:description><ic:quantity>${e.mnozstvi}</ic:quantity><ic:issues>${h(e.chyby.join(" "))}</ic:issues>${n.get(e.id)?.map((e) => `<ic:stock><ic:code>${h(e.kod)}</ic:code><ic:title>${h(e.nazev)}</ic:title><ic:description>${h(e.popis)}</ic:description><ic:warehouse>${h(e.sklad)}</ic:warehouse><ic:location>${h(e.misto)}</ic:location><ic:quantity>${e.mnozstvi}</ic:quantity><ic:unit>${h(e.jednotka)}</ic:unit><ic:ean>${h(e.ean)}</ic:ean><ic:manufacturer_code>${h(e.vyrobniCislo)}</ic:manufacturer_code></ic:stock>`).join("") ?? ""}</item>`).join("\n")}
 </channel></rss>`;
 }
-var s = {
+function _(e, t = a) {
+	if (!l(t)) throw Error("Zkontrolujte nastavení XML.");
+	let n = d(e, t);
+	if (!t.format) return g(n, t.sklady !== null);
+	let { koren: r, polozka: o, pole: s } = t.format;
+	return `<?xml version="1.0" encoding="UTF-8"?>\n<${r}>\n${n.map((e) => {
+		let t = i.flatMap((t) => {
+			let n = s[t];
+			return n ? [`<${n}>${h(String(e[t]))}</${n}>`] : [];
+		});
+		return `  <${o}>${t.join("")}</${o}>`;
+	}).join("\n")}\n</${r}>`;
+}
+var v = {
 	cetnost: "denne",
 	cas: "06:00",
 	denTydne: 1,
 	denMesice: 1,
 	zona: "Europe/Prague"
-}, c = "ic-office-google-sklady-plan-v1";
-function l(e) {
+}, y = "ic-office-google-sklady-plan-v1";
+function b(e) {
 	if (!e || typeof e != "object") return !1;
 	let t = e;
 	return [
@@ -78,8 +146,8 @@ function l(e) {
 		"mesicne"
 	].includes(t.cetnost) && /^([01]\d|2[0-3]):[0-5]\d$/.test(t.cas) && Number.isInteger(t.denTydne) && t.denTydne >= 1 && t.denTydne <= 7 && Number.isInteger(t.denMesice) && t.denMesice >= 1 && t.denMesice <= 31 && t.zona === "Europe/Prague";
 }
-function u(e, t = /* @__PURE__ */ new Date()) {
-	if (!l(e) || !Number.isFinite(t.getTime())) throw Error("Neplatné nastavení běhu.");
+function x(e, t = /* @__PURE__ */ new Date()) {
+	if (!b(e) || !Number.isFinite(t.getTime())) throw Error("Neplatné nastavení běhu.");
 	let n = new Intl.DateTimeFormat("sv-SE", {
 		timeZone: e.zona,
 		year: "numeric",
@@ -97,4 +165,4 @@ function u(e, t = /* @__PURE__ */ new Date()) {
 	}
 	throw Error("Termín se nepodařilo vypočítat.");
 }
-export { c as KLIC_PLANU_SKLADU, s as VYCHOZI_PLAN_SKLADU, l as platnyPlanSkladu, o as pracovniGoogleXml, r as precistKatalog, u as pristiTerminSkladu, i as produktyGoogle };
+export { y as KLIC_PLANU_SKLADU, i as KOD_POLE_XML, r as POLE_SKLADOVEHO_XML, v as VYCHOZI_PLAN_SKLADU, a as VYCHOZI_SKLADOVE_XML, o as VYCHOZI_VLASTNI_XML, u as nazvySkladu, l as platneNastaveniSkladovehoXml, b as platnyPlanSkladu, g as pracovniGoogleXml, f as precistKatalog, x as pristiTerminSkladu, m as produktyGoogle, _ as skladoveXml, d as vybratSkladovePolozky };
