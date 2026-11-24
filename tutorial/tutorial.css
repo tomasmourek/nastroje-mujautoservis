@@ -66,3 +66,8 @@
   .tutorial-uvod h1 br { display: none; }
   .tutorial-ukazka { width: 100%; }
 }
+
+.tutorial-soukromi { max-width: 72ch; line-height: 1.65; overflow-wrap: anywhere; }
+.tutorial-soukromi h1 { margin: 24px 0 12px; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; }
+.tutorial-soukromi h2 { margin-top: 1.8em; line-height: 1.25; }
+.tutorial-soukromi p, .tutorial-soukromi ul { margin-block: .8em; }

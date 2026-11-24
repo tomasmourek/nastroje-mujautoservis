@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="cs" data-vzhled-pevny>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Jak IC Office Tutoriál pracuje s kontaktem, cvičnou zakázkou a živou prezentací.">
+    <title>Ochrana soukromí doplňku | IC Office Tutoriál</title>
+    <script src="../atomys/vzhled.js"></script>
+    <link rel="stylesheet" href="../web.css?v=20261103">
+    <link rel="stylesheet" href="tutorial.css">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <script src="../web-motiv.js" defer></script>
+  </head>
+  <body>
+    <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
+    <header class="web-lista">
+      <div class="obal">
+        <a class="logo" href="../"
+          ><svg viewBox="0 0 32 32" aria-hidden="true" fill="none">
+            <rect width="32" height="32" rx="9" fill="currentColor" />
+            <g
+              stroke="var(--na-znacce)"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            >
+              <path d="M8 9h16v14H8zM8 13.5h16M8 18h16M13 13.5V23" />
+            </g></svg
+          ><span>nastroje<small>.mujautoservis.eu</small></span></a
+        >
+        <div class="web-akce">
+          <div class="prepinac-motivu" id="prepinac-motivu">
+            <span class="prepinac-popis" data-strana="vlevo" aria-hidden="true"
+              >Tmavý</span
+            ><span class="prepinac-drazka"
+              ><button
+                type="button"
+                role="switch"
+                class="prepinac-poloha"
+                aria-checked="false"
+              >
+                <span class="sr-only">Tmavý režim</span></button
+              ><span class="prepinac-jezdec" aria-hidden="true"></span></span
+            ><span
+              class="prepinac-popis"
+              data-strana="vpravo"
+              aria-hidden="true"
+              >Světlý</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="obal tutorial" id="obsah">
+      <a class="zpet" href="./">← Zpět na IC Office Tutoriál</a>
+      <article class="tutorial-soukromi">
+<h1 id="ochrana-soukromi-ic-office-tutorial-2">Ochrana soukromí — IC Office Tutoriál 2</h1>
+<p>Aktualizováno 24. listopadu 2026</p>
+<h2 id="jaka-data-doplnek-uklada">Jaká data doplněk ukládá</h2>
+<p>Doplněk ukládá nastavení a postup do úložiště prohlížeče. Kontakt pro podporu zůstává na tomto zařízení. Cvičná ukázka používá jen paměť otevřeného okna.</p>
+<h3 id="icop2state-nastaveni-a-postup-synchronizovane"><code>icop2:state</code> — nastavení a postup (synchronizované)</h3>
+<p>Ukládá se do <code>chrome.storage.sync</code>, takže <strong>se přenáší mezi počítači</strong>, kde jste přihlášení stejným účtem Chrome. Místní kopie postupu zachovává poslední krok i při dočasném omezení synchronizace. Díky tomu můžete pokračovat tam, kde jste skončili, i na jiném stroji. Obsahuje:</p>
+<ul>
+<li>zapnutí nebo vypnutí průvodce,</li>
+<li>aktivní scénář a poslední potvrzený krok,</li>
+<li>dokončené scénáře a výsledky cvičení (čas a počet nápověd),</li>
+<li>polohu plovoucího tlačítka a nastavení prezentace.</li>
+</ul>
+<p><strong>Osobní údaje tu nejsou.</strong> Od verze 2.54.0 se z tohoto klíče odstraňují i tehdy, když v něm zbyly po starší verzi doplňku.</p>
+<h3 id="icop2kontakt-vas-kontakt-jen-v-tomto-pocitaci"><code>icop2:kontakt</code> — váš kontakt (jen v tomto počítači)</h3>
+<p>Ukládá se do <code>chrome.storage.local</code> a <strong>nesynchronizuje se</strong>. Obsahuje zákaznické číslo Inter Cars, jméno, telefon, e-mail a jméno vybraného obchodního specialisty IC Office — tedy údaje, které jste vyplnili pro případ, že budete chtít pomoc od hotline.</p>
+<p>Do verze 2.53.x byl kontakt součástí synchronizovaného stavu. Při prvním spuštění novější verze se automaticky přesune do místního úložiště a ze synchronizovaného se smaže.</p>
+<h3 id="icop2health-kontrola-prvku-jen-v-tomto-pocitaci"><code>icop2:health</code> — kontrola prvků (jen v tomto počítači)</h3>
+<p>Od verze 2.4.0 klíč s výsledky <strong>kontroly prvků</strong>. Ukládá se do <code>chrome.storage.local</code> — je to diagnostika jednoho počítače. Obsahuje pouze to, na který krok průvodce míří a zda svůj cíl na stránce našel:</p>
+<ul>
+<li>název scénáře a kroku (texty z doplňku, ne ze stránky),</li>
+<li>adresa stránky bez parametrů dotazu — tedy např. <code>/record/add-contract</code>,</li>
+<li>počet neúspěšných pokusů a čas posledního.</li>
+</ul>
+<p>Obsah formulářů IC Office, údaje zákazníků, VIN, SPZ ani fakturační údaje doplněk neukládá. Při zobrazeném kroku pouze ověřuje, zda jsou označená pole vyplněná, aby mohl odemknout pokračování. Kontrola prvků nečte hodnoty polí — jen zjišťuje, jestli prvek na stránce existuje.</p>
+<h2 id="prezentace-ukazkovy-rezim">Prezentace (ukázkový režim)</h2>
+<p><strong>Ukázka první zakázky</strong> ukazuje fiktivní příjem zákazníka, vozidlo a zakázku uvnitř doplňku. Průchod je dočasný, můžete jej zopakovat před zadáním zákaznického čísla. Ve vašem servisu při něm nevzniká zakázka, podpis ani zpráva.</p>
+<p>Od verze 2.19.0 umí průvodce <strong>předvést scénář sám</strong> — pomalu vypisuje ukázkové
+údaje a kliká za vás. Je to jediné místo, kde doplněk do IC Office <strong>zapisuje</strong>;
+ve všech ostatních režimech jen ukazuje, kam kliknout.</p>
+<ul>
+<li>Spustí se <strong>jedině vaším potvrzením</strong> ve varovném okně, které předem říká,
+co vznikne. Sama od sebe se nespustí nikdy — běží jen v té kartě, kde jste ji
+potvrdili, a do jiných karet ani na jiný počítač se nepřenáší.</li>
+<li>Běží <strong>ve vaší přihlášené relaci na ic-office.eu</strong>, takže vytvořené záznamy
+jsou vaše a zůstávají ve vašem účtu. Nikam se neodesílají.</li>
+<li>Vyplňuje <strong>ukázková data</strong> ze souboru <code>src/content/tours.js</code>
+(klient „Klient (UKÁZKA)&quot;). Co si vyplníte sami, prezentace nepřepisuje.</li>
+<li>Ukázkového klienta, sklad nebo zakázku poznáte podle označení <strong>UKÁZKA</strong>. Vozidlo se ukládá pod VIN a SPZ.</li>
+<li>Zakázkový list <strong>podepíše křížkem</strong>. Fakturu <strong>nevystaví</strong> — okno fakturace
+jen ukáže.</li>
+<li>Ve výchozím nastavení zůstanou telefon a e-mail ukázkového klienta prázdné. Chcete-li předvést SMS, zadejte a potvrďte vlastní telefon pro tento průchod. Doplněk jej po dobu běhu uchová v dočasné paměti rozšíření pro danou kartu. Po vložení do formuláře a uložení ukázkového klienta se číslo stane součástí jeho záznamu v IC Office. Pokud má servis zapnutá oznámení, může na něj IC Office poslat skutečnou SMS.</li>
+<li>Před automatickým uložením klienta doplněk ověří obsah polí pro telefon a e-mail. Pokud v nich najde jiný kontakt, ponechá uložení na vás. Hodnoty takto doplněných kontaktů si průvodce neukládá. Po otevření detailu potvrzujete správného klienta a později také otevřenou zakázku. Prohlížeč si během prezentace pamatuje aktuální krok, cestu ke klientovi a otisk adresy ověřeného formuláře zakázky. Při přepnutí na jiný záznam automat přestane.</li>
+<li>Volitelné <strong>předčítání kroku nahlas</strong> používá hlas zabudovaný v prohlížeči.
+Text se nikam neodesílá a funguje i bez internetu.</li>
+<li>Kdykoli ji zastavíte tlačítkem <strong>⏹ Konec</strong> — v kartě průvodce, v jeho nabídce
+i v rozcestníku. Skrytí průvodce (<strong>×</strong>) ji ukončí taky.</li>
+</ul>
+<h2 id="pomoc-od-hotline">Pomoc od hotline</h2>
+<p>Panel <strong>🆘 Pomoc</strong> zobrazuje kód kroku a kontakty a umí připravit text pro hotlinku (kód kroku, název scénáře a kroku, adresa stránky bez parametrů dotazu, verze doplňku, řetězec prohlížeče). Tento text se buď zkopíruje do schránky, nebo předvyplní do vašeho poštovního klienta.</p>
+<p>Součástí je i <strong>kontakt na vás</strong>. Před vstupem do běžných scénářů se průvodce zeptá na <strong>zákaznické číslo Inter Cars</strong> a na volbu <strong>obchodního specialisty</strong> (ze seznamu v obsahu doplňku; volba „Zatím nevím&quot; je v pořádku). Obojí zůstává jen ve vašem prohlížeči.</p>
+<p><strong>Jméno firmy, telefon a e-mail si průvodce doplní sám</strong> z vašeho nastavení v IC Office (Nastavení → Firma). Načte je vaší přihlášenou relací ze stejného webu, na kterém běží; <strong>žádné údaje neopouštějí IC Office</strong>. Doplní jen prázdná pole — co si vyplníte ručně, nepřepisuje. Když se načtení nepovede, prostě zůstanou prázdná a doplníte je v okně doplňku.</p>
+<p>Kontakt slouží jen k tomu, aby hotline věděla, s kým mluví a komu zavolat zpět. Ukládá se lokálně v <code>chrome.storage.local</code>, <strong>nesynchronizuje se</strong> a nikam se neodesílá bez vašeho potvrzení.</p>
+<p>Žádost o pomoc neobsahuje údaje zákazníka ze servisní zakázky.</p>
+<p>Odeslání žádosti vždy potvrzujete tlačítkem <strong>Ano, potřebuji pomoc</strong>. Okno před tím vypíše, co konkrétně odejde, a <strong>jmenuje službu, která přenos zajišťuje</strong>, pokud to není přímo IC Office.</p>
+<h3 id="kudy-zadost-jde-dnes">Kudy žádost jde dnes</h3>
+<p>V této verzi je nastavená přeposílací služba <strong>Web3Forms</strong> (<code>api.web3forms.com</code>). Je to služba <strong>třetí strany</strong>: přijme požadavek a udělá z něj e-mail pro hotline. Znamená to, že <strong>vaše zákaznické číslo, jméno, telefon a e-mail projdou jejími servery</strong> — proto na to okno s potvrzením upozorňuje.</p>
+<p>Adresa je uvedená v <code>host_permissions</code> v manifestu, takže je vidět v oprávněních doplňku ještě před instalací.</p>
+<p>Až vznikne služba na straně IC Office, adresa se vymění a údaje už mimo IC Office neputují. Když není nastavená žádná adresa, doplněk <strong>sám neodešle nic</strong> — otevře váš poštovní klient s předvyplněným textem a odeslání je na vás.</p>
+<p>Odesílají se pouze: kód kroku, název scénáře a kroku, pořadí kroku, adresa stránky bez parametrů, verze doplňku a váš kontakt. Nic z toho, co je ve formulářích IC Office.</p>
+<h2 id="sitova-komunikace">Síťová komunikace</h2>
+<p>Doplněk neposílá <strong>žádnou analytiku</strong> a sám od sebe nekomunikuje nikam. Content skript (nápověda na stránce) sahá jedině na samotné IC Office, a to jediným dotazem na vaši stránku Nastavení → Firma kvůli doplnění telefonu a e-mailu. Že nesahá nikam jinam (žádná cizí adresa, žádný <code>XMLHttpRequest</code> ani <code>sendBeacon</code>), hlídá automatická kontrola při každém sestavení.</p>
+<p>Jediný přenos mimo IC Office nastane tehdy, když <strong>sami potvrdíte žádost o pomoc</strong> — ta jde dnes přes Web3Forms, jak je popsáno výše. Bez vašeho kliknutí se neodešle nic.</p>
+<p>Service worker komunikuje výhradně při odeslání potvrzené žádosti o pomoc na nastavený koncový bod. Dokud koncový bod nastavený není, neprovádí žádný požadavek.</p>
+<p>Pokud uživatel výslovně klikne v nápovědě na <strong>Video</strong>, prohlížeč načte příslušné MP4 ze stejného webu <code>https://ic-office.eu</code>. Na tato videa se vztahují pravidla provozovatele IC Office.</p>
+<h2 id="opravneni">Oprávnění</h2>
+<ul>
+<li><code>storage</code> — uložení nastavení a postupu v místním profilu Chrome,</li>
+<li><code>https://ic-office.eu/*</code> — zobrazení interaktivní nápovědy na stránkách IC Office a doplnění telefonu a e-mailu z vašeho nastavení,</li>
+<li><code>https://api.web3forms.com/*</code> — odeslání potvrzené žádosti o pomoc, pokud je tato cesta zapnutá (viz níže).</li>
+</ul>
+<h3 id="odesilani-pres-api.web3forms.com">Odesílání přes api.web3forms.com</h3>
+<p>Doplněk sám e-mail odeslat neumí, potřebuje k tomu službu, která požadavek přijme a e-mail z něj pošle. <strong>Tato cesta je v současné verzi zapnutá.</strong></p>
+<p>Po vašem potvrzení tlačítkem <strong>Ano</strong> odejde vaše <strong>zákaznické číslo Inter Cars, jméno, telefon a e-mail</strong> spolu s kódem kroku, názvem scénáře, adresou stránky (bez parametrů) a verzí doplňku. Tyto údaje projdou serverem provozovatele služby web3forms, který z nich vytvoří e-mail pro hotline. <strong>Údaje o vašich klientech se neodesílají.</strong> Bez stisknutí tlačítka <strong>Ano</strong> neodejde nic.</p>
+<p>Cílem je nahradit tuto cestu službou provozovanou přímo IC Office; pak se oprávnění z doplňku odebere a data nikam mimo IC Office neputují.</p>
+<h2 id="smazani-dat">Smazání dat</h2>
+<p>Postup i výsledky kontroly prvků smaže v popupu doplňku tlačítko <strong>Smazat postup</strong>. Odinstalováním doplňku Chrome odstraní také jeho místní úložiště.</p>
+      </article>
+      <footer class="tutorial-paticka"><a href="./">Stažení a instalace doplňku</a><a href="../">Všechny nástroje pro autoservisy</a></footer>
+    </main>
+  </body>
+</html>
