@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="cs" data-vzhled-pevny>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Podrobný návod pro autoservis. Přihlaste se na MOJE daně, zaregistrujte provozovnu, stáhněte pokladní certifikát a nastavte EET 2.0 v IC Office.">
+    <title>Jak aktivovat EET 2.0 v autoservisu | IC Office Tutoriál</title>
+    <script src="../atomys/vzhled.js"></script>
+    <link rel="stylesheet" href="../web.css?v=20261103">
+    <link rel="stylesheet" href="tutorial.css">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <script src="../web-motiv.js" defer></script>
+  </head>
+  <body class="eet-stranka">
+    <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
+    <header class="web-lista">
+      <div class="obal">
+        <a class="logo" href="../"
+          ><svg viewBox="0 0 32 32" aria-hidden="true" fill="none">
+            <rect width="32" height="32" rx="9" fill="currentColor" />
+            <g
+              stroke="var(--na-znacce)"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            >
+              <path d="M8 9h16v14H8zM8 13.5h16M8 18h16M13 13.5V23" />
+            </g></svg
+          ><span>nastroje<small>.mujautoservis.eu</small></span></a
+        >
+        <div class="web-akce">
+          <div class="prepinac-motivu" id="prepinac-motivu">
+            <span class="prepinac-popis" data-strana="vlevo" aria-hidden="true"
+              >Tmavý</span
+            ><span class="prepinac-drazka"
+              ><button
+                type="button"
+                role="switch"
+                class="prepinac-poloha"
+                aria-checked="false"
+              >
+                <span class="sr-only">Tmavý režim</span></button
+              ><span class="prepinac-jezdec" aria-hidden="true"></span></span
+            ><span
+              class="prepinac-popis"
+              data-strana="vpravo"
+              aria-hidden="true"
+              >Světlý</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="obal tutorial" id="obsah">
+      <a class="zpet" href="./">← Zpět na IC Office Tutoriál</a>
+      <article class="eet-navod">
+        <header>
+          <h1>Jak aktivovat EET 2.0 v autoservisu</h1>
+          <p class="eet-uvod">Na portálu MOJE daně přihlásíte svůj servis k elektronické evidenci tržeb (EET) a získáte soubor s certifikátem. V IC Office pak soubor připojíte ke své pokladně. Těmito kroky vás provede i doplněk IC Office Tutoriál.</p>
+          <p>Máte doplněk? Klikněte na jeho ikonu a zvolte <strong>Otevřít celý návod</strong>. Na portálu MOJE daně nebo v nastavení EET v IC Office si také můžete vybrat <strong>Zobrazit návod na této stránce</strong>. Pokud doplněk teprve potřebujete, otevřete <a href="./">stažení a instalaci Tutoriálu</a>.</p>
+          <p class="eet-datum">Ověřeno 24. listopadu 2026 podle pokynů Finanční správy a návodu k IC Office.</p>
+        </header>
+        <nav class="eet-obsah" aria-label="Části návodu">
+          <h2>Přejít na část návodu</h2>
+          <ul>
+            <li><a href="#priprava-pred-registraci">Příprava</a></li>
+            <li><a href="#registrace">Registrace firmy a provozovny v DIS+</a></li>
+            <li><a href="#pokladni-certifikat">Vydání pokladního certifikátu</a></li>
+            <li><a href="#nastaveni-pokladny">Nastavení pokladny v IC Office</a></li>
+            <li><a href="#overeni-trzby">První platba od zákazníka</a></li>
+          </ul>
+          <p>Celý návod si můžete vytisknout nebo uložit do PDF volbou <strong>Tisk</strong> v nabídce prohlížeče.</p>
+        </nav>
+        <section aria-labelledby="priprava-pred-registraci">
+          <h2 id="priprava-pred-registraci">Příprava</h2>
+          <ol class="eet-kroky" start="1">
+            <li id="priprava">
+              <h3>Připravte si přístupy</h3>
+              <p>Budete potřebovat přístup do daňové schránky firmy, adresu provozovny a účet, který smí měnit nastavení vašeho servisu v IC Office. Nejprve vyřídíte registraci u Finanční správy. Potom přenesete do IC Office soubor s certifikátem a několik údajů.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Víte, za kterou firmu a provozovnu registraci vyřizujete. Pro evidenci budete používat IC Office. MOJE eet je samostatná pokladní aplikace státu.</p>
+              <p class="eet-pomoc">Stav k 24. 11. 2026: provozovnu i certifikát lze připravit už teď. Finanční správa uvádí zahájení běžné evidence na 1. 1. 2027.</p>
+            </li>
+          </ol>
+        </section>
+        <section aria-labelledby="registrace">
+          <h2 id="registrace">Registrace firmy a provozovny v DIS+</h2>
+          <ol class="eet-kroky" start="2">
+            <li id="portal">
+              <h3>Přihlaste se do Online finančního úřadu</h3>
+              <p>Otevřete portál MOJE daně a klikněte na Online finanční úřad. Zvolte způsob, který používáte: Identita občana (například bankovní identita), Datové schránky nebo přístupové údaje přidělené Finanční správou. Přihlášení dokončete na stránce vybrané služby.</p>
+              <p class="eet-cil"><a href="https://mojedane.gov.cz/" target="_blank" rel="noopener noreferrer">Otevřít MOJE daně (mojedane.gov.cz)</a> <small>(nová karta)</small></p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Po návratu na portál vidíte seznam daňových schránek DIS+. Pokud vidíte znovu úvodní stránku portálu, otevřete Online finanční úřad ještě jednou.</p>
+              <p class="eet-pomoc">Přihlašovací údaje a ověřovací kód patří jen na stránku zvolené přihlašovací služby. Během přihlášení můžete tento návod nechat otevřený.</p>
+            </li>
+            <li id="schranka">
+              <h3>Vyberte schránku svého servisu</h3>
+              <p>DIS+ je daňová informační schránka. V seznamu klikněte na dlaždici podnikatele nebo společnosti, která provozuje váš servis. Je-li dostupných víc firem, ověřte název a identifikační údaje správné firmy.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Na otevřené stránce vidíte firmu nebo podnikatele, za něž chcete evidovat.</p>
+              <p class="eet-pomoc">Pokud podnikáte vlastním jménem a osobní DIS+ otevíráte poprvé, zvolte Aktivovat osobní DIS+ a potvrďte. Pro vstup do svěřené firemní schránky osobní DIS+ aktivovat nemusíte. Chybí-li firma v seznamu, požádejte osobu, která vám uděluje přístup.</p>
+            </li>
+            <li id="aktivace">
+              <h3>Aktivujte EET pro vybranou firmu</h3>
+              <p>V horní části schránky klikněte na Aktivovat EET. V potvrzovacím okně znovu zkontrolujte firmu a zvolte Aktivovat EET. Po oznámení o úspěchu si přečtěte další pokyny a klikněte na Rozumím.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> V horní nabídce otevřete Evidence tržeb. Pokud už je evidence aktivní, můžete touto záložkou pokračovat rovnou.</p>
+              <p class="eet-pomoc">Pokud jste aktivaci dříve odložili, najdete ji také v záložce Evidence tržeb. Nevidíte-li nabídku ve svěřené schránce, požádejte o pomoc osobu, která vám udělila pověření.</p>
+            </li>
+            <li id="provozovna">
+              <h3>Najděte nebo založte svoji provozovnu</h3>
+              <p>V části Správa a nastavení otevřete Správa evidenčních jednotek. Evidenční jednotka je zde místo nebo způsob, kde přijímáte platby. Projděte seznam. Pokud v něm dílnu ještě nemáte, zvolte Nová evidenční jednotka.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Máte otevřený formulář nové jednotky, nebo jste našli existující jednotku se správnou adresou či označením.</p>
+              <p class="eet-pomoc">Pokud už provozovna v seznamu je, poznamenejte si její přidělené číslo a pokračujte v návodu až ke kroku „Připravte pokladní certifikát“.</p>
+            </li>
+            <li id="cinnost">
+              <h3>Popište, kde a za koho přijímáte platby</h3>
+              <p>Vyberte druh jednotky. Pro dílnu na stálé adrese se zpravidla hodí Pevná provozovna. Do pole pro převažující činnost začněte psát, co v dílně děláte, a vyberte odpovídající položku. Činnost lze najít i lupou. Pro vlastní přehled můžete dílnu pojmenovat.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Podle skutečného provozu jste odpověděli, zda zde přijímáte evidované tržby a zda svým jménem přijímáte peníze na účet jiného poplatníka.</p>
+              <p class="eet-pomoc">Například servis, který zde přijímá evidované platby pouze za vlastní práci, u první otázky vybere Ano a u nepřímého zastoupení Ne. Pokud vybíráte také peníze na cizí účet, ověřte druhou odpověď s účetní.</p>
+            </li>
+            <li id="adresa">
+              <h3>Vyberte adresu dílny</h3>
+              <p>U pevné provozovny otevřete Způsob vyplnění adresy a vyberte Zadat adresní údaje ručně. Vyplňte obec, PSČ, ulici a číslo domu. Pro českou adresu klikněte na Vyhledat v registru a u správné adresy na Vybrat.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Ve formuláři vidíte adresu místa, kde přijímáte platby. Ta se může lišit od sídla firmy.</p>
+              <p class="eet-pomoc">Při více výsledcích porovnejte obec a číslo domu. U jiného druhu jednotky vyplňte údaj, který si portál vyžádá, například označení vozidla.</p>
+            </li>
+            <li id="cislo-jednotky">
+              <h3>Uložte jednotku a poznamenejte si její číslo</h3>
+              <p>Projděte zadané údaje a klikněte na Dokončit a přidat. V oznámení nebo v seznamu jednotek najděte číslo přidělené vaší provozovně. Zapište si ho pro nastavení IC Office.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> V seznamu je právě vaše provozovna a znáte číslo, které jí přidělila Finanční správa.</p>
+              <p class="eet-pomoc">Když oznámení zavřete, vraťte se do Správy evidenčních jednotek a otevřete příslušnou položku. Název dílny, IČO a číslo provozovny jsou různé údaje.</p>
+            </li>
+          </ol>
+        </section>
+        <section aria-labelledby="pokladni-certifikat">
+          <h2 id="pokladni-certifikat">Vydání pokladního certifikátu</h2>
+          <ol class="eet-kroky" start="9">
+            <li id="certifikat">
+              <h3>Připravte pokladní certifikát</h3>
+              <p>Vraťte se do Evidence tržeb. V části Podpora pokladních zařízení vyberte Pokladní certifikáty. Pokud pro tuto pokladnu ještě nemáte použitelný certifikát, klikněte na Vytvořit nový pokladní certifikát. Můžete zadat e-mail pro upozornění a vlastní označení. Potvrďte vytvoření.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> V přehledu vidíte požadovaný certifikát. Stav Připravuje se znamená, že žádost už byla přijata.</p>
+              <p class="eet-pomoc">Počkejte na nabídku stažení nebo se později vraťte do přehledu. Pokud už máte platný certifikát pro tuto pokladnu, jeho soubor .p12 a heslo, můžete pokračovat rovnou do IC Office.</p>
+            </li>
+            <li id="soubor-heslo">
+              <h3>Uložte soubor .p12 a jeho heslo</h3>
+              <p>Zvolte Zobrazit heslo a stáhnout certifikát. Uložte zobrazené heslo, například do správce hesel. V počítači ověřte, že máte stažený soubor s příponou .p12. Teprve pak zaškrtněte potvrzení o bezpečném uložení a klikněte na Dokončit.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Certifikát má v seznamu stav Platný. Víte, kde najdete soubor i heslo právě k němu. Heslo budete potřebovat v IC Office.</p>
+              <p class="eet-pomoc">Pokud okno se souborem nevidíte, otevřete v prohlížeči Stažené soubory. Na stránce certifikátu je i odkaz pro ruční stažení. Heslo se při převzetí zobrazuje jen jednou. Soubor ani heslo neposílejte podpoře.</p>
+            </li>
+          </ol>
+        </section>
+        <section aria-labelledby="nastaveni-pokladny">
+          <h2 id="nastaveni-pokladny">Nastavení pokladny v IC Office</h2>
+          <ol class="eet-kroky" start="11">
+            <li id="ic-office">
+              <h3>Otevřete nastavení EET v IC Office</h3>
+              <p>Přejděte do svého servisu v IC Office. Vpravo nahoře otevřete Nastavení a vyberte EET 2.0. Pokud ještě není zapnuto, zaškrtněte Zapnout elektronickou evidenci tržeb (EET).</p>
+              <p class="eet-cil"><a href="https://ic-office.eu/settings/eet" target="_blank" rel="noopener noreferrer">Otevřít nastavení EET v IC Office</a> <small>(nová karta)</small></p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Vidíte formulář s výběrem certifikátu a údaji pokladny.</p>
+              <p class="eet-pomoc">Pokud položku nastavení nevidíte, obraťte se na správce svého servisu. U již nastavené pokladny nejprve porovnejte provozovnu a označení zařízení s dosavadním nastavením.</p>
+            </li>
+            <li id="vybrat-soubor">
+              <h3>Vyberte certifikát a vložte jeho heslo</h3>
+              <p>V poli Certifikát (*.p12) klikněte na výběr souboru. Otevřete složku, kam jste certifikát stáhli, označte soubor .p12 a potvrďte výběr. Do pole Heslo k certifikátu zadejte heslo získané při jeho stažení.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> U pole vidíte jméno vybraného souboru. Heslo patří k tomuto konkrétnímu souboru.</p>
+              <p class="eet-pomoc">Vybírejte přímo soubor .p12. Do pole pro heslo nepatří heslo ke vstupu do IC Office nebo k datové schránce. Oba údaje zadávejte výhradně do nastavení vašeho servisu.</p>
+            </li>
+            <li id="oznaceni-pokladny">
+              <h3>Vyplňte tři údaje o pokladně</h3>
+              <p>Do pole Označení evidenční jednotky přepište číslo přidělené v DIS+. Do Označení pokladního zařízení zadejte vlastní označení této pokladny, například POKLADNA1. Do Počátečního pořadového čísla zadejte začátek vaší číselné řady.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Číslo jednotky souhlasí s provozovnou v DIS+. Pokladna má vlastní označení a víte, od kterého čísla má evidovat.</p>
+              <p class="eet-pomoc">U zcela nové řady může být první číslo 1. Při převodu nebo výměně pokladny ověřte se správcem dosavadní označení a návaznost číslování.</p>
+            </li>
+            <li id="ulozeni">
+              <h3>Uložte nastavení</h3>
+              <p>Zkontrolujte firmu, provozovnu, označení pokladny a číselnou řadu. Pak v IC Office klikněte na Uložit EET. Přečtěte zprávu po uložení a zkontrolujte, že zůstala nastavena správná provozovna a pokladna.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> IC Office přijal nastavení bez ohlášené chyby. První skutečnou platbu ověříte až při běžném provozu.</p>
+              <p class="eet-pomoc">Při chybě souboru nebo hesla znovu vyberte správný soubor a heslo z jeho vydání. Pokud chyba trvá, sdělte specialistovi IC Office text chyby bez hesla a bez přílohy s certifikátem.</p>
+            </li>
+          </ol>
+        </section>
+        <section aria-labelledby="overeni-trzby">
+          <h2 id="overeni-trzby">První platba od zákazníka</h2>
+          <ol class="eet-kroky" start="15">
+            <li id="prvni-trzba">
+              <h3>Až zákazník zaplatí, ověřte přijetí tržby</h3>
+              <p>Podle harmonogramu začíná běžná evidence 1. 1. 2027. Od zahájení evidence při první skutečné platbě, která jí podléhá, postupujte v IC Office obvyklým způsobem a ověřte výsledek odeslání. Pro samotné nastavení žádnou cvičnou platbu nevytvářejte.</p>
+              <p><strong>Jak poznáte, že je krok hotový?</strong> Přijetí tržby potvrzuje Finanční správa potvrzovacím kódem (POK). Uložené nastavení pokladny samo o sobě přijetí konkrétní platby nepotvrzuje.</p>
+              <p class="eet-pomoc">Chybí-li potvrzení, zkontrolujte připojení a stav původní tržby v IC Office. Pro opakované odeslání téže tržby pokračujte s původním dokladem. S postupem v IC Office pomůže váš specialista.</p>
+            </li>
+          </ol>
+        </section>
+        <section class="eet-zdroje" aria-labelledby="zdroje">
+          <h2 id="zdroje">Nápověda a zdroje</h2>
+          <p>Podklady k portálu a evidenci vydává Finanční správa. Pokyny k pokladně vycházejí také z podrobného návodu k nastavení EET v IC Office z 15. listopadu 2026.</p>
+          <ul>
+            <li><a href="https://eet.gov.cz/cs/o-eet/jaky-je-harmonogram-eet-2-0">Harmonogram Finanční správy</a></li>
+            <li><a href="https://podpora.mojedane.gov.cz/cs/seznam-okruhu/danova-informacni-schranka-plus/prihlaseni-do-dis/jak-se-prihlasim-do-danove-informacni-sc-4580">Způsoby přihlášení do DIS+</a></li>
+            <li><a href="https://podpora.mojedane.gov.cz/cs/seznam-okruhu/danova-informacni-schranka-plus/prihlaseni-do-dis/prvni-prihlaseni-a-aktivace-dis-4588">První vstup a aktivace DIS+</a></li>
+            <li><a href="https://podpora.mojedane.gov.cz/cs/seznam-okruhu/elektronicka-evidence-trzeb-2-0/jak-aktivuji-elektronickou-evidenci-trze-4762">Aktivace EET včetně obrázků</a></li>
+            <li><a href="https://podpora.mojedane.gov.cz/cs/seznam-okruhu/elektronicka-evidence-trzeb-2-0/jak-zalozim-evidencni-jednotku-4764">Založení evidenční jednotky</a></li>
+            <li><a href="https://podpora.mojedane.gov.cz/cs/seznam-okruhu/elektronicka-evidence-trzeb-2-0/jak-vygeneruji-pokladni-certifikat-4766">Vydání pokladního certifikátu</a></li>
+            <li><a href="https://ic-office.eu/help/eet">Nápověda IC Office k EET</a></li>
+            <li><a href="https://eet.gov.cz/cs/zacinam-s-eet/evidence-trzeb-v-praxi">Jak poznat, že Finanční správa tržbu přijala</a></li>
+          </ul>
+        </section>
+      </article>
+      <footer class="tutorial-paticka">
+        <a href="./">Stažení a instalace doplňku</a>
+        <a href="soukromi.html">Ochrana soukromí doplňku</a>
+      </footer>
+    </main>
+  </body>
+</html>

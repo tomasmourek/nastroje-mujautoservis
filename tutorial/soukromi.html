@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Jak IC Office Tutoriál pracuje s kontaktem, cvičnou zakázkou a živou prezentací.">
+    <meta name="description" content="Jak IC Office Tutoriál pracuje s kontaktem, cvičnou zakázkou, živou prezentací a postupem při aktivaci EET.">
     <title>Ochrana soukromí doplňku | IC Office Tutoriál</title>
     <script src="../atomys/vzhled.js"></script>
     <link rel="stylesheet" href="../web.css?v=20261103">
@@ -66,6 +66,8 @@
 <li>polohu plovoucího tlačítka a nastavení prezentace.</li>
 </ul>
 <p><strong>Osobní údaje tu nejsou.</strong> Od verze 2.54.0 se z tohoto klíče odstraňují i tehdy, když v něm zbyly po starší verzi doplňku.</p>
+<h3 id="postup-pri-aktivaci-eet">Postup při aktivaci EET</h3>
+<p>Do místního klíče <code>icop2:eet-krok</code> se po vašem potvrzení uloží pouze identifikátor kroku nebo označení dokončeného návodu. Tlačítkem <strong>Smazat postup</strong> v okně doplňku označení smažete. Panel při aktivaci EET zobrazuje text z doplňku. Údaje o firmě, přihlašovací údaje, soubor certifikátu i jeho heslo zadáváte sami přímo na příslušném webu. Panel nemá vlastní formulář pro jejich zadání a neodesílá síťové požadavky.</p>
 <h3 id="icop2kontakt-vas-kontakt-jen-v-tomto-pocitaci"><code>icop2:kontakt</code> — váš kontakt (jen v tomto počítači)</h3>
 <p>Ukládá se do <code>chrome.storage.local</code> a <strong>nesynchronizuje se</strong>. Obsahuje zákaznické číslo Inter Cars, jméno, telefon, e-mail a jméno vybraného obchodního specialisty IC Office — tedy údaje, které jste vyplnili pro případ, že budete chtít pomoc od hotline.</p>
 <p>Do verze 2.53.x byl kontakt součástí synchronizovaného stavu. Při prvním spuštění novější verze se automaticky přesune do místního úložiště a ze synchronizovaného se smaže.</p>
@@ -119,6 +121,7 @@ i v rozcestníku. Skrytí průvodce (<strong>×</strong>) ji ukončí taky.</li>
 <p>Pokud uživatel výslovně klikne v nápovědě na <strong>Video</strong>, prohlížeč načte příslušné MP4 ze stejného webu <code>https://ic-office.eu</code>. Na tato videa se vztahují pravidla provozovatele IC Office.</p>
 <h2 id="opravneni">Oprávnění</h2>
 <ul>
+<li><code>activeTab</code> a <code>scripting</code> — na vaše kliknutí zobrazí krok v aktivní kartě na stránkách EET v IC Office, v portálu MOJE daně nebo v oficiální nápovědě EET. Při přihlášení přes banku či identitu zůstává k dispozici samostatná karta doplňku.</li>
 <li><code>storage</code> — uložení nastavení a postupu v místním profilu Chrome,</li>
 <li><code>https://ic-office.eu/*</code> — zobrazení interaktivní nápovědy na stránkách IC Office a doplnění telefonu a e-mailu z vašeho nastavení,</li>
 <li><code>https://api.web3forms.com/*</code> — odeslání potvrzené žádosti o pomoc, pokud je tato cesta zapnutá (viz níže).</li>

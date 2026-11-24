@@ -71,3 +71,35 @@
 .tutorial-soukromi h1 { margin: 24px 0 12px; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; }
 .tutorial-soukromi h2 { margin-top: 1.8em; line-height: 1.25; }
 .tutorial-soukromi p, .tutorial-soukromi ul { margin-block: .8em; }
+
+.tutorial-uvod .eet-odkaz { margin-top: 18px; font-size: 1rem; }
+.eet-navod { max-width: 74ch; margin: 28px auto 0; overflow-wrap: anywhere; }
+.eet-navod h1 { max-width: 19ch; margin: 0 0 18px; font-size: clamp(2.15rem, 5.3vw, 4.5rem); line-height: 1.03; letter-spacing: -.04em; }
+.eet-navod h2 { margin: 2em 0 .6em; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2; letter-spacing: -.025em; }
+.eet-navod h3 { margin: 0; font-size: 1.14rem; line-height: 1.35; }
+.eet-navod p { margin-block: .65em; }
+.eet-navod [id] { scroll-margin-top: 5rem; }
+.eet-uvod { color: var(--text-2); font-size: 1.13rem; }
+.eet-datum, .eet-cil small { color: var(--text-3); font-size: .9rem; }
+.eet-obsah { margin-top: 28px; padding-block: 20px; border-block: 1px solid var(--linka); }
+.eet-obsah h2 { margin: 0; font-size: 1.1rem; }
+.eet-obsah ul, .eet-zdroje ul { margin: .6em 0; padding-left: 1.4em; }
+.eet-obsah li, .eet-zdroje li { margin: .3em 0; }
+.eet-obsah p, .eet-pomoc { color: var(--text-2); }
+.eet-kroky { margin: 0; padding-left: 2.4em; }
+.eet-kroky > li { margin-block: 1.35em; padding-left: .3em; }
+.eet-kroky > li::marker { color: var(--znacka-text); font-size: 1.14rem; font-weight: 700; }
+.eet-navod a, .tutorial .eet-odkaz a { color: var(--znacka-text); }
+@media print {
+  body.eet-stranka { color-scheme: light; color: #111; background: white; font: 10pt/1.42 sans-serif; }
+  .eet-stranka .web-lista, .eet-stranka .zpet, .eet-stranka .eet-obsah, .eet-stranka .tutorial-paticka,
+  .eet-stranka .preskocit, .eet-stranka .eet-cil small { display: none; }
+  .eet-stranka .tutorial, .eet-navod { max-width: none; margin: 0; padding: 0; }
+  .eet-navod h1 { max-width: none; font-size: 22pt; }
+  .eet-navod h2 { margin: 1em 0 .4em; font-size: 15pt; break-after: avoid; }
+  .eet-navod h3, .eet-kroky > li::marker { font-size: 11pt; }
+  .eet-navod p, .eet-navod a, .eet-kroky > li::marker { color: #111; }
+  .eet-navod p { margin-block: .3em; }
+  .eet-kroky > li { margin-block: .8em; break-inside: avoid; }
+  .eet-cil a::after { content: " (" attr(href) ")"; font-size: 9pt; }
+}
