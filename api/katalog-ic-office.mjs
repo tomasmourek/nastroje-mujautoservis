@@ -118,7 +118,7 @@ function overitKatalog(doc) {
 }
 
 /** Přihlásí se samostatnou relací, ověří nefiltrovaný katalog před i po XLSX exportu. */
-export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {}, { fetchImpl = fetch, precistKatalog, pracovniGoogleXml } = {}) {
+export async function stahnoutIcKatalog({ prihlaseni, nastaveni, signal: vnejsiSignal } = {}, { fetchImpl = fetch, precistKatalog, vykreslitXml } = {}) {
   const cas = new AbortController();
   const casovac = setTimeout(() => cas.abort(), LIMIT_BEHU);
   casovac.unref?.();
@@ -129,7 +129,7 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
     overitSignal(signal);
     if (!prihlaseni || typeof prihlaseni.email !== "string" || !prihlaseni.email.trim() || prihlaseni.email.length > 320
       || typeof prihlaseni.heslo !== "string" || !prihlaseni.heslo || prihlaseni.heslo.length > 4096) throw chyba("IC_LOGIN");
-    if (typeof precistKatalog !== "function" || typeof pracovniGoogleXml !== "function") throw chyba("IC_FORMAT");
+    if (typeof precistKatalog !== "function" || typeof vykreslitXml !== "function") throw chyba("IC_FORMAT");
 
     const pozadavek = async (url, { method = "GET", body, login = false, exportXlsx = false } = {}) => {
       let cil = url;
@@ -214,11 +214,12 @@ export async function stahnoutIcKatalog({ prihlaseni, signal: vnejsiSignal } = {
     try {
       polozky = precistKatalog(xlsx.buffer.slice(xlsx.byteOffset, xlsx.byteOffset + xlsx.byteLength));
       if (!Array.isArray(polozky)) throw chyba("IC_FORMAT");
-      xml = pracovniGoogleXml(polozky);
+      xml = vykreslitXml(polozky, nastaveni);
       if (typeof xml !== "string") throw chyba("IC_FORMAT");
     } catch { throw chyba("IC_FORMAT"); }
     overitSignal(signal);
-    return { xml, xlsx, polozky: polozky.length, sklady: new Set(polozky.map((p) => p.sklad)).size };
+    const nazvySkladu = [...new Set(polozky.map(p => p.sklad))].sort((a, b) => a.localeCompare(b, "cs"));
+    return { xml, xlsx, polozky: polozky.length, sklady: nazvySkladu.length, nazvySkladu };
   } catch (e) {
     // Text odpovědi, token, cookies, heslo ani nízkoúrovňová síťová chyba nikdy neopouští adaptér.
     throw new ChybaKatalogu(signal.aborted ? "IC_ABORTED" : e instanceof ChybaKatalogu ? e.code : "IC_NETWORK", e instanceof ChybaKatalogu ? e.krok ?? krok : krok);

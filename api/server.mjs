@@ -37,14 +37,14 @@ if (KATALOG_DATA_DIR || KATALOG_SIFROVACI_KLIC) {
     throw new Error("Neúplná konfigurace serverového katalogu.");
   const { otevritPlanovac } = await import("./katalog-planovac.mjs");
   const { stahnoutNaPozadi } = await import("./katalog-pozadi.mjs");
-  const { platnyPlanSkladu, pristiTerminSkladu } = await import("./generated/katalog-format.mjs");
+  const { platnyPlanSkladu, pristiTerminSkladu, platneNastaveniSkladovehoXml } = await import("./generated/katalog-format.mjs");
   kalendar = { platnyPlan: platnyPlanSkladu, pristiTermin: pristiTerminSkladu };
   // Trvalé samoobslužné identity se musí načíst před úklidem odebraných firem v plánovači.
   ucty = await otevritUcty({ cesta: join(KATALOG_DATA_DIR, "ucty.sqlite"), klic });
   planovac = await otevritPlanovac({
     cesta: join(KATALOG_DATA_DIR, "katalog.sqlite"), klic, firmy: new Set([...kody.values(), ...ucty.firmy()]),
     platnyPlan: platnyPlanSkladu, pristiTermin: pristiTerminSkladu,
-    stahnout: stahnoutNaPozadi,
+    stahnout: stahnoutNaPozadi, platneXml: platneNastaveniSkladovehoXml,
   });
   denik = await otevritDenikOdesilani({ cesta: join(KATALOG_DATA_DIR, "odeslani.sqlite") });
 }
