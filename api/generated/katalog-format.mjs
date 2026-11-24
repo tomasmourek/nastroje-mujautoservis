@@ -1,23 +1,23 @@
-import { l as e, m as t } from "./zaklad-Xwu_hcf2.js";
+import { h as e, l as t } from "./zaklad-BALOwaPP.js";
 import * as n from "xlsx";
 // src/lib/google-sklady.ts
 function r(r) {
 	let i = n.read(r, { type: "array" }), a = n.utils.sheet_to_json(i.Sheets[i.SheetNames[0]], {
 		header: 1,
 		defval: ""
-	}), o = a.findIndex((t) => [
+	}), o = a.findIndex((e) => [
 		"kod",
 		"nazev",
 		"sklad",
 		"mnozstvi"
-	].every((n) => t.some((t) => e(t) === n)));
+	].every((n) => e.some((e) => t(e) === n)));
 	if (o < 0) throw Error("Vyberte export Excel z IC Office → Sklady → Všechno zboží.");
-	let s = a[o].map(e);
+	let s = a[o].map(t);
 	return a.slice(o + 1).map((e, t) => ({
 		r: e,
 		cisloRadku: o + t + 2
-	})).filter(({ r: e }) => e.some((e) => t(e))).map(({ r: e, cisloRadku: n }) => {
-		let r = (n) => t(e[s.indexOf(n)]), i = r("mnozstvi").replace(/\s/g, "").replace(",", "."), a = Number(i);
+	})).filter(({ r: t }) => t.some((t) => e(t))).map(({ r: t, cisloRadku: n }) => {
+		let r = (n) => e(t[s.indexOf(n)]), i = r("mnozstvi").replace(/\s/g, "").replace(",", "."), a = Number(i);
 		if (!i || !Number.isFinite(a) || !r("sklad")) throw Error(`Řádek ${n}: chybí sklad nebo platné množství. Předchozí snímek zůstává zachován.`);
 		return {
 			kod: r("kod"),

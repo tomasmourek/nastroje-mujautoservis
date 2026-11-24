@@ -40,7 +40,7 @@ if (KATALOG_DATA_DIR || KATALOG_SIFROVACI_KLIC) {
   const { platnyPlanSkladu, pristiTerminSkladu } = await import("./generated/katalog-format.mjs");
   kalendar = { platnyPlan: platnyPlanSkladu, pristiTermin: pristiTerminSkladu };
   // Trvalé samoobslužné identity se musí načíst před úklidem odebraných firem v plánovači.
-  ucty = await otevritUcty({ cesta: join(KATALOG_DATA_DIR, "ucty.sqlite") });
+  ucty = await otevritUcty({ cesta: join(KATALOG_DATA_DIR, "ucty.sqlite"), klic });
   planovac = await otevritPlanovac({
     cesta: join(KATALOG_DATA_DIR, "katalog.sqlite"), klic, firmy: new Set([...kody.values(), ...ucty.firmy()]),
     platnyPlan: platnyPlanSkladu, pristiTermin: pristiTerminSkladu,
@@ -108,7 +108,10 @@ server.listen(port, "127.0.0.1", () =>
 );
 
 const tick = () => {
-  try { ucty?.uklid(); } catch { console.error('{"udalost":"chyba-uklidu-prihlaseni"}'); }
+  try {
+    ucty?.uklid();
+    ucty?.firemni?.uklid();
+  } catch { console.error('{"udalost":"chyba-uklidu-prihlaseni"}'); }
   return Promise.allSettled([
     planovac?.tick().catch(() => console.error('{"udalost":"chyba-planovace-katalogu"}')),
     ucetniPlanovac?.tick().catch(() => console.error('{"udalost":"chyba-planovace-ucetni"}')),

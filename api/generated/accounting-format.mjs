@@ -1,12 +1,12 @@
 import { r as e } from "./rolldown-runtime-DfEuXgQw.js";
-import { a as t, f as n, h as r, i, l as a, m as o, o as s, p as c, r as l, t as u } from "./zaklad-Xwu_hcf2.js";
-import { r as d, t as f } from "./nastaveni-DdJkITgT.js";
-import { c as p, d as m, n as h, t as g, u as _ } from "./xml-BtYWPW0O.js";
-import { a as v } from "./vypocty-cReu2eaY.js";
-import { i as y, n as b, o as x, r as S } from "./sestavy-CtwwVNT8.js";
-import * as C from "xlsx";
+import { a as t, f as n, g as r, h as i, i as a, l as o, m as s, o as c, p as l, r as u, t as d } from "./zaklad-BALOwaPP.js";
+import { r as f, t as p } from "./nastaveni-DdJkITgT.js";
+import { c as m, d as h, n as g, t as _, u as v } from "./xml-Br9103J-.js";
+import { a as y } from "./vypocty-DWCkItoB.js";
+import { i as b, n as x, o as S, r as C } from "./sestavy-Cc-ls0Oa.js";
+import * as w from "xlsx";
 // src/lib/model.ts
-var w = {
+var T = {
 	faktury: "Vystavené faktury",
 	polozky: "Položky vystavených faktur",
 	pokladna: "Pokladna",
@@ -14,11 +14,11 @@ var w = {
 	vydej: "Vydané zboží",
 	mechanici: "Mechanici a zakázky",
 	skladoveDoklady: "Příjemky a výdejky ze skladu"
-}, T = class {
+}, E = class {
 	mapa = /* @__PURE__ */ new Map();
 	constructor(e) {
 		e.forEach((e, t) => {
-			let n = a(e);
+			let n = o(e);
 			n && !this.mapa.has(n) && this.mapa.set(n, t);
 		});
 	}
@@ -36,14 +36,14 @@ var w = {
 		return [...this.mapa.entries()];
 	}
 };
-function E(e) {
+function D(e) {
 	return e.ma("cislo faktury", "datum duzp") ? "faktury" : e.ma("cislo faktury", "nazev", "mnozstvi") ? "polozky" : e.ma("c. dokladu", "prijem", "vydej") ? "pokladna" : e.ma("cislo prijemky", "kod zbozi") ? "naskladneni" : e.ma("cislo vydejky", "kod zbozi") ? "vydej" : e.ma("zakazka", "prace", "prace cas") ? "mechanici" : e.ma("datum", "typ", "pridal / vydal", "hodnota [bez dph]", "hodnota [s dph]") ? "skladoveDoklady" : null;
 }
-function D(e, t) {
+function O(e, t) {
 	let n = t.i("#") >= 0 ? e[t.i("#")] : e[t.i("id")];
 	return n != null && /^\d+$/.test(String(n).trim());
 }
-var O = /^(|celkem za:|0([.,]0+)?(\s*kč)?|obsahuje všechny položky .*)$/i, k = [
+var k = /^(|celkem za:|0([.,]0+)?(\s*kč)?|obsahuje všechny položky .*)$/i, ee = [
 	[/^Vystavene_faktury_polozky_/i, "polozky"],
 	[/^Vystavene_faktury_/i, "faktury"],
 	[/^Pokladna_/i, "pokladna"],
@@ -52,201 +52,202 @@ var O = /^(|celkem za:|0([.,]0+)?(\s*kč)?|obsahuje všechny položky .*)$/i, k 
 	[/^Mechanici_zakazky_/i, "mechanici"],
 	[/^Prijemky_vydejky_/i, "skladoveDoklady"]
 ];
-function ee(e) {
+function te(e) {
 	let t = /(\d{4}-\d{2}-\d{2})[_ -]+(\d{4}-\d{2}-\d{2})/.exec(e);
 	return t ? {
 		od: t[1],
 		do: t[2]
 	} : void 0;
 }
-function te(e, t, n) {
+function ne(e, t, n) {
 	let r = [];
-	return e.forEach((e, a) => {
-		if (!D(e, t)) return;
-		let s = (n) => t.hodnota(e, n), c = o(s("typ")), u = /dobropis|opravn/i.test(c), d = (e) => u && e > 0 ? -e : e;
+	return e.forEach((e, o) => {
+		if (!O(e, t)) return;
+		let s = (n) => t.hodnota(e, n), c = i(s("typ")), l = /dobropis|opravn/i.test(c), d = (e) => l && e > 0 ? -e : e;
 		r.push({
-			id: o(s("id")),
-			cislo: o(s("cislo faktury")),
-			forma: o(s("forma uhrady")),
+			id: i(s("id")),
+			cislo: i(s("cislo faktury")),
+			forma: i(s("forma uhrady")),
 			typ: c,
-			vs: o(s("variabilni symbol")),
-			zakaznik: o(s("zakaznik")),
-			ico: o(s("ico")),
-			dic: o(s("dic")),
-			adresa: o(s("adresa")).replace(/^[\s,]+$/, ""),
-			ucet: o(s("ucet")),
-			popis: o(s("popis")),
-			vystaveni: i(s("datum vystaveni")),
-			splatnost: i(s("datum splatnosti")),
-			duzp: i(s("datum duzp")) || i(s("datum vystaveni")),
-			duzpChybi: !i(s("datum duzp")),
-			zaplaceno: i(s("datum zaplaceni")),
-			djmSDph: d(l(s("djm [s dph]"))),
-			celkemBez: d(l(s("celkem [bez dph]"))),
-			celkemS: d(l(s("celkem [s dph]"))),
-			zaokrouhleni: l(s("zaukrouhleni") ?? s("zaokrouhleni")),
-			castkaBez: d(l(s("castka [bez dph]"))),
-			castkaS: d(l(s("castka [s dph]"))),
-			castecnaUhrada: l(s("castecna uh. [kc]")),
-			stav: o(s("stav")),
-			zakazka: o(s("cislo zakazky")),
-			dobropis: u,
-			zdroj: n(a)
+			vs: i(s("variabilni symbol")),
+			zakaznik: i(s("zakaznik")),
+			ico: i(s("ico")),
+			dic: i(s("dic")),
+			adresa: i(s("adresa")).replace(/^[\s,]+$/, ""),
+			ucet: i(s("ucet")),
+			popis: i(s("popis")),
+			vystaveni: a(s("datum vystaveni")),
+			splatnost: a(s("datum splatnosti")),
+			duzp: a(s("datum duzp")) || a(s("datum vystaveni")),
+			duzpChybi: !a(s("datum duzp")),
+			zaplaceno: a(s("datum zaplaceni")),
+			djmSDph: d(u(s("djm [s dph]"))),
+			celkemBez: d(u(s("celkem [bez dph]"))),
+			celkemS: d(u(s("celkem [s dph]"))),
+			zaokrouhleni: u(s("zaukrouhleni") ?? s("zaokrouhleni")),
+			castkaBez: d(u(s("castka [bez dph]"))),
+			castkaS: d(u(s("castka [s dph]"))),
+			castecnaUhrada: u(s("castecna uh. [kc]")),
+			stav: i(s("stav")),
+			zakazka: i(s("cislo zakazky")),
+			dobropis: l,
+			zdroj: n(o)
 		});
 	}), r;
 }
-function ne(e, t, r, i) {
-	let s = [];
-	return e.forEach((e, c) => {
-		if (!D(e, t)) return;
-		let u = (n) => t.hodnota(e, n), d = {
-			fakturaId: o(u("id")),
-			cisloFaktury: o(u("cislo faktury")),
-			zdroj: r(c)
+function re(e, t, n, r) {
+	let a = [];
+	return e.forEach((e, s) => {
+		if (!O(e, t)) return;
+		let c = (n) => t.hodnota(e, n), d = {
+			fakturaId: i(c("id")),
+			cisloFaktury: i(c("cislo faktury")),
+			zdroj: n(s)
 		};
-		if (a(u("forma uhrady")) === "djm") {
-			i.pocet++;
-			let e = l(u("sleva [%]")), t = l(u("cena mj s dph"));
-			s.push({
+		if (o(c("forma uhrady")) === "djm") {
+			r.pocet++;
+			let e = u(c("sleva [%]")), t = u(c("cena mj s dph"));
+			a.push({
 				...d,
-				nazev: o(u("datum vystaveni")) || "Drobný jednicový materiál",
+				nazev: i(c("datum vystaveni")) || "Drobný jednicový materiál",
 				kod: "DJM",
 				mnozstvi: 1,
 				jednotka: "",
-				sazba: l(u("mnozstvi")) || 21,
+				sazba: u(c("mnozstvi")) || 21,
 				sleva: 0,
-				cenaMjS: l(u("celkova cena bez dph")),
+				cenaMjS: u(c("celkova cena bez dph")),
 				bez: e,
 				dph: t,
-				s: l(u("celkova cena bez dph")) || n(e + t),
+				s: u(c("celkova cena bez dph")) || l(e + t),
 				djm: !0
 			});
 			return;
 		}
-		let f = o(u("nazev")), p = o(u("kod"));
-		s.push({
+		let f = i(c("nazev")), p = i(c("kod"));
+		a.push({
 			...d,
 			nazev: f,
 			kod: p,
-			mnozstvi: l(u("mnozstvi")),
-			jednotka: o(u("jednotka")),
-			sazba: l(u("dph")),
-			sleva: l(u("sleva [%]")),
-			cenaMjS: l(u("cena mj s dph")),
-			bez: l(u("celkova cena bez dph")),
-			dph: l(u("dph celkem")),
-			s: l(u("celkova cena s dph")),
-			djm: a(p) === "djm" || a(f) === "drobny jednicovy material"
+			mnozstvi: u(c("mnozstvi")),
+			jednotka: i(c("jednotka")),
+			sazba: u(c("dph")),
+			sleva: u(c("sleva [%]")),
+			cenaMjS: u(c("cena mj s dph")),
+			bez: u(c("celkova cena bez dph")),
+			dph: u(c("dph celkem")),
+			s: u(c("celkova cena s dph")),
+			djm: o(p) === "djm" || o(f) === "drobny jednicovy material"
 		});
-	}), s;
+	}), a;
 }
-function re(e, t, n) {
-	let r = [], a = (e, n) => ({
-		zaklad: l(t.hodnota(e, `dph ${n}% - zaklad`)),
-		dph: l(t.hodnota(e, `dph ${n}% - dph`)),
-		celkem: l(t.hodnota(e, `dph ${n}% - celkem`))
+function ie(e, t, n) {
+	let r = [], o = (e, n) => ({
+		zaklad: u(t.hodnota(e, `dph ${n}% - zaklad`)),
+		dph: u(t.hodnota(e, `dph ${n}% - dph`)),
+		celkem: u(t.hodnota(e, `dph ${n}% - celkem`))
 	});
 	return e.forEach((e, s) => {
-		if (!D(e, t)) return;
+		if (!O(e, t)) return;
 		let c = t.hodnota(e, "datum a cas");
 		r.push({
-			datum: i(c),
-			cas: u(c),
-			cislo: o(t.hodnota(e, "c. dokladu")),
-			popis: o(t.hodnota(e, "popis")),
-			faktura: o(t.hodnota(e, "faktura")),
+			datum: a(c),
+			cas: d(c),
+			cislo: i(t.hodnota(e, "c. dokladu")),
+			popis: i(t.hodnota(e, "popis")),
+			faktura: i(t.hodnota(e, "faktura")),
 			sazby: {
-				0: a(e, 0),
-				12: a(e, 12),
-				21: a(e, 21)
+				0: o(e, 0),
+				12: o(e, 12),
+				21: o(e, 21)
 			},
-			prijem: l(t.hodnota(e, "prijem")),
-			vydej: l(t.hodnota(e, "vydej")),
+			prijem: u(t.hodnota(e, "prijem")),
+			vydej: u(t.hodnota(e, "vydej")),
 			zdroj: n(s)
 		});
 	}), r;
 }
-function ie(e, t, n, r) {
+function ae(e, t, r, o) {
+	let s = [];
+	return e.forEach((e, c) => {
+		if (!O(e, t)) return;
+		let l = (n) => t.hodnota(e, n), f = l("datum a cas");
+		s.push({
+			smer: o,
+			datum: a(f),
+			cas: d(f),
+			druh: i(l(o === "prijem" ? "nazev pohybu" : "typ")),
+			doklad: i(l(o === "prijem" ? "cislo prijemky" : "cislo vydejky")),
+			kod: i(l("kod zbozi")),
+			popis: i(l("popis zbozi")),
+			dodavatel: i(l("dodavatel")),
+			mnozstvi: u(l("mnozstvi")),
+			sklad: i(l("sklad")),
+			cenaMjBez: u(l("cena mj bez dph")),
+			cenaMjS: u(l("cena mj s dph")),
+			bez: u(l("celkem bez dph")),
+			...o === "prijem" && n(l("celkem bez dph")) === null ? { bezNeplatne: !0 } : {},
+			s: u(l("celkem s dph")),
+			poznamka: i(l("poznamka")),
+			zdroj: r(c)
+		});
+	}), s;
+}
+function oe(e, t, n, r) {
 	let a = [];
-	return e.forEach((e, s) => {
-		if (!D(e, t)) return;
-		let c = (n) => t.hodnota(e, n), d = c("datum a cas");
+	return e.forEach((e, o) => {
+		if (!O(e, t)) return;
+		let s = (n) => t.hodnota(e, n);
 		a.push({
-			smer: r,
-			datum: i(d),
-			cas: u(d),
-			druh: o(c(r === "prijem" ? "nazev pohybu" : "typ")),
-			doklad: o(c(r === "prijem" ? "cislo prijemky" : "cislo vydejky")),
-			kod: o(c("kod zbozi")),
-			popis: o(c("popis zbozi")),
-			dodavatel: o(c("dodavatel")),
-			mnozstvi: l(c("mnozstvi")),
-			sklad: o(c("sklad")),
-			cenaMjBez: l(c("cena mj bez dph")),
-			cenaMjS: l(c("cena mj s dph")),
-			bez: l(c("celkem bez dph")),
-			s: l(c("celkem s dph")),
-			poznamka: o(c("poznamka")),
-			zdroj: n(s)
+			mechanik: r,
+			zakazka: i(s("zakazka")),
+			material: u(s("material")),
+			prace: u(s("prace")),
+			cas: u(s("prace cas")),
+			ostatni: u(s("ostatni")),
+			zdroj: n(o)
 		});
 	}), a;
 }
-function ae(e, t, n, r) {
-	let i = [];
-	return e.forEach((e, a) => {
-		if (!D(e, t)) return;
-		let s = (n) => t.hodnota(e, n);
-		i.push({
-			mechanik: r,
-			zakazka: o(s("zakazka")),
-			material: l(s("material")),
-			prace: l(s("prace")),
-			cas: l(s("prace cas")),
-			ostatni: l(s("ostatni")),
-			zdroj: n(a)
-		});
-	}), i;
-}
-function oe(e) {
-	let t = typeof e == "number" ? C.SSF.parse_date_code(e) : null, n = t ? `${String(t.y).padStart(4, "0")}-${String(t.m).padStart(2, "0")}-${String(t.d).padStart(2, "0")}` : i(e);
+function se(e) {
+	let t = typeof e == "number" ? w.SSF.parse_date_code(e) : null, n = t ? `${String(t.y).padStart(4, "0")}-${String(t.m).padStart(2, "0")}-${String(t.d).padStart(2, "0")}` : a(e);
 	if (!n) return "";
-	let [r, a, o] = n.split("-").map(Number), s = new Date(Date.UTC(r, a - 1, o));
-	return s.getUTCFullYear() === r && s.getUTCMonth() === a - 1 && s.getUTCDate() === o ? n : "";
+	let [r, i, o] = n.split("-").map(Number), s = new Date(Date.UTC(r, i - 1, o));
+	return s.getUTCFullYear() === r && s.getUTCMonth() === i - 1 && s.getUTCDate() === o ? n : "";
 }
-function se(e, t, n, r) {
-	let i = [];
+function A(e, t, n, r) {
+	let a = [];
 	return e.forEach((e, s) => {
-		if (!D(e, t)) return;
-		let c = (n) => t.hodnota(e, n), u = a(c("typ")), d = u === "vratka ze zakazky / prodeje", f = u === "prijem" || u === "prijemka" || d ? "prijem" : u === "vydej" || u === "vydejka" ? "vydej" : null, p = oe(c("datum")), m = n(s);
-		f || r.push(`Řádek ${m.radek}: neznámý typ skladového dokladu „${o(c("typ"))}“, řádek nebyl načten.`), p || r.push(`Řádek ${m.radek}: neplatné datum skladového dokladu „${o(c("datum"))}“, řádek nebyl načten.`), f && p && i.push({
-			id: o(c("id pohybu")),
-			cislo: o(c("cislo dokladu")),
+		if (!O(e, t)) return;
+		let c = (n) => t.hodnota(e, n), l = o(c("typ")), d = l === "vratka ze zakazky / prodeje", f = l === "prijem" || l === "prijemka" || d ? "prijem" : l === "vydej" || l === "vydejka" ? "vydej" : null, p = se(c("datum")), m = n(s);
+		f || r.push(`Řádek ${m.radek}: neznámý typ skladového dokladu „${i(c("typ"))}“, řádek nebyl načten.`), p || r.push(`Řádek ${m.radek}: neplatné datum skladového dokladu „${i(c("datum"))}“, řádek nebyl načten.`), f && p && a.push({
+			id: i(c("id pohybu")),
+			cislo: i(c("cislo dokladu")),
 			datum: p,
 			smer: f,
 			typ: d ? "Vratka ze zakázky / prodeje" : f === "prijem" ? "Příjem" : "Výdej",
-			partner: o(c("klient")),
-			vydal: o(c("pridal / vydal")),
-			nazev: o(c("nazev")),
-			zakazka: o(c("zakazka")),
-			faktura: o(c("faktura")),
-			objednavka: o(c("objednavka")),
-			bez: l(c("hodnota [bez dph]")),
-			s: l(c("hodnota [s dph]")),
+			partner: i(c("klient")),
+			vydal: i(c("pridal / vydal")),
+			nazev: i(c("nazev")),
+			zakazka: i(c("zakazka")),
+			faktura: i(c("faktura")),
+			objednavka: i(c("objednavka")),
+			bez: u(c("hodnota [bez dph]")),
+			s: u(c("hodnota [s dph]")),
 			zdroj: m
 		});
-	}), i.some((e) => !e.id && !e.cislo) && r.push("Export příjemek a výdejek neobsahuje ID pohybu ani číslo dokladu. Opakované řádky rozlišujeme podle celého obsahu, protože pořadové # není stálý identifikátor. Dva různé doklady se zcela shodným obsahem nelze odlišit; pro přesné rozlišení načtěte podklady přes doplněk."), i;
+	}), a.some((e) => !e.id && !e.cislo) && r.push("Export příjemek a výdejek neobsahuje ID pohybu ani číslo dokladu. Opakované řádky rozlišujeme podle celého obsahu, protože pořadové # není stálý identifikátor. Dva různé doklady se zcela shodným obsahem nelze odlišit; pro přesné rozlišení načtěte podklady přes doplněk."), a;
 }
-function A(e, t, n) {
+function j(e, t, n) {
 	for (let r of e) {
-		let e = r.findIndex((e) => a(e).startsWith("celkem za"));
+		let e = r.findIndex((e) => o(e).startsWith("celkem za"));
 		if (e < 0) continue;
-		let i = r.slice(e + 1).map(l).find((e) => e !== 0);
+		let i = r.slice(e + 1).map(u).find((e) => e !== 0);
 		if (i !== void 0 && Math.abs(i - t) > .05 + n * .005) return `Součet řádků (${t.toFixed(2)} Kč bez DPH) nesouhlasí s patičkou souboru (${i.toFixed(2)} Kč). Export může být neúplný.`;
 	}
 	return null;
 }
-function j(e, t) {
-	let n = C.read(t, {
+function M(e, t) {
+	let n = w.read(t, {
 		type: "array",
 		cellDates: !1,
 		raw: !0
@@ -255,7 +256,7 @@ function j(e, t) {
 			nazev: e,
 			druh: "faktury",
 			pocet: 0,
-			obdobi: ee(e),
+			obdobi: te(e),
 			varovani: []
 		},
 		faktury: [],
@@ -264,16 +265,16 @@ function j(e, t) {
 		pohyby: [],
 		mechanici: [],
 		skladoveDoklady: []
-	}, i = null, o = { pocet: 0 };
+	}, i = null, a = { pocet: 0 };
 	for (let t of n.SheetNames) {
-		let s = C.utils.sheet_to_json(n.Sheets[t], {
+		let s = w.utils.sheet_to_json(n.Sheets[t], {
 			header: 1,
 			raw: !0,
 			defval: null,
 			blankrows: !0
-		}), c = s.findIndex((e) => e.some((e) => ["#", "id"].includes(a(e))));
+		}), c = s.findIndex((e) => e.some((e) => ["#", "id"].includes(o(e))));
 		if (c < 0) continue;
-		let l = new T(s[c]), u = E(l);
+		let l = new E(s[c]), u = D(l);
 		if (!u) continue;
 		if (i && u !== i) {
 			r.info.varovani.push(`List „${t}“ má jiný druh dat (${u}) a byl přeskočen.`);
@@ -287,43 +288,43 @@ function j(e, t) {
 		});
 		switch (u) {
 			case "faktury":
-				r.faktury.push(...te(d, l, f));
+				r.faktury.push(...ne(d, l, f));
 				break;
 			case "polozky":
-				r.polozky.push(...ne(d, l, f, o));
+				r.polozky.push(...re(d, l, f, a));
 				break;
 			case "pokladna":
-				r.pokladna.push(...re(d, l, f));
+				r.pokladna.push(...ie(d, l, f));
 				break;
 			case "naskladneni":
 			case "vydej": {
-				let e = ie(d, l, f, u === "naskladneni" ? "prijem" : "vydej");
+				let e = ae(d, l, f, u === "naskladneni" ? "prijem" : "vydej");
 				r.pohyby.push(...e);
-				let t = A(d, e.reduce((e, t) => e + t.bez, 0), e.length);
+				let t = j(d, e.reduce((e, t) => e + t.bez, 0), e.length);
 				t && r.info.varovani.push(t);
 				break;
 			}
 			case "mechanici":
-				r.mechanici.push(...ae(d, l, f, t.trim()));
+				r.mechanici.push(...oe(d, l, f, t.trim()));
 				break;
-			case "skladoveDoklady": r.skladoveDoklady.push(...se(d, l, f, r.info.varovani));
+			case "skladoveDoklady": r.skladoveDoklady.push(...A(d, l, f, r.info.varovani));
 		}
 	}
-	let s = n.SheetNames.every((e) => C.utils.sheet_to_json(n.Sheets[e], {
+	let s = n.SheetNames.every((e) => w.utils.sheet_to_json(n.Sheets[e], {
 		header: 1,
 		defval: null
-	}).flat().every((e) => e === null || O.test(String(e).trim())));
-	if (!i && s && (i = k.find(([t]) => t.test(e))?.[1] ?? null, i && r.info.varovani.push("Export je prázdný, za toto období v IC Office nejsou žádné záznamy.")), !i) throw Error(`Soubor „${e}“ nevypadá jako export z IC Office. Očekávám záhlaví faktur, položek faktur, pokladny, naskladněného nebo vydaného zboží, příjemek a výdejek či mechaniků.`);
-	return r.info.druh = i, r.info.pocet = r.faktury.length + r.polozky.length + r.pokladna.length + r.pohyby.length + r.mechanici.length + r.skladoveDoklady.length, o.pocet && r.info.varovani.push(`${o.pocet} řádků drobného jednicového materiálu mělo v exportu posunuté sloupce; načteny opravené.`), r;
+	}).flat().every((e) => e === null || k.test(String(e).trim())));
+	if (!i && s && (i = ee.find(([t]) => t.test(e))?.[1] ?? null, i && r.info.varovani.push("Export je prázdný, za toto období v IC Office nejsou žádné záznamy.")), !i) throw Error(`Soubor „${e}“ nevypadá jako export z IC Office. Očekávám záhlaví faktur, položek faktur, pokladny, naskladněného nebo vydaného zboží, příjemek a výdejek či mechaniků.`);
+	return r.info.druh = i, r.info.pocet = r.faktury.length + r.polozky.length + r.pokladna.length + r.pohyby.length + r.mechanici.length + r.skladoveDoklady.length, a.pocet && r.info.varovani.push(`${a.pocet} řádků drobného jednicového materiálu mělo v exportu posunuté sloupce; načteny opravené.`), r;
 }
-function M(e, t) {
+function N(e, t) {
 	let n = /* @__PURE__ */ new Set();
 	return e.filter((e) => {
 		let r = t(e);
 		return !n.has(r) && (n.add(r), !0);
 	});
 }
-function N(e) {
+function ce(e) {
 	let t = (e) => JSON.stringify([
 		e.smer,
 		e.cislo,
@@ -340,17 +341,17 @@ function N(e) {
 		e.objednavka,
 		e.bez,
 		e.s
-	]), r = M(e.filter((e) => e.id), (e) => e.id), i = new Set(r.filter((e) => e.cislo).map(t)), a = M(e.filter((e) => !e.id && e.cislo && !i.has(t(e))), t), o = new Set([...r, ...a].map(n)), s = M(e.filter((e) => !e.id && !e.cislo && !o.has(n(e))), n);
+	]), r = N(e.filter((e) => e.id), (e) => e.id), i = new Set(r.filter((e) => e.cislo).map(t)), a = N(e.filter((e) => !e.id && e.cislo && !i.has(t(e))), t), o = new Set([...r, ...a].map(n)), s = N(e.filter((e) => !e.id && !e.cislo && !o.has(n(e))), n);
 	return [
 		...r,
 		...a,
 		...s
 	];
 }
-function ce(e) {
-	let t = M(e.flatMap((e) => e.faktury), (e) => e.id || e.cislo), n = /* @__PURE__ */ new Map();
+function le(e) {
+	let t = N(e.flatMap((e) => e.faktury), (e) => e.id || e.cislo), n = /* @__PURE__ */ new Map();
 	for (let t of e) for (let e of t.polozky) n.has(e.fakturaId) || n.set(e.fakturaId, t.info.nazev);
-	let r = e.flatMap((e) => e.polozky.filter((t) => n.get(t.fakturaId) === e.info.nazev)), i = M(e.flatMap((e) => e.pokladna), (e) => `${e.cislo}|${e.datum}`), a = M(e.flatMap((e) => e.pohyby), (e) => [
+	let r = e.flatMap((e) => e.polozky.filter((t) => n.get(t.fakturaId) === e.info.nazev)), i = N(e.flatMap((e) => e.pokladna), (e) => `${e.cislo}|${e.datum}`), a = N(e.flatMap((e) => e.pohyby), (e) => [
 		e.smer,
 		e.datum,
 		e.cas,
@@ -360,7 +361,7 @@ function ce(e) {
 		e.bez,
 		e.sklad,
 		e.druh
-	].join("|")), o = M(e.flatMap((e) => e.mechanici), (e) => `${e.mechanik}|${e.zakazka}|${e.prace}|${e.material}|${e.cas}`), s = N(e.flatMap((e) => e.skladoveDoklady));
+	].join("|")), o = N(e.flatMap((e) => e.mechanici), (e) => `${e.mechanik}|${e.zakazka}|${e.prace}|${e.material}|${e.cas}`), s = ce(e.flatMap((e) => e.skladoveDoklady));
 	return {
 		soubory: e.map((e) => e.info),
 		faktury: t,
@@ -372,9 +373,9 @@ function ce(e) {
 	};
 }
 // src/lib/export/kh.ts
-function le(e) {
+function ue(e) {
 	let t = e.firma, n = [];
-	return /^\d{8,10}$/.test(s(t.dic)) || n.push({
+	return /^\d{8,10}$/.test(c(t.dic)) || n.push({
 		pole: "dic",
 		zprava: "DIČ firmy (CZ a 8–10 číslic)"
 	}), /^\d{3}$/.test(t.ufo) || n.push({
@@ -385,57 +386,57 @@ function le(e) {
 		zprava: "kód územního pracoviště má 4 číslice"
 	}), n;
 }
-function ue(e, r, i, a, o = "B") {
-	let c = v(e, i, a), l = r.firma, [u, d] = i.split("-"), f = i.slice(0, 7) === a.slice(0, 7), p = (e) => e ? h(e) : void 0, m = (e) => ({
+function de(e, n, r, i, a = "B") {
+	let o = y(e, r, i), s = n.firma, [u, d] = r.split("-"), f = r.slice(0, 7) === i.slice(0, 7), p = (e) => e ? g(e) : void 0, m = (e) => ({
 		zakl_dane1: p(e[21].zaklad),
 		dan1: p(e[21].dph),
 		zakl_dane2: p(e[12].zaklad),
 		dan2: p(e[12].dph)
-	}), _ = l.sestavil.trim().split(/\s+/), y = [];
-	y.push(`<VetaD${g({
+	}), h = s.sestavil.trim().split(/\s+/), v = [];
+	v.push(`<VetaD${_({
 		dokument: "KH1",
 		k_uladis: "DPH",
-		khdph_forma: o,
+		khdph_forma: a,
 		rok: u,
 		mesic: f ? String(Number(d)) : void 0,
-		zdobd_od: f ? void 0 : t(i),
-		zdobd_do: f ? void 0 : t(a),
+		zdobd_od: f ? void 0 : t(r),
+		zdobd_do: f ? void 0 : t(i),
 		d_poddp: t((/* @__PURE__ */ new Date()).toISOString().slice(0, 10))
-	})}/>`), y.push(`<VetaP${g({
-		c_ufo: l.ufo,
-		c_pracufo: l.pracufo,
-		dic: s(l.dic),
+	})}/>`), v.push(`<VetaP${_({
+		c_ufo: s.ufo,
+		c_pracufo: s.pracufo,
+		dic: c(s.dic),
 		typ_ds: "P",
-		zkrobchjm: l.nazev.slice(0, 255),
-		ulice: l.ulice.slice(0, 38),
-		c_pop: /^\d{1,6}$/.test(l.cisloPopisne) ? l.cisloPopisne : void 0,
-		naz_obce: l.obec.slice(0, 48),
-		psc: l.psc.replace(/\s/g, ""),
+		zkrobchjm: s.nazev.slice(0, 255),
+		ulice: s.ulice.slice(0, 38),
+		c_pop: /^\d{1,6}$/.test(s.cisloPopisne) ? s.cisloPopisne : void 0,
+		naz_obce: s.obec.slice(0, 48),
+		psc: s.psc.replace(/\s/g, ""),
 		stat: "ČESKÁ REPUBLIKA",
-		email: l.email,
-		c_telef: l.telefon.replace(/\s/g, "").slice(0, 14),
-		sest_jmeno: _.length > 1 ? _.slice(0, -1).join(" ").slice(0, 20) : void 0,
-		sest_prijmeni: _.at(-1)?.slice(0, 36),
-		sest_telef: l.telefon.replace(/\s/g, "").slice(0, 14)
-	})}/>`), c.a4.forEach((e, n) => y.push(`<VetaA4${g({
+		email: s.email,
+		c_telef: s.telefon.replace(/\s/g, "").slice(0, 14),
+		sest_jmeno: h.length > 1 ? h.slice(0, -1).join(" ").slice(0, 20) : void 0,
+		sest_prijmeni: h.at(-1)?.slice(0, 36),
+		sest_telef: s.telefon.replace(/\s/g, "").slice(0, 14)
+	})}/>`), o.a4.forEach((e, n) => v.push(`<VetaA4${_({
 		c_radku: n + 1,
-		dic_odb: s(e.dicOdberatele),
+		dic_odb: c(e.dicOdberatele),
 		c_evid_dd: e.evidencniCislo.slice(0, 60),
 		dppd: t(e.dppd),
 		...m(e.rozpis),
 		kod_rezim_pl: "0",
 		zdph_44: "N"
-	})}/>`)), (c.a5[21].zaklad || c.a5[12].zaklad) && y.push(`<VetaA5${g(m(c.a5))}/>`);
-	let b = n(c.a4.reduce((e, t) => e + t.rozpis[21].zaklad, 0) + c.a5[21].zaklad), x = n(c.a4.reduce((e, t) => e + t.rozpis[12].zaklad, 0) + c.a5[12].zaklad);
-	return y.push(`<VetaC${g({
-		obrat23: h(b),
-		obrat5: h(x)
+	})}/>`)), (o.a5[21].zaklad || o.a5[12].zaklad) && v.push(`<VetaA5${_(m(o.a5))}/>`);
+	let b = l(o.a4.reduce((e, t) => e + t.rozpis[21].zaklad, 0) + o.a5[21].zaklad), x = l(o.a4.reduce((e, t) => e + t.rozpis[12].zaklad, 0) + o.a5[12].zaklad);
+	return v.push(`<VetaC${_({
+		obrat23: g(b),
+		obrat5: g(x)
 	})}/>`), `<?xml version="1.0" encoding="UTF-8"?>
 <Pisemnost nazevSW="Ucetni sestavy IC Office" verzeSW="1.0">
-<DPHKH1 verzePis="03.01">\n${y.join("\n")}\n</DPHKH1>\n</Pisemnost>\n`;
+<DPHKH1 verzePis="03.01">\n${v.join("\n")}\n</DPHKH1>\n</Pisemnost>\n`;
 }
 // src/lib/export/stazeni.ts
-function de(e) {
+function fe(e) {
 	return e.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z0-9]+/g, "_").replace(/^_|_$/g, "");
 }
 // src/lib/skladove-prilohy.ts
@@ -530,11 +531,11 @@ function H(e, t, n) {
 	let r = new Set(V(e, t, n).map((e) => R(e)));
 	return [...new Set(B(e, n).map((e) => e.id).filter(Boolean))].filter((e) => !r.has(e)).length;
 }
-function fe(e) {
+function U(e) {
 	let t = typeof e == "number" ? e.toFixed(2).replace(".", ",") : e;
 	return typeof e == "string" && /^[\s\uFEFF]*[=+\-@]/.test(t) && (t = `'${t}`), `"${t.replace(/"/g, "\"\"")}"`;
 }
-function U(e, t) {
+function pe(e, t) {
 	let n = new Map(t.map((e) => [R(e), e])), r = [[
 		"Druh řádku",
 		"Typ",
@@ -586,20 +587,20 @@ function U(e, t) {
 			"",
 			"",
 			"",
-			c(n, (e) => e.bez),
-			c(n, (e) => e.s),
+			s(n, (e) => e.bez),
+			s(n, (e) => e.s),
 			"",
 			""
 		]);
 	}
-	return `\uFEFF${r.map((e) => e.map(fe).join(";")).join("\r\n")}\r\n`;
+	return `\uFEFF${r.map((e) => e.map(U).join(";")).join("\r\n")}\r\n`;
 }
-async function pe(t, n, r) {
+async function me(t, n, r) {
 	let i = H(t, n, r);
 	if (i) throw Error(`Chybí ${i} podkladů skladových dokladů za vybrané období. Načtěte podklady z IC Office znovu.`);
 	let a = V(t, n, r), o = B(t, r), { default: s } = await import("./jszip.min-Dw-Oh1vc.js").then((t) => /* @__PURE__ */ e(t.default, 1)), c = new s();
 	for (let e of a) await z(e, o.find((t) => t.id === R(e))), c.file(L(e), await e.arrayBuffer());
-	c.file("souhrn_prijemek_vydejek.csv", U(o, a));
+	c.file("souhrn_prijemek_vydejek.csv", pe(o, a));
 	let l = o.filter((e) => !e.id).length, u = a.filter(I).length;
 	return c.file("informace.txt", [
 		`Příjemky a výdejky ze skladu za období ${r.od} až ${r.do}.`,
@@ -613,7 +614,7 @@ async function pe(t, n, r) {
 	});
 }
 // src/lib/odeslani.ts
-var me = [
+var he = [
 	{
 		id: "pdf",
 		nazev: "Balík sestav v PDF"
@@ -643,17 +644,17 @@ var me = [
 		nazev: "Kontrolní hlášení DPH (XML pro EPO)"
 	}
 ];
-function he(e) {
-	let t = d(e.ucetniProgram);
-	return me.filter((e) => ![
+function ge(e) {
+	let t = f(e.ucetniProgram);
+	return he.filter((e) => ![
 		"pohoda",
 		"money",
 		"isdoc"
 	].includes(e.id) || e.id === t);
 }
 var W = "application/xml";
-function ge(e, t) {
-	let { data: n, n: r, o: i, sestavy: a } = t, o = _(n, i.od, i.do).length;
+function _e(e, t) {
+	let { data: n, n: r, o: i, sestavy: a } = t, o = v(n, i.od, i.do).length;
 	switch (e) {
 		case "skladoveDoklady": {
 			if (!n.skladoveDoklady.some((e) => e.datum >= i.od && e.datum <= i.do)) return "V období nejsou načtené skladové doklady.";
@@ -663,24 +664,24 @@ function ge(e, t) {
 		case "pdf":
 		case "xlsx": return a.some((e) => !e.chybiData) ? void 0 : "Žádná sestava zatím nemá data.";
 		case "pohoda":
-		case "money": return o || m(n, i.od, i.do).length ? void 0 : "V období nejsou žádné doklady.";
+		case "money": return o || h(n, i.od, i.do).length ? void 0 : "V období nejsou žádné doklady.";
 		case "isdoc": return o ? r.firma.ico ? void 0 : "Doplňte IČO firmy v Nastavení." : "V období nejsou žádné faktury.";
 		case "kh": {
-			let e = le(r);
+			let e = ue(r);
 			return e.length ? `V Nastavení chybí: ${e.map((e) => e.zprava).join(", ")}.` : void 0;
 		}
 	}
 }
-async function _e(e, t) {
-	let { data: n, n: r, o: i } = t, a = p(i.od, i.do), o = t.sestavy.filter((e) => !e.chybiData);
+async function ve(e, t) {
+	let { data: n, n: r, o: i } = t, a = m(i.od, i.do), o = t.sestavy.filter((e) => !e.chybiData);
 	switch (e) {
 		case "skladoveDoklady": return {
 			nazev: `Prijemky_vydejky_${a}.zip`,
-			obsah: await pe(n, t.skladovePdf ?? [], i),
+			obsah: await me(n, t.skladovePdf ?? [], i),
 			typ: "application/zip"
 		};
 		case "pdf": {
-			let { sestavyDoPdf: e } = await import("./pdf-Di3NDlRj.js");
+			let { sestavyDoPdf: e } = await import("./pdf-BpqHN_Ys.js");
 			return {
 				nazev: `Sestavy_${a}.pdf`,
 				obsah: await e(o, r.firma),
@@ -696,7 +697,7 @@ async function _e(e, t) {
 			};
 		}
 		case "pohoda": {
-			let { pohodaXml: e } = await import("./pohoda-AkL8MAFY.js");
+			let { pohodaXml: e } = await import("./pohoda-B31mexKl.js");
 			return {
 				nazev: `Pohoda_doklady_${a}.xml`,
 				obsah: e(n, r, i.od, i.do),
@@ -704,7 +705,7 @@ async function _e(e, t) {
 			};
 		}
 		case "money": {
-			let { moneyXml: e } = await import("./money-CgcHEsLP.js");
+			let { moneyXml: e } = await import("./money-BiP3LK1S.js");
 			return {
 				nazev: `MoneyS3_doklady_${a}.xml`,
 				obsah: e(n, r, i.od, i.do),
@@ -712,15 +713,15 @@ async function _e(e, t) {
 			};
 		}
 		case "isdoc": {
-			let { isdocBalik: e } = await import("./isdoc-BqJVyXu3.js");
+			let { isdocBalik: e } = await import("./isdoc-CST8dzWe.js");
 			return {
 				...await e(n, r.firma, i.od, i.do),
 				typ: "application/octet-stream"
 			};
 		}
 		case "kh": return {
-			nazev: `KH_DPH_${a}_${de(r.firma.nazev)}.xml`,
-			obsah: ue(n, r, i.od, i.do),
+			nazev: `KH_DPH_${a}_${fe(r.firma.nazev)}.xml`,
+			obsah: de(n, r, i.od, i.do),
 			typ: W
 		};
 	}
@@ -731,24 +732,24 @@ function G(e) {
 function K(e) {
 	return e.split(/[\s,;]+/).filter(Boolean);
 }
-var q = (e) => /^[^\s@<>()[\],;:"\\]+@[^\s@<>()[\],;:"\\]+\.[^\s@<>()[\],;:"\\]{2,}$/.test(e), ve = 40;
-function ye(e) {
-	let t = y(e.data, e.n, e.o.od, e.o.do).length;
+var q = (e) => /^[^\s@<>()[\],;:"\\]+@[^\s@<>()[\],;:"\\]+\.[^\s@<>()[\],;:"\\]{2,}$/.test(e), ye = 40;
+function be(e) {
+	let t = b(e.data, e.n, e.o.od, e.o.do).length;
 	return `Účetní podklady za ${G(e.o)}${t ? ` (k ověření: ${t})` : ""}${e.n.firma.nazev ? ` – ${e.n.firma.nazev}` : ""}`.slice(0, 200);
 }
-function be(e, t, n) {
+function xe(e, t, n) {
 	let r = [
 		"Dobrý den,",
 		"",
 		`posílám podklady za období ${G(e.o)}${e.n.firma.nazev ? ` (${e.n.firma.nazev})` : ""}.`
-	], i = y(e.data, e.n, e.o.od, e.o.do);
+	], i = b(e.data, e.n, e.o.od, e.o.do);
 	if (i.length) {
 		r.push("", `K OVĚŘENÍ: ${i.length} ${i.length === 1 ? "nesrovnalost" : i.length < 5 ? "nesrovnalosti" : "nesrovnalostí"} v dokladech z IC Office`);
-		let e = i.slice(0, ve);
-		for (let t of Object.keys(S)) {
+		let e = i.slice(0, ye);
+		for (let t of Object.keys(C)) {
 			let n = e.filter((e) => e.oblast === t);
 			if (n.length) {
-				r.push(`${S[t]}:`);
+				r.push(`${C[t]}:`);
 				for (let e of n) r.push(`  - ${e.zprava}`);
 			}
 		}
@@ -760,7 +761,7 @@ function be(e, t, n) {
 		for (let e of t.souhrny) if (e.polozky.length) {
 			t.souhrny.length > 1 && e.nadpis && r.push(`${e.nadpis}:`);
 			for (let t of e.polozky) {
-				let e = x(t.hodnota, t.typ);
+				let e = S(t.hodnota, t.typ);
 				r.push(`  ${t.nazev}: ${e}${t.typ === "kc" && e ? " Kč" : ""}`);
 			}
 		}
@@ -792,7 +793,7 @@ function Q(e) {
 	return e;
 }
 function $(e) {
-	let t = J(e, Object.keys(f)), n = structuredClone(f), r = J(t.firma, Object.keys(n.firma));
+	let t = J(e, Object.keys(p)), n = structuredClone(p), r = J(t.firma, Object.keys(n.firma));
 	for (let e of Object.keys(n.firma)) n.firma[e] = Y(r[e]);
 	if (!n.firma.nazev || !/^\d{8}$/.test(n.firma.ico) || !q(n.firma.email) || n.firma.email.length > 254) throw Error("Doplňte název, osmimístné IČO a platný e-mail firmy.");
 	for (let e of [
@@ -834,34 +835,34 @@ function $(e) {
 	if (!s.length || s.length > 5 || !s.every((e) => e.length <= 254 && q(e))) throw Error("Zkontrolujte e-mailové adresy účetní (nejvýše pět).");
 	if (n.odeslani.automaticky = Z(o.automaticky), n.odeslani.cas = Y(o.cas, 5), !/^([01]\d|2[0-3]):[0-5]\d$/.test(n.odeslani.cas)) throw Error("Neplatný čas odesílání.");
 	n.odeslani.obdobi = X(o.obdobi, ["den", "mesic"]);
-	let c = he(n).map((e) => e.id);
+	let c = ge(n).map((e) => e.id);
 	if (!Array.isArray(o.prilohy) || !o.prilohy.length || o.prilohy.length > c.length || new Set(o.prilohy).size !== o.prilohy.length) throw Error("Zvolte přílohy automatického odesílání bez opakování.");
 	return n.odeslani.prilohy = o.prilohy.map((e) => X(e, c)), n;
 }
-function xe(e) {
+function Se(e) {
 	if (typeof e != "string" || e.length > 14680064 || e.length % 4 != 0 || !/^[A-Za-z0-9+/]*={0,2}$/.test(e)) throw Error("Neplatný nebo příliš velký zdrojový soubor.");
 	return Uint8Array.from(atob(e), (e) => e.charCodeAt(0));
 }
-function Se(e) {
+function Ce(e) {
 	let t = "";
 	for (let n = 0; n < e.length; n += 32768) t += String.fromCharCode(...e.subarray(n, n + 32768));
 	return btoa(t);
 }
-function Ce(e) {
+function we(e) {
 	J(e, ["od", "do"]);
 	for (let t of [e.od, e.do]) if (typeof t != "string" || !/^\d{4}-\d{2}-\d{2}$/.test(t) || !Number.isFinite(Date.parse(t)) || new Date(t).toISOString().slice(0, 10) !== t) throw Error("Neplatné období účetních podkladů.");
 	if (e.od > e.do) throw Error("Neplatné pořadí období účetních podkladů.");
 }
-async function we(e) {
+async function Te(e) {
 	let t = $(e.nastaveni), n = e.obdobi;
-	if (Ce(n), !Array.isArray(e.soubory) || e.soubory.length < 7 || e.soubory.length > 2007) throw Error("Chybí úplná sada sedmi exportů IC Office.");
+	if (we(n), !Array.isArray(e.soubory) || e.soubory.length < 7 || e.soubory.length > 2007) throw Error("Chybí úplná sada sedmi exportů IC Office.");
 	let r = [], i = [], a = /* @__PURE__ */ new Set(), o = /* @__PURE__ */ new Set(), s = /* @__PURE__ */ new Set(), c = 0;
 	for (let t of e.soubory) {
 		J(t, ["nazev", "data"]);
 		let e = Y(t.nazev, 240);
 		if (!e || /[/\\]/.test(e) || a.has(e)) throw Error("Duplicitní nebo neplatný název zdrojového souboru.");
 		a.add(e);
-		let l = xe(t.data);
+		let l = Se(t.data);
 		if (c += l.length, c > 104857600) throw Error("Zdrojové soubory přesahují 100 MB.");
 		if (/\.(pdf|html)$/i.test(e)) {
 			let t = new File([l], e), n = R(t);
@@ -869,17 +870,17 @@ async function we(e) {
 			s.add(n), i.push(t);
 		} else {
 			if (!/\.(csv|xlsx|xls)$/i.test(e)) throw Error("Neznámý druh zdrojového souboru.");
-			let t = j(e, l.buffer);
-			if (o.has(t.info.druh)) throw Error(`Duplicitní export: ${w[t.info.druh]}.`);
+			let t = M(e, l.buffer);
+			if (o.has(t.info.druh)) throw Error(`Duplicitní export: ${T[t.info.druh]}.`);
 			if (o.add(t.info.druh), t.info.obdobi && (t.info.obdobi.od !== n.od || t.info.obdobi.do !== n.do)) throw Error(`Export „${e}“ patří do jiného období.`);
 			let i = t.info.varovani.filter((e) => e !== "Export je prázdný, za toto období v IC Office nejsou žádné záznamy." && !/^\d+ řádků drobného jednicového materiálu mělo v exportu posunuté sloupce; načteny opravené\.$/.test(e));
 			if (i.length) throw Error(`Export „${e}“ není úplný: ${i.join(" ")}`);
 			r.push(t);
 		}
 	}
-	let l = Object.keys(w).filter((e) => !o.has(e));
-	if (l.length) throw Error(`Chybí exporty: ${l.map((e) => w[e]).join(", ")}.`);
-	let u = ce(r);
+	let l = Object.keys(T).filter((e) => !o.has(e));
+	if (l.length) throw Error(`Chybí exporty: ${l.map((e) => T[e]).join(", ")}.`);
+	let u = le(r);
 	if (u.skladoveDoklady.some((e) => !e.id)) throw Error("Skladový doklad nemá ID pohybu; úplnost jeho podkladu nelze ověřit.");
 	for (let e of i) {
 		let t = u.skladoveDoklady.find((t) => t.id === R(e));
@@ -890,30 +891,30 @@ async function we(e) {
 		data: u,
 		n: t,
 		o: n,
-		sestavy: b(u, t, n).map((e) => ({
+		sestavy: x(u, t, n).map((e) => ({
 			...e,
 			chybiData: void 0
 		})),
 		skladovePdf: i
 	}, f = [], p = 0;
 	for (let e of t.odeslani.prilohy) {
-		let t = ge(e, d), n = e === "skladoveDoklady" && u.skladoveDoklady.length === 0 || e === "isdoc" && u.faktury.length === 0 || ["pohoda", "money"].includes(e) && u.faktury.length === 0 && u.pokladna.length === 0;
+		let t = _e(e, d), n = e === "skladoveDoklady" && u.skladoveDoklady.length === 0 || e === "isdoc" && u.faktury.length === 0 || ["pohoda", "money"].includes(e) && u.faktury.length === 0 && u.pokladna.length === 0;
 		if (t && !n) throw Error(t);
-		let r = await _e(e, d), i = typeof r.obsah == "string" ? new TextEncoder().encode(r.obsah) : r.obsah instanceof Blob ? new Uint8Array(await r.obsah.arrayBuffer()) : r.obsah;
+		let r = await ve(e, d), i = typeof r.obsah == "string" ? new TextEncoder().encode(r.obsah) : r.obsah instanceof Blob ? new Uint8Array(await r.obsah.arrayBuffer()) : r.obsah;
 		if (p += i.byteLength, !i.byteLength || p > 20971520) throw Error("Prázdná příloha nebo přílohy přesahující 20 MB; nic nebude odesláno.");
 		let a = r.nazev.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w.-]+/g, "_");
 		if (a.length > 120 || f.some((e) => e.nazev === a)) throw Error("Neplatný nebo duplicitní název přílohy.");
 		f.push({
 			nazev: a,
-			data: Se(i)
+			data: Ce(i)
 		});
 	}
-	let m = be(d, f.map((e) => e.nazev), []);
+	let m = xe(d, f.map((e) => e.nazev), []);
 	if (m.length > 5e4) throw Error("Souhrn podkladů je příliš dlouhý; nic nebude odesláno.");
 	return {
 		komu: K(t.odeslani.komu),
 		odpovedetNa: t.firma.email,
-		predmet: ye(d),
+		predmet: be(d),
 		text: m,
 		prilohy: f,
 		summary: {
@@ -924,4 +925,4 @@ async function we(e) {
 		}
 	};
 }
-export { $ as overitAutomatickeNastaveni, we as pripravitAutomatickePodklady };
+export { $ as overitAutomatickeNastaveni, Te as pripravitAutomatickePodklady };

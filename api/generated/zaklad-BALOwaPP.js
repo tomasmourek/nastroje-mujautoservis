@@ -16,47 +16,55 @@ function n(e) {
 	return Number.isFinite(n) ? n : 0;
 }
 function r(e) {
-	return e == null ? "" : String(e).replace(/_x000D_/g, "").trim();
+	if (typeof e == "number") return Number.isFinite(e) ? e : null;
+	if (typeof e != "string") return null;
+	let t = e.trim().replace(/\s*(?:Kč|CZK)$/i, "");
+	if (!/^-?(?:\d+|\d{1,3}(?:[ \u00a0\u202f]\d{3})+)(?:[.,]\d+)?$/.test(t)) return null;
+	let n = Number(t.replace(/\s/g, "").replace(",", "."));
+	return Number.isFinite(n) ? n : null;
 }
 function i(e) {
-	return r(e).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+	return e == null ? "" : String(e).replace(/_x000D_/g, "").trim();
 }
 function a(e) {
-	if (e instanceof Date && !Number.isNaN(e.getTime())) return `${e.getFullYear()}-${String(e.getMonth() + 1).padStart(2, "0")}-${String(e.getDate()).padStart(2, "0")}`;
-	let t = /^(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{4})/.exec(r(e));
-	if (t) return `${t[3]}-${t[2].padStart(2, "0")}-${t[1].padStart(2, "0")}`;
-	let n = /^(\d{4})-(\d{2})-(\d{2})/.exec(r(e));
-	return n ? `${n[1]}-${n[2]}-${n[3]}` : "";
+	return i(e).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 }
 function o(e) {
-	let t = /(\d{1,2}):(\d{2})(?::(\d{2}))?/.exec(r(e));
+	if (e instanceof Date && !Number.isNaN(e.getTime())) return `${e.getFullYear()}-${String(e.getMonth() + 1).padStart(2, "0")}-${String(e.getDate()).padStart(2, "0")}`;
+	let t = /^(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{4})/.exec(i(e));
+	if (t) return `${t[3]}-${t[2].padStart(2, "0")}-${t[1].padStart(2, "0")}`;
+	let n = /^(\d{4})-(\d{2})-(\d{2})/.exec(i(e));
+	return n ? `${n[1]}-${n[2]}-${n[3]}` : "";
+}
+function s(e) {
+	let t = /(\d{1,2}):(\d{2})(?::(\d{2}))?/.exec(i(e));
 	return t ? `${t[1].padStart(2, "0")}:${t[2]}:${t[3] ?? "00"}` : "";
 }
-function s(e, t, n) {
+function c(e, t, n) {
 	return !!e && (!t || e >= t) && (!n || e <= n);
 }
-var c = new Intl.NumberFormat("cs-CZ", {
+var l = new Intl.NumberFormat("cs-CZ", {
 	minimumFractionDigits: 2,
 	maximumFractionDigits: 2
-}), l = new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 2 });
-function u(t) {
-	return c.format(e(t) === 0 ? 0 : t);
-}
-function d(e) {
-	return l.format(e);
+}), u = new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 2 });
+function d(t) {
+	return l.format(e(t) === 0 ? 0 : t);
 }
 function f(e) {
+	return u.format(e);
+}
+function p(e) {
 	let t = /^(\d{4})-(\d{2})-(\d{2})$/.exec(e);
 	return t ? `${t[3]}.${t[2]}.${t[1]}` : e;
 }
-function p(e) {
+function m(e) {
 	let [t, n] = e.split("-").map(Number), r = new Date(t, n, 0).getDate();
 	return {
 		od: `${e}-01`,
 		do: `${e}-${String(r).padStart(2, "0")}`
 	};
 }
-var m = [
+var h = [
 	"leden",
 	"únor",
 	"březen",
@@ -70,14 +78,14 @@ var m = [
 	"listopad",
 	"prosinec"
 ];
-function h(e) {
-	let [t, n] = e.split("-").map(Number);
-	return `${m[n - 1]} ${t}`;
-}
 function g(e) {
-	return r(e).replace(/^[A-Za-z]{2}/, "").replace(/\s/g, "");
+	let [t, n] = e.split("-").map(Number);
+	return `${h[n - 1]} ${t}`;
 }
 function _(e) {
-	return /^CZ\d{8,10}$/i.test(r(e).replace(/\s/g, ""));
+	return i(e).replace(/^[A-Za-z]{2}/, "").replace(/\s/g, "");
 }
-export { f as a, u as c, h as d, e as f, s as h, a as i, i as l, r as m, d as n, g as o, t as p, n as r, _ as s, o as t, p as u };
+function v(e) {
+	return /^CZ\d{8,10}$/i.test(i(e).replace(/\s/g, ""));
+}
+export { p as a, d as c, g as d, r as f, c as g, i as h, o as i, a as l, t as m, f as n, _ as o, e as p, n as r, v as s, s as t, m as u };
