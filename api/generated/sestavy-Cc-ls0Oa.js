@@ -1,6 +1,6 @@
-import { a as e, c as t, f as n, h as r, l as i, n as a, p as o } from "./zaklad-Xwu_hcf2.js";
+import { a as e, c as t, g as n, l as r, m as i, n as a, p as o } from "./zaklad-BALOwaPP.js";
 import { i as s } from "./nastaveni-DdJkITgT.js";
-import { a as c, c as l, d as u, f as d, i as f, l as p, n as m, o as h, r as g, s as _, t as v, u as y } from "./vypocty-cReu2eaY.js";
+import { a as c, c as l, d as u, f as d, i as f, l as p, n as m, o as h, r as g, s as _, t as v, u as y } from "./vypocty-DWCkItoB.js";
 // src/lib/format.ts
 var b = new Intl.NumberFormat("cs-CZ", {
 	style: "percent",
@@ -60,23 +60,23 @@ function j(t, a, s) {
 		zdroj: n
 	});
 	for (let { f: c, polozky: u, nesouhlasi: d } of p(t)) {
-		if (!r(c.duzp, a, s) && !r(c.vystaveni, a, s)) continue;
+		if (!n(c.duzp, a, s) && !n(c.vystaveni, a, s)) continue;
 		let t = c.zdroj;
-		c.duzpChybi && l(c.cislo, `Faktura ${c.cislo} nemá v exportu DUZP; počítá se s datem vystavení ${e(c.vystaveni)}.`, t), d && l(c.cislo, `Položky faktury ${c.cislo} (${D(o(u, (e) => e.bez))} bez DPH) nesouhlasí s hlavičkou (${D(c.celkemBez)} bez DPH, ${D(c.celkemS)} s DPH).`, t);
+		c.duzpChybi && l(c.cislo, `Faktura ${c.cislo} nemá v exportu DUZP; počítá se s datem vystavení ${e(c.vystaveni)}.`, t), d && l(c.cislo, `Položky faktury ${c.cislo} (${D(i(u, (e) => e.bez))} bez DPH) nesouhlasí s hlavičkou (${D(c.celkemBez)} bez DPH, ${D(c.celkemS)} s DPH).`, t);
 		for (let e of u) {
 			[
 				0,
 				12,
 				21
 			].includes(e.sazba) || l(c.cislo, `Faktura ${c.cislo}, položka „${e.nazev}“: sazba ${e.sazba} % neplatí od 1. 1. 2024. Jde-li o opravu staršího plnění, je v pořádku, jinak opravte sazbu.`, e.zdroj);
-			let t = n(e.bez * e.sazba / 100);
+			let t = o(e.bez * e.sazba / 100);
 			Math.abs(e.dph - t) > .011 && l(c.cislo, `Faktura ${c.cislo}, položka „${e.nazev}“: DPH ${D(e.dph)}, ale ze základu ${D(e.bez)} při ${e.sazba} % vychází ${D(t)}.`, e.zdroj);
 		}
-		c.castkaS && Math.abs(n(c.celkemS + c.zaokrouhleni) - c.castkaS) > .01 && l(c.cislo, `Faktura ${c.cislo}: částka k úhradě ${D(c.castkaS)} nesouhlasí s celkem ${D(c.celkemS)} a zaokrouhlením ${D(c.zaokrouhleni)}. Porovnejte s vystavenou fakturou, zda je správně DPH i režim (např. přenesení daňové povinnosti).`, t), Math.abs(c.zaokrouhleni) > .5 && l(c.cislo, `Faktura ${c.cislo}: zaokrouhlení ${D(c.zaokrouhleni)} je víc než 50 haléřů.`, t), i(c.forma).startsWith("hotov") && Math.abs(c.castkaS) > 27e4 && l(c.cislo, `Faktura ${c.cislo} za ${D(c.castkaS)} je placená hotově nad zákonný limit ${D(w)} (zákon o omezení plateb v hotovosti).`, t), c.duzp && c.vystaveni && O(c.duzp, c.vystaveni) > T && l(c.cislo, `Faktura ${c.cislo} je vystavená ${O(c.duzp, c.vystaveni)} dní po DUZP; daňový doklad se má vystavit do 15 dnů (§ 28 odst. 8 ZDPH).`, t), c.splatnost && c.vystaveni && c.splatnost < c.vystaveni && l(c.cislo, `Faktura ${c.cislo} má splatnost ${e(c.splatnost)} před datem vystavení.`, t);
+		c.castkaS && Math.abs(o(c.celkemS + c.zaokrouhleni) - c.castkaS) > .01 && l(c.cislo, `Faktura ${c.cislo}: částka k úhradě ${D(c.castkaS)} nesouhlasí s celkem ${D(c.celkemS)} a zaokrouhlením ${D(c.zaokrouhleni)}. Porovnejte s vystavenou fakturou, zda je správně DPH i režim (např. přenesení daňové povinnosti).`, t), Math.abs(c.zaokrouhleni) > .5 && l(c.cislo, `Faktura ${c.cislo}: zaokrouhlení ${D(c.zaokrouhleni)} je víc než 50 haléřů.`, t), r(c.forma).startsWith("hotov") && Math.abs(c.castkaS) > 27e4 && l(c.cislo, `Faktura ${c.cislo} za ${D(c.castkaS)} je placená hotově nad zákonný limit ${D(w)} (zákon o omezení plateb v hotovosti).`, t), c.duzp && c.vystaveni && O(c.duzp, c.vystaveni) > T && l(c.cislo, `Faktura ${c.cislo} je vystavená ${O(c.duzp, c.vystaveni)} dní po DUZP; daňový doklad se má vystavit do 15 dnů (§ 28 odst. 8 ZDPH).`, t), c.splatnost && c.vystaveni && c.splatnost < c.vystaveni && l(c.cislo, `Faktura ${c.cislo} má splatnost ${e(c.splatnost)} před datem vystavení.`, t);
 		let f = A(c.dic);
 		f && l(c.cislo, `Faktura ${c.cislo}: ${f}`, t);
 	}
-	let u = t.faktury.filter((e) => r(e.vystaveni, a, s)).map((e) => e.cislo);
+	let u = t.faktury.filter((e) => n(e.vystaveni, a, s)).map((e) => e.cislo);
 	for (let e of k(u, "faktur")) l("", e);
 	return c;
 }
@@ -86,42 +86,42 @@ function M(t, a, s, c) {
 		doklad: e,
 		zprava: t,
 		zdroj: n
-	}), d = t.pokladna.filter((e) => r(e.datum, s, c));
+	}), d = t.pokladna.filter((e) => n(e.datum, s, c));
 	for (let e of d) {
-		let t = e.prijem || e.vydej, r = o([
+		let t = e.prijem || e.vydej, n = i([
 			0,
 			12,
 			21
 		], (t) => e.sazby[t].celkem);
-		r && Math.abs(t - r) > .01 && u(e.cislo, `Pokladní doklad ${e.cislo}: částka ${D(t)} nesouhlasí se součtem podle sazeb DPH ${D(r)}.`, e.zdroj);
+		n && Math.abs(t - n) > .01 && u(e.cislo, `Pokladní doklad ${e.cislo}: částka ${D(t)} nesouhlasí se součtem podle sazeb DPH ${D(n)}.`, e.zdroj);
 		for (let t of [21, 12]) {
-			let r = n(e.sazby[t].zaklad * t / 100);
-			Math.abs(e.sazby[t].dph - r) > .011 && u(e.cislo, `Pokladní doklad ${e.cislo}: DPH ${t} % je ${D(e.sazby[t].dph)}, ze základu ${D(e.sazby[t].zaklad)} vychází ${D(r)}.`, e.zdroj);
+			let n = o(e.sazby[t].zaklad * t / 100);
+			Math.abs(e.sazby[t].dph - n) > .011 && u(e.cislo, `Pokladní doklad ${e.cislo}: DPH ${t} % je ${D(e.sazby[t].dph)}, ze základu ${D(e.sazby[t].zaklad)} vychází ${D(n)}.`, e.zdroj);
 		}
 		Math.abs(e.sazby[0].zaklad) > .5 && u(e.cislo, `Pokladní doklad ${e.cislo} má ${D(e.sazby[0].zaklad)} bez DPH. Pokud nejde o osvobozené plnění, ověřte sazbu.`, e.zdroj), e.prijem && e.vydej && u(e.cislo, `Pokladní doklad ${e.cislo} má vyplněný příjem i výdej.`, e.zdroj), Math.abs(t) > 27e4 && u(e.cislo, `Pokladní doklad ${e.cislo} na ${D(t)} je nad limitem plateb v hotovosti ${D(w)}.`, e.zdroj);
 	}
 	for (let e of k(d.map((e) => e.cislo), "pokladních dokladů")) u("", e);
 	if (t.pokladna.length) {
-		let n = h(t, a, s, c).radky.find((e) => e.zustatek < 0);
-		n && u(n.d.cislo, `Zůstatek pokladny je po dokladu ${n.d.cislo} (${e(n.d.datum)}) záporný: ${D(n.zustatek)}. Pokladna nemůže vydat víc, než má; chybí příjem nebo počáteční stav.`, n.d.zdroj);
-		let l = new Set(t.pokladna.map((e) => e.faktura).filter(Boolean)), d = t.faktury.filter((e) => i(e.forma).startsWith("hotov") && r(e.zaplaceno || e.vystaveni, s, c) && !l.has(e.cislo));
-		d.length && u("", `${d.length} faktur placených hotově (${D(o(d, (e) => e.castkaS))}) nemá příjem v exportu Pokladna: ${d.map((e) => e.cislo).join(", ")}. Zůstatek pokladní knihy je o tyto příjmy nižší než skutečná hotovost.`);
+		let o = h(t, a, s, c).radky.find((e) => e.zustatek < 0);
+		o && u(o.d.cislo, `Zůstatek pokladny je po dokladu ${o.d.cislo} (${e(o.d.datum)}) záporný: ${D(o.zustatek)}. Pokladna nemůže vydat víc, než má; chybí příjem nebo počáteční stav.`, o.d.zdroj);
+		let l = new Set(t.pokladna.map((e) => e.faktura).filter(Boolean)), d = t.faktury.filter((e) => r(e.forma).startsWith("hotov") && n(e.zaplaceno || e.vystaveni, s, c) && !l.has(e.cislo));
+		d.length && u("", `${d.length} faktur placených hotově (${D(i(d, (e) => e.castkaS))}) nemá příjem v exportu Pokladna: ${d.map((e) => e.cislo).join(", ")}. Zůstatek pokladní knihy je o tyto příjmy nižší než skutečná hotovost.`);
 	}
 	return l;
 }
-function N(t, i, a, c) {
-	let l = [], u = t.pohyby.filter((e) => r(e.datum, a, c) && !s(i, e.sklad || "Bez skladu").vyloucen);
+function N(t, r, a, c) {
+	let l = [], u = t.pohyby.filter((e) => n(e.datum, a, c) && !s(r, e.sklad || "Bez skladu").vyloucen);
 	for (let t of u) {
-		let r = `${t.smer === "prijem" ? "Příjemka" : "Výdejka"} ${[t.doklad, t.kod].filter(Boolean).join(", ")} (${e(t.datum)})`;
-		Math.abs(n(t.mnozstvi * t.cenaMjBez) - t.bez) > Math.abs(t.mnozstvi) * .005 + .02 && l.push({
+		let n = `${t.smer === "prijem" ? "Příjemka" : "Výdejka"} ${[t.doklad, t.kod].filter(Boolean).join(", ")} (${e(t.datum)})`;
+		Math.abs(o(t.mnozstvi * t.cenaMjBez) - t.bez) > Math.abs(t.mnozstvi) * .005 + .02 && l.push({
 			oblast: "sklad",
 			doklad: t.doklad,
-			zprava: `${r}: ${t.mnozstvi} × ${D(t.cenaMjBez)} nedává celkem ${D(t.bez)}.`,
+			zprava: `${n}: ${t.mnozstvi} × ${D(t.cenaMjBez)} nedává celkem ${D(t.bez)}.`,
 			zdroj: t.zdroj
 		}), t.sklad || l.push({
 			oblast: "sklad",
 			doklad: t.doklad,
-			zprava: `${r} nemá uvedený sklad; počítá se do „Bez skladu“.`,
+			zprava: `${n} nemá uvedený sklad; počítá se do „Bez skladu“.`,
 			zdroj: t.zdroj
 		});
 	}
@@ -129,7 +129,7 @@ function N(t, i, a, c) {
 	return d.length && l.push({
 		oblast: "sklad",
 		doklad: "",
-		zprava: `${d.length} výdejů s poznámkou „dobropis“ (${D(o(d, (e) => Math.abs(e.bez)))}) se odečítá ze skladu jako vratka dodavateli. Pokud jde o zboží vrácené zákazníkem, má se naopak přičíst: ověřte v IC Office.`
+		zprava: `${d.length} výdejů s poznámkou „dobropis“ (${D(i(d, (e) => Math.abs(e.bez)))}) se odečítá ze skladu jako vratka dodavateli. Pokud jde o zboží vrácené zákazníkem, má se naopak přičíst: ověřte v IC Office.`
 	}), l;
 }
 function P(e, t, n, r) {
@@ -182,8 +182,8 @@ function B(e, t = "Rozpis DPH podle sazeb") {
 		polozky: n
 	};
 }
-function V(e, t, r) {
-	let i = u(e, t, r.od, r.do), a = [
+function V(e, t, n) {
+	let r = u(e, t, n.od, n.do), a = [
 		{
 			klic: "datum",
 			nazev: t.datumTrzeb === "duzp" ? "DUZP" : "Datum vystavení",
@@ -233,9 +233,9 @@ function V(e, t, r) {
 		"djm",
 		"dph",
 		"placeno"
-	], c = [], l = [...new Set(i.map((e) => e.datum))];
+	], c = [], l = [...new Set(r.map((e) => e.datum))];
 	for (let e of l) {
-		let t = i.filter((t) => t.datum === e);
+		let t = r.filter((t) => t.datum === e);
 		for (let e of t) {
 			let t = [e.bezSkladoveCeny ? `${e.bezSkladoveCeny}× materiál bez skladové ceny` : "", e.nesouhlasi ? "položky nesouhlasí s hlavičkou faktury" : ""].filter(Boolean).join("; ");
 			c.push({
@@ -263,39 +263,39 @@ function V(e, t, r) {
 			forma: "",
 			pocet: t.length
 		};
-		for (let e of s) n[e] = o(t, (t) => t[e]);
+		for (let e of s) n[e] = i(t, (t) => t[e]);
 		c.push({
 			h: n,
 			druh: "mezisoucet"
 		});
 	}
-	let d = Object.fromEntries(s.map((e) => [e, o(i, (t) => t[e])]));
+	let d = Object.fromEntries(s.map((e) => [e, i(r, (t) => t[e])]));
 	c.push({
 		h: {
 			...d,
 			odberatel: "Celkem",
-			pocet: i.length
+			pocet: r.length
 		},
 		druh: "soucet"
 	});
 	let f = /* @__PURE__ */ new Map();
-	for (let e of i) f.set(e.forma || "?", n((f.get(e.forma || "?") ?? 0) + e.placeno));
+	for (let e of r) f.set(e.forma || "?", o((f.get(e.forma || "?") ?? 0) + e.placeno));
 	let p = {
 		H: "Hotově (H)",
 		K: "Kartou (K)",
 		F: "Převodem (F)",
 		D: "Dobírkou (D)",
 		Z: "Zálohou (Z)"
-	}, m = o(i, (e) => e.bezSkladoveCeny), h = [];
+	}, m = i(r, (e) => e.bezSkladoveCeny), h = [];
 	m && h.push(`${m}× materiál bez skladové ceny (kód není v načtených pohybech skladu). Náklady i marže jsou proto nižší, než ve skutečnosti. Načtěte naskladnění a výdeje za delší období.`);
-	let g = i.filter((e) => e.nesouhlasi).map((e) => e.doklad);
+	let g = r.filter((e) => e.nesouhlasi).map((e) => e.doklad);
 	g.length && h.push(`Položky nesouhlasí s hlavičkou u faktur: ${g.join(", ")}.`), !e.polozky.length && e.faktury.length && h.push("Není načten export položek faktur, materiál a výkony proto nejde oddělit (vše je ve výkonech).");
-	let _ = U(e, r);
+	let _ = U(e, n);
 	return h.push(..._.upozorneni), {
 		id: "trzby",
 		kod: "sest_trz",
 		nazev: "Tržby, DPH",
-		obdobi: R(r),
+		obdobi: R(n),
 		popis: `Podle ${t.datumTrzeb === "duzp" ? "data uskutečnění zdanitelného plnění" : "data vystavení"}${t.zahrnoutPokladnuDoTrzeb ? ", včetně samostatných prodejů z pokladny" : ""}.`,
 		orientace: "landscape",
 		tabulky: [{
@@ -308,7 +308,7 @@ function V(e, t, r) {
 				polozky: [
 					{
 						nazev: "Počet dokladů",
-						hodnota: i.length,
+						hodnota: r.length,
 						typ: "cislo"
 					},
 					{
@@ -323,7 +323,7 @@ function V(e, t, r) {
 					},
 					{
 						nazev: "Marže materiálu",
-						hodnota: n(d.materialPc - d.materialNaklady),
+						hodnota: o(d.materialPc - d.materialNaklady),
 						typ: "kc",
 						zvyraznit: !0
 					},
@@ -358,7 +358,7 @@ function V(e, t, r) {
 					typ: "kc"
 				}))
 			},
-			B(y(i.map((e) => e.rozpis))),
+			B(y(r.map((e) => e.rozpis))),
 			..._.souhrny
 		],
 		upozorneni: h,
@@ -366,13 +366,13 @@ function V(e, t, r) {
 	};
 }
 var H = "2026-10-01";
-function U(r, i) {
-	if (i.do < "2027-01-01") return {
+function U(n, r) {
+	if (r.do < "2027-01-01") return {
 		tabulky: [],
 		souhrny: [],
-		upozorneni: i.do >= H ? ["Od 1. 1. 2027 platí zákon č. 180/2026 Sb. o evidenci tržeb (EET 2.0): platby v hotovosti a kartou přijaté v provozovně se evidují online nejpozději při přijetí. Účtenka se už povinně nevydává. Předem je potřeba v daňové informační schránce oznámit provozovny a získat certifikát. Sestavy za období od ledna 2027 ukážou denní součty těchto plateb k porovnání s evidencí."] : []
+		upozorneni: r.do >= H ? ["Od 1. 1. 2027 platí zákon č. 180/2026 Sb. o evidenci tržeb (EET 2.0): platby v hotovosti a kartou přijaté v provozovně se evidují online nejpozději při přijetí. Účtenka se už povinně nevydává. Předem je potřeba v daňové informační schránce oznámit provozovny a získat certifikát. Sestavy za období od ledna 2027 ukážou denní součty těchto plateb k porovnání s evidencí."] : []
 	};
-	let a = i.od < "2027-01-01" ? m : i.od, { dny: s, nezaplacene: c } = f(r, a, i.do), l = o(s, (e) => e.hotove), u = o(s, (e) => e.kartou), d = [`Platby v hotovosti a kartou (${t(n(l + u))} Kč${a > i.od ? ` od ${e(a)}` : ""}) mají po dnech odpovídat tržbám zaevidovaným v evidenci tržeb (pokladní systém nebo aplikace Finanční správy). Platby převodem a dobírka vyplacená poštou na účet se neevidují. Úhrady faktur hotově a kartou jsou zahrnuté, protože zákon váže evidenci na platbu, ne na doklad; IC Office v exportu neuvádí, zda byla platba zaevidována.`];
+	let a = r.od < "2027-01-01" ? m : r.od, { dny: s, nezaplacene: c } = f(n, a, r.do), l = i(s, (e) => e.hotove), u = i(s, (e) => e.kartou), d = [`Platby v hotovosti a kartou (${t(o(l + u))} Kč${a > r.od ? ` od ${e(a)}` : ""}) mají po dnech odpovídat tržbám zaevidovaným v evidenci tržeb (pokladní systém nebo aplikace Finanční správy). Platby převodem a dobírka vyplacená poštou na účet se neevidují. Úhrady faktur hotově a kartou jsou zahrnuté, protože zákon váže evidenci na platbu, ne na doklad; IC Office v exportu neuvádí, zda byla platba zaevidována.`];
 	return c.length && d.push(`Faktury s formou hotově nebo kartou, které jsou podle exportu nezaplacené, v denních součtech nejsou: ${c.join(", ")}. Platba se eviduje, až když ji přijmete.`), {
 		tabulky: [{
 			nadpis: "Platby v hotovosti a kartou po dnech (evidence tržeb)",
@@ -398,7 +398,7 @@ function U(r, i) {
 					datum: e.datum,
 					hotove: e.hotove,
 					kartou: e.kartou,
-					celkem: n(e.hotove + e.kartou),
+					celkem: o(e.hotove + e.kartou),
 					pocet: e.pocet
 				},
 				zdroje: e.zdroje
@@ -407,8 +407,8 @@ function U(r, i) {
 					datum: "Celkem",
 					hotove: l,
 					kartou: u,
-					celkem: n(l + u),
-					pocet: o(s, (e) => e.pocet)
+					celkem: o(l + u),
+					pocet: i(s, (e) => e.pocet)
 				},
 				druh: "soucet"
 			}]
@@ -428,7 +428,7 @@ function U(r, i) {
 				},
 				{
 					nazev: "K porovnání s evidencí",
-					hodnota: n(l + u),
+					hodnota: o(l + u),
 					typ: "kc",
 					zvyraznit: !0
 				}
@@ -451,8 +451,8 @@ var W = {
 	neucetni: "Neúčetní zásahy",
 	konec: "Konečný zůstatek"
 };
-function G(t, i, a) {
-	let c = g(t, i, a.od, a.do), l = Object.keys(W), u = [
+function G(t, r, a) {
+	let c = g(t, r, a.od, a.do), l = Object.keys(W), u = [
 		{
 			klic: "ucet",
 			nazev: "Účet",
@@ -466,7 +466,7 @@ function G(t, i, a) {
 			sirka: 1.5
 		},
 		...l.map((e) => z(e, W[e], .95))
-	], d = [], f = [...new Set(c.map((e) => e.ucet))], p = (e) => Object.fromEntries(l.map((t) => [t, o(e, (e) => e.hodnoty[t])]));
+	], d = [], f = [...new Set(c.map((e) => e.ucet))], p = (e) => Object.fromEntries(l.map((t) => [t, i(e, (e) => e.hodnoty[t])]));
 	for (let e of f) {
 		let t = c.filter((t) => t.ucet === e);
 		for (let e of t) d.push({
@@ -495,13 +495,13 @@ function G(t, i, a) {
 		},
 		druh: "soucet"
 	});
-	let h = [...new Set(t.pohyby.map((e) => e.sklad || "Bez skladu"))].filter((e) => s(i, e).vyloucen), v = [], y = c.filter((e) => !e.ucet).map((e) => e.sklad);
+	let h = [...new Set(t.pohyby.map((e) => e.sklad || "Bez skladu"))].filter((e) => s(r, e).vyloucen), v = [], y = c.filter((e) => !e.ucet).map((e) => e.sklad);
 	y.length && v.push(`Sklady bez přiřazeného účtu: ${y.join(", ")}. Účet nastavíte v Nastavení › Sklady.`);
-	let b = c.length > 0 && c.every((e) => !s(i, e.sklad).pocatecniStav);
+	let b = c.length > 0 && c.every((e) => !s(r, e.sklad).pocatecniStav);
 	b && v.push("Počáteční stavy skladů nejsou zadané. Zůstatek je proto rozdíl příjmů a výdajů z načtených exportů, ne skutečná hodnota skladu; záporná částka znamená, že se vydalo zboží z dřívější zásoby. Hodnotu z poslední inventury doplníte v Nastavení › Sklady."), h.length && v.push(`Nezapočtené sklady: ${h.join(", ")}.`);
-	let x = L(N(t, i, a.od, a.do));
+	let x = L(N(t, r, a.od, a.do));
 	v.push(...x.upozorneni);
-	let S = n(m.prijem + m.prevodNa + m.storno + Math.max(0, m.manka)), C = n(m.vydej + m.prodej + m.prevodZe + m.dobropisy + Math.max(0, -m.manka)), w = _(t, i, a.do), T = w.filter((e) => e.zustatek > 0), E = w.filter((e) => e.zustatek < 0).length, D = o(T, (e) => e.hodnota), O = T.map((e) => ({
+	let S = o(m.prijem + m.prevodNa + m.storno + Math.max(0, m.manka)), C = o(m.vydej + m.prodej + m.prevodZe + m.dobropisy + Math.max(0, -m.manka)), w = _(t, r, a.do), T = w.filter((e) => e.zustatek > 0), E = w.filter((e) => e.zustatek < 0).length, D = i(T, (e) => e.hodnota), O = T.map((e) => ({
 		h: {
 			sklad: e.sklad,
 			kod: e.kod,
@@ -521,7 +521,7 @@ function G(t, i, a) {
 		druh: "soucet"
 	});
 	let k = t.skladoveDoklady.length > 0 || t.soubory.some((e) => e.druh === "skladoveDoklady"), A = k ? ["prijem", "vydej"].map((e) => {
-		let n = t.skladoveDoklady.filter((t) => t.smer === e && r(t.datum, a.od, a.do)).sort((e, t) => e.datum.localeCompare(t.datum) || e.cislo.localeCompare(t.cislo, "cs"));
+		let r = t.skladoveDoklady.filter((t) => t.smer === e && n(t.datum, a.od, a.do)).sort((e, t) => e.datum.localeCompare(t.datum) || e.cislo.localeCompare(t.cislo, "cs"));
 		return {
 			nadpis: e === "prijem" ? "Příjemky" : "Výdejky",
 			sloupce: [
@@ -564,7 +564,7 @@ function G(t, i, a) {
 				z("bez", "Bez DPH", .9),
 				z("s", "S DPH", .9)
 			],
-			radky: [...n.map((e) => ({
+			radky: [...r.map((e) => ({
 				h: {
 					datum: e.datum,
 					cislo: e.cislo,
@@ -579,8 +579,8 @@ function G(t, i, a) {
 			})), {
 				h: {
 					nazev: "Součet celkem",
-					bez: o(n, (e) => e.bez),
-					s: o(n, (e) => e.s)
+					bez: i(r, (e) => e.bez),
+					s: i(r, (e) => e.s)
 				},
 				druh: "soucet"
 			}]
@@ -692,7 +692,7 @@ function G(t, i, a) {
 	};
 }
 function K(e, t) {
-	let r = l(e), i = o(r, (e) => e.prace), a = o(r, (e) => e.celkem), s = [
+	let n = l(e), r = i(n, (e) => e.prace), a = i(n, (e) => e.celkem), s = [
 		{
 			klic: "mechanik",
 			nazev: "Pracovník",
@@ -728,33 +728,33 @@ function K(e, t) {
 			sirka: .7
 		},
 		z("naHodinu", "Práce za hodinu", .9)
-	], c = r.map((e) => ({
+	], c = n.map((e) => ({
 		h: {
 			mechanik: e.mechanik,
 			zakazky: e.zakazky,
-			podilPrace: i ? e.prace / i : 0,
+			podilPrace: r ? e.prace / r : 0,
 			cas: e.cas,
 			prace: e.prace,
 			material: e.material,
 			ostatni: e.ostatni,
 			celkem: e.celkem,
 			podilVykonu: a ? e.celkem / a : 0,
-			naHodinu: e.cas ? n(e.prace / e.cas) : null
+			naHodinu: e.cas ? o(e.prace / e.cas) : null
 		},
 		zdroje: e.zdroje
-	})), u = o(r, (e) => e.cas);
+	})), u = i(n, (e) => e.cas);
 	return c.push({
 		h: {
 			mechanik: "Celkem",
-			zakazky: o(r, (e) => e.zakazky),
-			podilPrace: +!!r.length,
+			zakazky: i(n, (e) => e.zakazky),
+			podilPrace: +!!n.length,
 			cas: u,
-			prace: i,
-			material: o(r, (e) => e.material),
-			ostatni: o(r, (e) => e.ostatni),
+			prace: r,
+			material: i(n, (e) => e.material),
+			ostatni: i(n, (e) => e.ostatni),
 			celkem: a,
-			podilVykonu: +!!r.length,
-			naHodinu: u ? n(i / u) : null
+			podilVykonu: +!!n.length,
+			naHodinu: u ? o(r / u) : null
 		},
 		druh: "soucet"
 	}), {
@@ -774,7 +774,7 @@ function K(e, t) {
 	};
 }
 function q(e, t, n) {
-	let r = h(e, t, n.od, n.do), i = [
+	let r = h(e, t, n.od, n.do), a = [
 		{
 			klic: "datum",
 			nazev: "Datum",
@@ -807,7 +807,7 @@ function q(e, t, n) {
 		z("prijem", "Příjem", .9),
 		z("vydej", "Výdej", .9),
 		z("zustatek", "Zůstatek", 1)
-	], a = [
+	], o = [
 		{
 			h: {
 				popis: "Počáteční zůstatek",
@@ -835,11 +835,11 @@ function q(e, t, n) {
 		{
 			h: {
 				popis: "Celkem / konečný zůstatek",
-				zaklad21: o(r.radky, (e) => e.d.sazby[21].zaklad),
-				dph21: o(r.radky, (e) => e.d.sazby[21].dph),
-				zaklad12: o(r.radky, (e) => e.d.sazby[12].zaklad),
-				dph12: o(r.radky, (e) => e.d.sazby[12].dph),
-				zaklad0: o(r.radky, (e) => e.d.sazby[0].zaklad),
+				zaklad21: i(r.radky, (e) => e.d.sazby[21].zaklad),
+				dph21: i(r.radky, (e) => e.d.sazby[21].dph),
+				zaklad12: i(r.radky, (e) => e.d.sazby[12].zaklad),
+				dph12: i(r.radky, (e) => e.d.sazby[12].dph),
+				zaklad0: i(r.radky, (e) => e.d.sazby[0].zaklad),
 				prijem: r.prijmy,
 				vydej: r.vydaje,
 				zustatek: r.konec
@@ -857,8 +857,8 @@ function q(e, t, n) {
 		popis: "Doklady s vyplněnou fakturou jsou úhrady faktur; samostatné doklady jsou prodeje za hotové.",
 		orientace: "landscape",
 		tabulky: [{
-			sloupce: i,
-			radky: a
+			sloupce: a,
+			radky: o
 		}],
 		souhrny: [{ polozky: [
 			{
@@ -888,9 +888,9 @@ function q(e, t, n) {
 		chybiData: e.pokladna.length ? void 0 : "Načtěte export Pokladna."
 	};
 }
-function J(t, n) {
-	let a = p(t).filter((e) => r(e.f.duzp, n.od, n.do));
-	a.sort((e, t) => e.f.cislo.localeCompare(t.f.cislo, "cs", { numeric: !0 }));
+function J(t, a) {
+	let o = p(t).filter((e) => n(e.f.duzp, a.od, a.do));
+	o.sort((e, t) => e.f.cislo.localeCompare(t.f.cislo, "cs", { numeric: !0 }));
 	let s = [
 		{
 			klic: "cislo",
@@ -946,7 +946,7 @@ function J(t, n) {
 			typ: "text",
 			sirka: .8
 		}
-	], c = j(t, n.od, n.do), l = L(c), u = new Set(c.map((e) => e.doklad)), f = a.map(({ f: t, rozpis: n, bezPolozek: r, nesouhlasi: i }) => ({
+	], c = j(t, a.od, a.do), l = L(c), u = new Set(c.map((e) => e.doklad)), f = o.map(({ f: t, rozpis: n, bezPolozek: r, nesouhlasi: i }) => ({
 		h: {
 			cislo: t.cislo,
 			vystaveni: t.vystaveni,
@@ -965,10 +965,10 @@ function J(t, n) {
 		},
 		upozorneni: i ? "položky nesouhlasí s hlavičkou" : r ? "bez položek – sazba odvozena z hlavičky" : u.has(t.cislo) ? "nesrovnalost, viz upozornění u sestavy" : void 0,
 		zdroje: [t.zdroj]
-	})), m = (e) => o(f, (t) => t.druh ? 0 : Number(t.h[e] ?? 0));
+	})), m = (e) => i(f, (t) => t.druh ? 0 : Number(t.h[e] ?? 0));
 	f.push({
 		h: {
-			zakaznik: `Celkem ${a.length} faktur`,
+			zakaznik: `Celkem ${o.length} faktur`,
 			zaklad21: m("zaklad21"),
 			dph21: m("dph21"),
 			zaklad12: m("zaklad12"),
@@ -978,12 +978,12 @@ function J(t, n) {
 		},
 		druh: "soucet"
 	});
-	let h = a.filter((e) => i(e.f.stav).startsWith("nezaplac"));
+	let h = o.filter((e) => r(e.f.stav).startsWith("nezaplac"));
 	return {
 		id: "faktury",
 		kod: "sest_fv",
 		nazev: "Kniha vydaných faktur",
-		obdobi: R(n),
+		obdobi: R(a),
 		popis: "Faktury podle data uskutečnění zdanitelného plnění, rozpis DPH z položek faktur.",
 		orientace: "landscape",
 		tabulky: [{
@@ -993,7 +993,7 @@ function J(t, n) {
 		souhrny: [{ polozky: [
 			{
 				nazev: "Počet faktur",
-				hodnota: a.length,
+				hodnota: o.length,
 				typ: "cislo"
 			},
 			{
@@ -1009,36 +1009,36 @@ function J(t, n) {
 			},
 			{
 				nazev: "Nezaplaceno (částka)",
-				hodnota: o(h, (e) => e.f.castkaS),
+				hodnota: i(h, (e) => e.f.castkaS),
 				typ: "kc"
 			}
-		] }, B(y(a.map((e) => e.rozpis)))],
+		] }, B(y(o.map((e) => e.rozpis)))],
 		upozorneni: l.upozorneni,
 		nalezy: l.nalezy,
 		chybiData: t.faktury.length ? void 0 : "Načtěte export Vystavené faktury."
 	};
 }
 function Y(e, t) {
-	let r = c(e, t.od, t.do), i = [
+	let n = c(e, t.od, t.do), r = [
 		{ h: {
 			radek: "1",
 			popis: "Dodání zboží / poskytnutí služeb – základní sazba 21 %",
-			zaklad: r.celkem[21].zaklad,
-			dph: r.celkem[21].dph
+			zaklad: n.celkem[21].zaklad,
+			dph: n.celkem[21].dph
 		} },
 		{ h: {
 			radek: "2",
 			popis: "Dodání zboží / poskytnutí služeb – snížená sazba 12 %",
-			zaklad: r.celkem[12].zaklad,
-			dph: r.celkem[12].dph
+			zaklad: n.celkem[12].zaklad,
+			dph: n.celkem[12].dph
 		} },
 		{ h: {
 			radek: "26",
 			popis: "Plnění osvobozená bez nároku na odpočet / mimo předmět (jen hodnota)",
-			zaklad: r.celkem[0].zaklad,
+			zaklad: n.celkem[0].zaklad,
 			dph: null
 		} }
-	], a = r.a4.map((e) => ({
+	], a = n.a4.map((e) => ({
 		h: {
 			dic: e.dicOdberatele,
 			odberatel: e.odberatel,
@@ -1051,10 +1051,10 @@ function Y(e, t) {
 			kodRezimu: "0"
 		},
 		zdroje: [e.zdroj]
-	})), s = (e, t) => o(e, (e) => Number(e.h[t] ?? 0));
+	})), s = (e, t) => i(e, (e) => Number(e.h[t] ?? 0));
 	return a.length && a.push({
 		h: {
-			odberatel: `Celkem ${r.a4.length} dokladů`,
+			odberatel: `Celkem ${n.a4.length} dokladů`,
 			zaklad21: s(a, "zaklad21"),
 			dph21: s(a, "dph21"),
 			zaklad12: s(a, "zaklad12"),
@@ -1087,7 +1087,7 @@ function Y(e, t) {
 					z("zaklad", "Základ daně", 1.2),
 					z("dph", "Daň", 1.2)
 				],
-				radky: i
+				radky: r
 			},
 			{
 				nadpis: "Kontrolní hlášení A.4 – plnění nad 10 000 Kč plátcům DPH",
@@ -1143,12 +1143,12 @@ function Y(e, t) {
 				],
 				radky: [{ h: {
 					sazba: "Základní 21 %",
-					zaklad: r.a5[21].zaklad,
-					dph: r.a5[21].dph
+					zaklad: n.a5[21].zaklad,
+					dph: n.a5[21].dph
 				} }, { h: {
 					sazba: "Snížená 12 %",
-					zaklad: r.a5[12].zaklad,
-					dph: r.a5[12].dph
+					zaklad: n.a5[12].zaklad,
+					dph: n.a5[12].dph
 				} }]
 			}
 		],
@@ -1157,23 +1157,23 @@ function Y(e, t) {
 			polozky: [
 				{
 					nazev: "Z faktur",
-					hodnota: n(r.zFaktur[21].dph + r.zFaktur[12].dph),
+					hodnota: o(n.zFaktur[21].dph + n.zFaktur[12].dph),
 					typ: "kc"
 				},
 				{
 					nazev: "Z pokladny",
-					hodnota: n(r.zPokladny[21].dph + r.zPokladny[12].dph),
+					hodnota: o(n.zPokladny[21].dph + n.zPokladny[12].dph),
 					typ: "kc"
 				},
 				{
 					nazev: "Celkem",
-					hodnota: n(r.celkem[21].dph + r.celkem[12].dph),
+					hodnota: o(n.celkem[21].dph + n.celkem[12].dph),
 					typ: "kc",
 					zvyraznit: !0
 				}
 			]
 		}],
-		upozorneni: [...r.upozorneni, "Odpočet daně (přijaté faktury, ř. 40–47 přiznání a oddíl B kontrolního hlášení) doplní účetní z evidence přijatých dokladů."],
+		upozorneni: [...n.upozorneni, "Odpočet daně (přijaté faktury, ř. 40–47 přiznání a oddíl B kontrolního hlášení) doplní účetní z evidence přijatých dokladů."],
 		chybiData: e.faktury.length || e.pokladna.length ? void 0 : "Načtěte export Vystavené faktury a Pokladna."
 	};
 }

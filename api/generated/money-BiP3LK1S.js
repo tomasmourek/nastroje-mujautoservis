@@ -1,6 +1,6 @@
-import { t as e } from "./vypocty-cReu2eaY.js";
-import { f as t, p as n } from "./zaklad-Xwu_hcf2.js";
-import { a as r, d as i, f as a, i as o, l as s, n as c, o as l, p as u, r as d, s as f, t as p, u as m } from "./xml-BtYWPW0O.js";
+import { t as e } from "./vypocty-DWCkItoB.js";
+import { m as t, p as n } from "./zaklad-BALOwaPP.js";
+import { a as r, d as i, f as a, i as o, l as s, n as c, o as l, p as u, r as d, s as f, t as p, u as m } from "./xml-Br9103J-.js";
 // src/lib/export/money.ts
 var h = {
 	hotove: "hotově",
@@ -21,7 +21,7 @@ function _({ f: i, polozky: p, rozpis: m }, _) {
 		let t = 0;
 		for (let n of e) m[n].zaklad && y.push(r("Polozka", d("Popis", i.popis || `Faktura ${i.cislo}`), d("PocetMJ", "1"), d("SazbaDPH", n), d("Cena", c(m[n].zaklad)), d("CenaTyp", "0"), d("Poradi", ++t)));
 	}
-	let b = t(n(e, (e) => m[e].zaklad + m[e].dph) + i.zaokrouhleni);
+	let b = n(t(e, (e) => m[e].zaklad + m[e].dph) + i.zaokrouhleni);
 	return r("FaktVyd", d("Doklad", i.cislo), d("Popis", (i.popis || (i.zakazka ? `Zakázka ${i.zakazka}` : `Faktura ${i.cislo}`)).slice(0, 50)), d("Vystaveno", i.vystaveni), d("DatUcPr", i.duzp), d("PlnenoDPH", i.duzp), o("Splatno", i.splatnost), o("Uhrazeno", i.zaplaceno), o("KodDPH", _.cleniDph), d("ZjednD", "0"), d("VarSymbol", i.vs || i.cislo), d("Druh", "N"), d("Dobropis", i.dobropis ? "1" : "0"), d("Uhrada", h[s(i.forma)]), o("PredKontac", _.predkontaceFaktur), d("ZpVypDPH", "1"), d("SazbaDPH1", "12"), d("SazbaDPH2", "21"), g(m), d("Celkem", c(b)), o("Poznamka", i.zakazka ? `Zakázka ${i.zakazka}, import z IC Office` : "Import z IC Office"), r("DodOdb", d("ObchNazev", i.zakaznik), r("ObchAdresa", d("Ulice", v.ulice), d("Misto", v.obec), d("PSC", v.psc), d("KodStatu", "CZ")), d("FaktNazev", i.zakaznik), o("ICO", i.ico), o("DIC", i.dic), r("FaktAdresa", d("Ulice", v.ulice), d("Misto", v.obec), d("PSC", v.psc), d("KodStatu", "CZ")), d("PlatceDPH", i.dic ? "1" : "0"), d("FyzOsoba", i.ico ? "0" : "1")), r("SeznamPolozek", ...y));
 }
 function v(t, n) {

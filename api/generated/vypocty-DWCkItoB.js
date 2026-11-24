@@ -1,5 +1,5 @@
 import { i as e } from "./nastaveni-DdJkITgT.js";
-import { a as t, d as n, f as r, h as i, l as a, p as o, s, u as c } from "./zaklad-Xwu_hcf2.js";
+import { a as t, d as n, g as r, l as i, m as a, p as o, s, u as c } from "./zaklad-BALOwaPP.js";
 // src/lib/vypocty.ts
 var l = [
 	21,
@@ -22,23 +22,23 @@ function u() {
 		}
 	};
 }
-function d(e, t, n, i) {
-	let a = t >= 17 ? 21 : t > 0 ? 12 : 0;
-	e[a].zaklad = r(e[a].zaklad + n), e[a].dph = r(e[a].dph + i);
+function d(e, t, n, r) {
+	let i = t >= 17 ? 21 : t > 0 ? 12 : 0;
+	e[i].zaklad = o(e[i].zaklad + n), e[i].dph = o(e[i].dph + r);
 }
 function f(e) {
 	let t = u();
 	for (let n of e) for (let e of l) d(t, e, n[e].zaklad, n[e].dph);
 	return t;
 }
-var p = (e, t) => `${a(e)}|${a(t)}`, m = class {
+var p = (e, t) => `${i(e)}|${i(t)}`, m = class {
 	polozky = /* @__PURE__ */ new Set();
 	ceny = /* @__PURE__ */ new Map();
 	constructor(t, n) {
 		for (let r of t) {
 			if (!r.kod || (this.polozky.add(p(r.kod, r.popis)), e(n, r.sklad).vyloucen)) continue;
-			let t = a(r.kod), i = this.ceny.get(t) ?? [];
-			i.push(r), this.ceny.set(t, i);
+			let t = i(r.kod), a = this.ceny.get(t) ?? [];
+			a.push(r), this.ceny.set(t, a);
 		}
 		for (let e of this.ceny.values()) e.sort((e, t) => (e.datum + e.cas).localeCompare(t.datum + t.cas));
 	}
@@ -46,13 +46,13 @@ var p = (e, t) => `${a(e)}|${a(t)}`, m = class {
 		return !!e && this.polozky.has(p(e, t));
 	}
 	cena(e, t) {
-		let n = this.ceny.get(a(e));
+		let n = this.ceny.get(i(e));
 		if (!n?.length) return null;
-		let r = n.filter((e) => e.datum <= t), i = [...r].reverse().find((e) => e.smer === "vydej") ?? [...r].reverse().find((e) => e.smer === "prijem") ?? n.find((e) => e.datum > t);
-		return i ? {
-			cenaMj: i.cenaMjBez,
-			zdroj: i.zdroj,
-			puvod: i.smer
+		let r = n.filter((e) => e.datum <= t), a = [...r].reverse().find((e) => e.smer === "vydej") ?? [...r].reverse().find((e) => e.smer === "prijem") ?? n.find((e) => e.datum > t);
+		return a ? {
+			cenaMj: a.cenaMjBez,
+			zdroj: a.zdroj,
+			puvod: a.smer
 		} : null;
 	}
 };
@@ -66,17 +66,17 @@ function g(e) {
 		e.push(n), t.set(n.fakturaId, e);
 	}
 	return e.faktury.map((e) => {
-		let n = t.get(e.id) ?? [], i = u();
-		if (n.length) for (let t of n) d(i, t.sazba, e.dobropis && t.bez > 0 ? -t.bez : t.bez, e.dobropis && t.dph > 0 ? -t.dph : t.dph);
+		let n = t.get(e.id) ?? [], r = u();
+		if (n.length) for (let t of n) d(r, t.sazba, e.dobropis && t.bez > 0 ? -t.bez : t.bez, e.dobropis && t.dph > 0 ? -t.dph : t.dph);
 		else {
-			let t = r(e.celkemS - e.celkemBez);
-			d(i, e.celkemBez ? Math.round(t / e.celkemBez * 100) : 0, e.celkemBez, t);
+			let t = o(e.celkemS - e.celkemBez);
+			d(r, e.celkemBez ? Math.round(t / e.celkemBez * 100) : 0, e.celkemBez, t);
 		}
-		let a = o(l, (e) => i[e].zaklad), s = o(l, (e) => i[e].dph), c = n.length > 0 && (Math.abs(a - e.celkemBez) > .05 || Math.abs(a + s - e.celkemS) > .05);
+		let i = a(l, (e) => r[e].zaklad), s = a(l, (e) => r[e].dph), c = n.length > 0 && (Math.abs(i - e.celkemBez) > .05 || Math.abs(i + s - e.celkemS) > .05);
 		return {
 			f: e,
 			polozky: n,
-			rozpis: i,
+			rozpis: r,
 			bezPolozek: n.length === 0,
 			nesouhlasi: c
 		};
@@ -86,19 +86,19 @@ function _(e, t) {
 	return t.datumTrzeb === "vystaveni" ? e.vystaveni : e.duzp;
 }
 function v(e) {
-	let t = a(e);
+	let t = i(e);
 	return t.startsWith("hotov") ? "H" : t.startsWith("kart") || t.includes("karta") ? "K" : t.startsWith("prevod") ? "F" : t.startsWith("dobirk") ? "D" : t.startsWith("zaloh") ? "Z" : e ? e.slice(0, 1).toUpperCase() : "";
 }
 function y(e) {
 	let [t, n] = e.split(":").map(Number);
 	return (t || 0) * 60 + (n || 0);
 }
-function b(e, t, n, a) {
+function b(e, t, n, i) {
 	let s = new m(e.pohyby, t), c = [];
-	for (let { f: o, polozky: l, rozpis: u, nesouhlasi: d } of g(e)) {
-		let e = _(o, t);
-		if (!i(e, n, a)) continue;
-		let f = 0, p = 0, m = 0, g = 0, y = 0, b = o.dobropis ? -1 : 1;
+	for (let { f: a, polozky: l, rozpis: u, nesouhlasi: d } of g(e)) {
+		let e = _(a, t);
+		if (!r(e, n, i)) continue;
+		let f = 0, p = 0, m = 0, g = 0, y = 0, b = a.dobropis ? -1 : 1;
 		for (let n of l) {
 			let r = b * Math.abs(n.bez);
 			switch (h(n, s, t)) {
@@ -114,45 +114,45 @@ function b(e, t, n, a) {
 				case "djm": g += r;
 			}
 		}
-		l.length || (m = o.celkemBez), c.push({
+		l.length || (m = a.celkemBez), c.push({
 			datum: e,
-			zakazka: o.zakazka,
-			doklad: o.cislo,
-			odberatel: o.zakaznik,
-			materialNaklady: r(f),
-			materialPc: r(p),
-			vykony: r(m),
-			djm: r(g),
-			dph: r(o.celkemS - o.celkemBez),
-			placeno: o.castkaS,
-			zaokrouhleni: o.zaokrouhleni,
-			forma: v(o.forma),
+			zakazka: a.zakazka,
+			doklad: a.cislo,
+			odberatel: a.zakaznik,
+			materialNaklady: o(f),
+			materialPc: o(p),
+			vykony: o(m),
+			djm: o(g),
+			dph: o(a.celkemS - a.celkemBez),
+			placeno: a.castkaS,
+			zaokrouhleni: a.zaokrouhleni,
+			forma: v(a.forma),
 			rozpis: u,
 			bezSkladoveCeny: y,
 			nesouhlasi: d,
-			zdroje: [o.zdroj, ...l.map((e) => e.zdroj)],
+			zdroje: [a.zdroj, ...l.map((e) => e.zdroj)],
 			pokladna: !1
 		});
 	}
 	if (t.zahrnoutPokladnuDoTrzeb) {
 		let t = e.pohyby.filter((e) => e.smer === "vydej" && /^prodej/i.test(e.druh) && !/dobropis/i.test(e.poznamka));
 		for (let s of e.pokladna) {
-			if (s.faktura || s.prijem <= 0 || !i(s.datum, n, a)) continue;
+			if (s.faktura || s.prijem <= 0 || !r(s.datum, n, i)) continue;
 			let e = u();
 			for (let t of l) d(e, t, s.sazby[t].zaklad, s.sazby[t].dph);
-			let f = o(l, (t) => e[t].zaklad), p = o(l, (t) => e[t].dph), m = t.filter((e) => e.datum === s.datum && Math.abs(y(e.cas) - y(s.cas)) <= 15);
+			let f = a(l, (t) => e[t].zaklad), p = a(l, (t) => e[t].dph), m = t.filter((e) => e.datum === s.datum && Math.abs(y(e.cas) - y(s.cas)) <= 15);
 			c.push({
 				datum: s.datum,
 				zakazka: "",
 				doklad: s.cislo,
 				odberatel: s.popis || "Prodej za hotové",
-				materialNaklady: o(m, (e) => e.bez),
+				materialNaklady: a(m, (e) => e.bez),
 				materialPc: f,
 				vykony: 0,
 				djm: 0,
 				dph: p,
 				placeno: s.prijem,
-				zaokrouhleni: r(s.prijem - f - p),
+				zaokrouhleni: o(s.prijem - f - p),
 				forma: "H",
 				rozpis: e,
 				bezSkladoveCeny: +!m.length,
@@ -166,32 +166,32 @@ function b(e, t, n, a) {
 }
 var x = "2027-01-01";
 function S(e, t, n) {
-	let o = /* @__PURE__ */ new Map(), s = (e, t, n, i) => {
-		let a = o.get(e) ?? {
+	let a = /* @__PURE__ */ new Map(), s = (e, t, n, r) => {
+		let i = a.get(e) ?? {
 			datum: e,
 			hotove: 0,
 			kartou: 0,
 			pocet: 0,
 			zdroje: []
 		};
-		a.hotove = r(a.hotove + t), a.kartou = r(a.kartou + n), a.pocet++, a.zdroje.push(i), o.set(e, a);
+		i.hotove = o(i.hotove + t), i.kartou = o(i.kartou + n), i.pocet++, i.zdroje.push(r), a.set(e, i);
 	};
-	for (let a of e.pokladna) i(a.datum, t, n) && (a.prijem || a.vydej) && s(a.datum, r(a.prijem - a.vydej), 0, a.zdroj);
+	for (let i of e.pokladna) r(i.datum, t, n) && (i.prijem || i.vydej) && s(i.datum, o(i.prijem - i.vydej), 0, i.zdroj);
 	let c = new Set(e.pokladna.map((e) => e.faktura).filter(Boolean)), l = [];
-	for (let r of e.faktury) {
-		let e = v(r.forma);
-		if (e !== "H" && e !== "K" || c.has(r.cislo)) continue;
-		let o = r.zaplaceno || r.vystaveni;
-		if (!i(o, t, n)) continue;
-		if (a(r.stav).startsWith("nezaplac")) {
-			l.push(r.cislo);
+	for (let a of e.faktury) {
+		let e = v(a.forma);
+		if (e !== "H" && e !== "K" || c.has(a.cislo)) continue;
+		let o = a.zaplaceno || a.vystaveni;
+		if (!r(o, t, n)) continue;
+		if (i(a.stav).startsWith("nezaplac")) {
+			l.push(a.cislo);
 			continue;
 		}
-		let u = r.dobropis ? -Math.abs(r.castkaS) : r.castkaS;
-		s(o, e === "H" ? u : 0, e === "K" ? u : 0, r.zdroj);
+		let u = a.dobropis ? -Math.abs(a.castkaS) : a.castkaS;
+		s(o, e === "H" ? u : 0, e === "K" ? u : 0, a.zdroj);
 	}
 	return {
-		dny: [...o.values()].sort((e, t) => e.datum.localeCompare(t.datum)),
+		dny: [...a.values()].sort((e, t) => e.datum.localeCompare(t.datum)),
 		nezaplacene: l
 	};
 }
@@ -210,7 +210,7 @@ var C = [
 	"konec"
 ];
 function w(e) {
-	let t = a(e.druh), n = a(e.poznamka);
+	let t = i(e.druh), n = i(e.poznamka);
 	return /invent|manko|prebyt/.test(t + " " + n) ? "manka" : t.includes("prevod") ? e.smer === "prijem" ? "prevodNa" : "prevodZe" : e.smer === "prijem" ? "prijem" : n.includes("dobropis") || t.includes("dobropis") ? "dobropisy" : n.includes("storno") || e.bez < 0 ? "storno" : t.startsWith("prodej") ? "prodej" : "vydej";
 }
 function T(e, t) {
@@ -228,12 +228,12 @@ function E(e, t) {
 function D(e) {
 	return e || "Bez skladu";
 }
-function O(t, n, i) {
-	let a = /* @__PURE__ */ new Map();
-	for (let r of t.pohyby) {
-		let t = D(r.sklad);
-		if (e(n, t).vyloucen || i && r.datum > i) continue;
-		let o = r.kod || r.popis, s = JSON.stringify([t, o]), c = a.get(s) ?? {
+function O(t, n, r) {
+	let i = /* @__PURE__ */ new Map();
+	for (let a of t.pohyby) {
+		let t = D(a.sklad);
+		if (e(n, t).vyloucen || r && a.datum > r) continue;
+		let o = a.kod || a.popis, s = JSON.stringify([t, o]), c = i.get(s) ?? {
 			sklad: t,
 			kod: o,
 			popis: "",
@@ -242,18 +242,18 @@ function O(t, n, i) {
 			zustatek: 0,
 			hodnota: 0,
 			zdroje: []
-		}, l = w(r), u = Math.abs(r.mnozstvi);
-		T(r, l) > 0 ? c.prijato += u : c.vydano += u, c.hodnota += E(r, l), r.popis && (c.popis = r.popis), c.zdroje.push(r.zdroj), a.set(s, c);
+		}, l = w(a), u = Math.abs(a.mnozstvi);
+		T(a, l) > 0 ? c.prijato += u : c.vydano += u, c.hodnota += E(a, l), a.popis && (c.popis = a.popis), c.zdroje.push(a.zdroj), i.set(s, c);
 	}
-	return [...a.values()].map((e) => ({
+	return [...i.values()].map((e) => ({
 		...e,
 		prijato: Math.round(e.prijato * 1e3) / 1e3,
 		vydano: Math.round(e.vydano * 1e3) / 1e3,
 		zustatek: Math.round((e.prijato - e.vydano) * 1e3) / 1e3,
-		hodnota: r(e.hodnota)
+		hodnota: o(e.hodnota)
 	})).sort((e, t) => e.sklad.localeCompare(t.sklad, "cs") || e.kod.localeCompare(t.kod, "cs"));
 }
-function k(t, n, a, o) {
+function k(t, n, i, a) {
 	let s = /* @__PURE__ */ new Map();
 	for (let r of t.pohyby) {
 		let t = D(r.sklad);
@@ -268,13 +268,13 @@ function k(t, n, a, o) {
 		let d = s.pocatecniStav, f = [];
 		for (let e of l) {
 			let t = w(e);
-			if (a && e.datum < a) d += E(e, t);
-			else if (i(e.datum, a, o)) {
+			if (i && e.datum < i) d += E(e, t);
+			else if (r(e.datum, i, a)) {
 				let n = E(e, t);
-				u[t] = r(u[t] + (t === "manka" ? n : Math.abs(n))), f.push(e.zdroj);
+				u[t] = o(u[t] + (t === "manka" ? n : Math.abs(n))), f.push(e.zdroj);
 			}
 		}
-		u.pocatek = r(d), u.konec = r(u.pocatek + u.prijem + u.prevodNa - u.prevodZe - u.dobropisy + u.manka - u.vydej + u.storno - u.prodej + u.neucetni), c.push({
+		u.pocatek = o(d), u.konec = o(u.pocatek + u.prijem + u.prevodNa - u.prevodZe - u.dobropisy + u.manka - u.vydej + u.storno - u.prodej + u.neucetni), c.push({
 			sklad: t,
 			ucet: s.ucet.trim(),
 			hodnoty: u,
@@ -297,17 +297,17 @@ function A(e) {
 			zdroje: [],
 			sez: /* @__PURE__ */ new Set()
 		};
-		e.sez.add(n.zakazka), e.cas = r(e.cas + n.cas), e.prace = r(e.prace + n.prace), e.material = r(e.material + n.material), e.ostatni = r(e.ostatni + n.ostatni), e.zdroje.push(n.zdroj), t.set(n.mechanik, e);
+		e.sez.add(n.zakazka), e.cas = o(e.cas + n.cas), e.prace = o(e.prace + n.prace), e.material = o(e.material + n.material), e.ostatni = o(e.ostatni + n.ostatni), e.zdroje.push(n.zdroj), t.set(n.mechanik, e);
 	}
 	return [...t.values()].map(({ sez: e, ...t }) => ({
 		...t,
 		zakazky: e.size,
-		celkem: r(t.prace + t.material + t.ostatni)
+		celkem: o(t.prace + t.material + t.ostatni)
 	})).sort((e, t) => t.prace - e.prace);
 }
-function j(e, t, n, a) {
+function j(e, t, n, i) {
 	let s = [...e.pokladna].sort((e, t) => (e.datum + e.cas + e.cislo).localeCompare(t.datum + t.cas + t.cislo)), c = t.pocatecniZustatekPokladny, f = [], p = c;
-	for (let e of s) n && e.datum < n ? (c = r(c + e.prijem - e.vydej), p = c) : i(e.datum, n, a) && (c = r(c + e.prijem - e.vydej), f.push({
+	for (let e of s) n && e.datum < n ? (c = o(c + e.prijem - e.vydej), p = c) : r(e.datum, n, i) && (c = o(c + e.prijem - e.vydej), f.push({
 		d: e,
 		zustatek: c
 	}));
@@ -317,15 +317,15 @@ function j(e, t, n, a) {
 		radky: f,
 		pocatek: p,
 		konec: c,
-		prijmy: o(f, (e) => e.d.prijem),
-		vydaje: o(f, (e) => e.d.vydej),
+		prijmy: a(f, (e) => e.d.prijem),
+		vydaje: a(f, (e) => e.d.vydej),
 		rozpis: m
 	};
 }
-function M(e, r, a) {
-	let p = g(e).filter((e) => i(e.f.duzp, r, a)), m = e.pokladna.filter((e) => !e.faktura && i(e.datum, r, a)), h = [], _ = u(), v = [];
+function M(e, i, o) {
+	let p = g(e).filter((e) => r(e.f.duzp, i, o)), m = e.pokladna.filter((e) => !e.faktura && r(e.datum, i, o)), h = [], _ = u(), v = [];
 	for (let { f: e, rozpis: t } of p) {
-		let n = o(l, (e) => t[e].zaklad + t[e].dph);
+		let n = a(l, (e) => t[e].zaklad + t[e].dph);
 		if (s(e.dic) && Math.abs(n) > 1e4) h.push({
 			dicOdberatele: e.dic.replace(/\s/g, "").toUpperCase(),
 			evidencniCislo: e.cislo,
@@ -339,9 +339,9 @@ function M(e, r, a) {
 			!s(e.dic) && e.ico && Math.abs(n) > 1e4 && v.push(`Faktura ${e.cislo} (${e.zakaznik}) je nad 10 000 Kč a odběratel má IČO ${e.ico}, ale v exportu nemá DIČ. Pokud je plátcem DPH, patří do A.4.`);
 		}
 	}
-	for (let o of e.faktury) !o.duzp || o.duzp >= r || !i(o.vystaveni, r, a) || v.push(`Faktura ${o.cislo} je vystavená ${t(o.vystaveni)}, ale DUZP má ${t(o.duzp)}, takže patří do období ${n(o.duzp.slice(0, 7))} a v tomto podkladu není. Pokud je za ten měsíc kontrolní hlášení už podané, podejte následné (do 5 pracovních dnů od zjištění) a dodatečné přiznání.`);
-	let y = e.soubory.filter((e) => e.druh === "faktury" && e.obdobi).map((e) => e.obdobi.do).sort().pop(), b = c(r.slice(0, 7));
-	r === b.od && a === b.do && y && y <= a && v.push(`Export vystavených faktur končí dnem vystavení ${t(y)}. Faktury vystavené později s DUZP v tomto měsíci v něm nejsou (IC Office filtruje podle data vystavení). Před podáním kontrolního hlášení načtěte i faktury vystavené do 15 dnů po konci měsíce.`);
+	for (let a of e.faktury) !a.duzp || a.duzp >= i || !r(a.vystaveni, i, o) || v.push(`Faktura ${a.cislo} je vystavená ${t(a.vystaveni)}, ale DUZP má ${t(a.duzp)}, takže patří do období ${n(a.duzp.slice(0, 7))} a v tomto podkladu není. Pokud je za ten měsíc kontrolní hlášení už podané, podejte následné (do 5 pracovních dnů od zjištění) a dodatečné přiznání.`);
+	let y = e.soubory.filter((e) => e.druh === "faktury" && e.obdobi).map((e) => e.obdobi.do).sort().pop(), b = c(i.slice(0, 7));
+	i === b.od && o === b.do && y && y <= o && v.push(`Export vystavených faktur končí dnem vystavení ${t(y)}. Faktury vystavené později s DUZP v tomto měsíci v něm nejsou (IC Office filtruje podle data vystavení). Před podáním kontrolního hlášení načtěte i faktury vystavené do 15 dnů po konci měsíce.`);
 	let x = u();
 	for (let e of m) for (let t of l) d(x, t, e.sazby[t].zaklad, e.sazby[t].dph);
 	for (let e of l) d(_, e, x[e].zaklad, x[e].dph);
