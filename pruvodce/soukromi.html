@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Jak IC Office Tutoriál pracuje s kontaktem, cvičnou zakázkou, živou prezentací a postupem při aktivaci EET.">
-    <title>Ochrana soukromí doplňku | IC Office Tutoriál</title>
+    <meta name="description" content="Jak IC Office Průvodce pracuje s kontaktem, cvičnou zakázkou, živou prezentací a postupem při aktivaci EET.">
+    <title>Ochrana soukromí doplňku | IC Office Průvodce</title>
     <script src="../atomys/vzhled.js"></script>
     <link rel="stylesheet" href="../web.css?v=20261103">
-    <link rel="stylesheet" href="tutorial.css">
+    <link rel="canonical" href="https://nastroje.mujautoservis.eu/pruvodce/soukromi.html">
+    <link rel="stylesheet" href="pruvodce.css">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <script src="../web-motiv.js" defer></script>
   </head>
@@ -51,9 +52,9 @@
       </div>
     </header>
     <main class="obal tutorial" id="obsah">
-      <a class="zpet" href="./">← Zpět na IC Office Tutoriál</a>
-      <article class="tutorial-soukromi">
-<h1 id="ochrana-soukromi-ic-office-tutorial-2">Ochrana soukromí — IC Office Tutoriál 2</h1>
+      <a class="zpet" href="./">← Zpět na stažení průvodce</a>
+      <article class="tutorial-soukromi" id="ochrana-soukromi-ic-office-tutorial-2">
+<h1 id="ochrana-soukromi-ic-office-pruvodce">Ochrana soukromí doplňku IC Office Průvodce</h1>
 <p>Aktualizováno 24. listopadu 2026</p>
 <h2 id="jaka-data-doplnek-uklada">Jaká data doplněk ukládá</h2>
 <p>Doplněk ukládá nastavení a postup do úložiště prohlížeče. Kontakt pro podporu zůstává na tomto zařízení. Cvičná ukázka používá jen paměť otevřeného okna.</p>
@@ -68,7 +69,7 @@
 <p><strong>Osobní údaje tu nejsou.</strong> Od verze 2.54.0 se z tohoto klíče odstraňují i tehdy, když v něm zbyly po starší verzi doplňku.</p>
 <h3 id="postup-pri-aktivaci-eet">Postup při aktivaci EET</h3>
 <p>Do místního klíče <code>icop2:eet-krok</code> se po vašem potvrzení uloží pouze identifikátor kroku nebo označení dokončeného návodu. Tlačítkem <strong>Smazat postup</strong> v okně doplňku označení smažete. Přihlašovací údaje zadáváte pouze na stránce zvolené přihlašovací služby.</p>
-<p>Ve verzi 2.61.0 můžete po stažení certifikátu použít <strong>Pokračovat do IC Office</strong>. Volitelně vyplníte číslo provozovny a označení pokladny. Pro předvyplnění jsou údaje dostupné jen v určené kartě IC Office, nejvýše 15 minut. Do té doby jsou v úložišti relace prohlížeče (<code>storage.session</code>), případně v paměti doplňku. Po potvrzení či zrušení předání nebo po zavření cílové karty je doplněk odstraní dříve. Nedostanou se do adresy stránky ani do synchronizovaného úložiště.</p>
+<p>Po stažení certifikátu můžete použít <strong>Pokračovat do IC Office</strong>. Volitelně vyplníte číslo provozovny a označení pokladny. Pro předvyplnění jsou údaje dostupné jen v určené kartě IC Office, nejvýše 15 minut. Do té doby jsou v úložišti relace prohlížeče (<code>storage.session</code>), případně v paměti doplňku. Po potvrzení či zrušení předání nebo po zavření cílové karty je doplněk odstraní dříve. Nedostanou se do adresy stránky ani do synchronizovaného úložiště.</p>
 <p>V cílové kartě zkontrolujete servis a zvolíte <strong>Předvyplnit údaje</strong>. Doplněk doplní jen prázdná pole pro provozovnu a pokladnu. EIČ poplatníka zadáváte, soubor <code>.p12</code> vybíráte a heslo k němu vkládáte sami přímo v IC Office. Doplněk tyto údaje nepřebírá. Nastavení uložíte sami tlačítkem <strong>Uložit EET</strong>.</p>
 <h3 id="icop2kontakt-vas-kontakt-jen-v-tomto-pocitaci"><code>icop2:kontakt</code> — váš kontakt (jen v tomto počítači)</h3>
 <p>Ukládá se do <code>chrome.storage.local</code> a <strong>nesynchronizuje se</strong>. Obsahuje zákaznické číslo Inter Cars, jméno, telefon, e-mail a jméno vybraného obchodního specialisty IC Office — tedy údaje, které jste vyplnili pro případ, že budete chtít pomoc od hotline.</p>

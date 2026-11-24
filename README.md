@@ -8,9 +8,9 @@ Rozcestník nástrojů pro autoservisy. Statická stránka (`index.html`) ve sty
 - `sestavy/`: sestavená aplikace [ic-office-ucetni-sestavy](https://github.com/tomasmourek/ic-office-ucetni-sestavy) (`npm run build`, obsah `dist/`). Je verzovaná, protože se z ní staví obraz; po změně sestav ji nahraďte novým `dist/` a staré soubory v `sestavy/assets/` smažte.
 - `Dockerfile`, `deploy/nginx.conf`: obraz pro Coolify (nginx, port 80; HTTPS a doménu řeší Traefik).
 
-## IC Office Tutoriál
+## IC Office Průvodce
 
-Na [stránce tutoriálu](tutorial/) je verze 2.61.0 pro Chrome, Edge, Brave, Operu, Firefox a Safari. Stránka nabízí návody podle prohlížeče a stahuje šest vydaných ZIPů přímo z `tutorial/ke-stazeni/`. Při aktualizaci převezměte nové balíčky z vydání Tutoriálu a upravte verzi i odkazy v `tutorial/index.html`. Na stejné stránce jsou pokyny k první cvičné zakázce a [tisknutelný návod pro aktivaci EET od MOJE daně po pokladnu v IC Office](tutorial/aktivace-eet.html). Po stažení certifikátu lze z doplňku otevřít nastavení EET a předvyplnit číslo provozovny a označení pokladny. Soubor `.p12` i heslo zadává uživatel přímo v IC Office. Soubor `tutorial/soukromi.html` vychází z `PRIVACY.md` příslušného vydání.
+Na [stránce průvodce](https://nastroje.mujautoservis.eu/pruvodce/) je verze 2.61.1 pro Chrome, Edge, Brave, Operu, Firefox a Safari. Stránka nabízí návody podle prohlížeče a stahuje šest vydaných ZIPů přímo z `pruvodce/ke-stazeni/`. Při aktualizaci převezměte nové balíčky z vydání průvodce a upravte verzi i odkazy v `pruvodce/index.html`. Na stejné stránce jsou pokyny k první cvičné zakázce a [tisknutelný návod pro aktivaci EET od MOJE daně po pokladnu v IC Office](pruvodce/aktivace-eet.html). Po stažení certifikátu lze z doplňku otevřít nastavení EET a předvyplnit číslo provozovny a označení pokladny. Soubor `.p12` i heslo zadává uživatel přímo v IC Office. Soubor `pruvodce/soukromi.html` vychází z `PRIVACY.md` příslušného vydání. Dříve vydané balíčky zůstávají v `tutorial/ke-stazeni/`. Produkční obraz obsluhuje z jedné sady souborů také původní veřejné adresy `/tutorial/`.
 
 ## Instalace doplňku pro účetní sestavy
 
