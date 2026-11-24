@@ -29,7 +29,11 @@ COPY fonts /usr/share/nginx/html/fonts
 COPY nahledy /usr/share/nginx/html/nahledy
 COPY atomys /usr/share/nginx/html/atomys
 COPY sestavy /usr/share/nginx/html/sestavy
-COPY tutorial /usr/share/nginx/html/tutorial
+COPY tutorial/ke-stazeni /usr/share/nginx/html/pruvodce/ke-stazeni
+COPY pruvodce /usr/share/nginx/html/pruvodce
+# Původní odkazy včetně přímého stažení ZIPů používají stejné soubory.
+RUN ln -s pruvodce /usr/share/nginx/html/tutorial \
+    && ln -s pruvodce.css /usr/share/nginx/html/pruvodce/tutorial.css
 
 EXPOSE 80
 ENTRYPOINT ["/opt/spustit.sh"]
