@@ -1,5 +1,10 @@
 # nastroje-mujautoservis — projektová mapa
 
+## Rozpracované zakázky s položkami a nákupními cenami — 2026-11-25
+
+- Zdroj `ic-office-ucetni-sestavy` `7cee75b` ([PR #35](https://github.com/tomasmourek/ic-office-ucetni-sestavy/pull/35)): v sestavě Rozpracované zakázky jsou dvě volby, které si prohlížeč pamatuje, „Vypsat položky zakázek“ a „Materiál v nákupních cenách podle skladových karet“. Doplněk 0.6.9 čte položky z editace zakázky a nákupní cenu z výpočtu marže IC Office (jen GET).
+- Zdroj: 353 testů prošlo, 4 přeskočeny, build prošel. Funkce doplňku proběhla živě v IC Office na 27 zakázkách; nákup „Sada ložisek kol“ 2 ks = 1 729,80 Kč odpovídá exportu Naskladněné zboží. Webový build 67/67 souborů odpovídá zdrojovému `dist/` podle SHA256; `api/` se nemění (po normalizaci konců řádků shodné se zdrojem).
+
 ## Nasazení automatického odesílání účetní — 2026-11-17
 
 - Zdroj `ic-office-ucetni-sestavy` `894e19a` ([PR #25](https://github.com/tomasmourek/ic-office-ucetni-sestavy/pull/25)): serverový denní/měsíční plán s potvrzeným nastavením, ověřením vlastního IČO, kontrolou úplnosti a trvalou ochranou proti opakovanému odeslání.
